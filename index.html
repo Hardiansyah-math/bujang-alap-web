@@ -4,37 +4,41 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="description" content="Bujang Alap Web — website Hardiansyah Math: profil, materi matematika kelas 8 Kurikulum Merdeka (Bab 4 Relasi dan Fungsi, Bab 5 Persamaan Garis Lurus, Teorema Pythagoras, Pola Bilangan (Game)), video pembelajaran, latihan & kuis, dan kontak." />
+    <meta name="description" content="Bujang Alap Web — website Hardiansyah Math: profil, materi matematika kelas 8 Kurikulum Merdeka (Bab 4 Relasi dan Fungsi, Bab 5 Persamaan Garis Lurus), game interaktif Pola Bilangan, video Teorema Pythagoras, latihan & kuis, dan kontak." />
     <link rel="icon" href="data:," />
     <title>Bujang Alap Web — Hardiansyah Math</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <style>
       :root {
-        --bg: #d3e7fd;
-        --bg-alt: #c2dcfb;
+        --bg: #fbfdfe;
+        --bg-alt: #eef5ff;
         --surface: #ffffff;
-        --surface-soft: #eaf3ff;
-        --ink: #08294d;
-        --ink-soft: #2e5a86;
-        --ink-faint: #4a739e;
-        --line: #a9cbf2;
-        --line-strong: #7fb2ec;
-        --accent: #005eb8;
-        --accent-dark: #00468a;
+        --surface-soft: #f2f7ff;
+        --ink: #0b2545;
+        --ink-soft: #3d5a80;
+        --ink-faint: #6d8aab;
+        --line: #dceaf8;
+        --line-strong: #b8d2ef;
+        --accent: #0b63d6;
+        --accent-dark: #084fa8;
         --accent-ink: #ffffff;
-        --accent-soft: #d6eaff;
-        --hero-bg: #004e9e;
-        --hero-bg-deep: #003d7d;
-        --hero-ink: #ffffff;
-        --hero-soft: #cfe6ff;
-        --hero-label: #9fd0ff;
-        --footer-bg: #00468a;
+        --accent-soft: #e6f0ff;
+        --hero-bg: #ffffff;
+        --hero-bg-deep: #eaf3ff;
+        --hero-ink: #0b2545;
+        --hero-soft: #3d5a80;
+        --hero-label: #0b63d6;
+        --footer-bg: #0b2f5e;
         --footer-ink: #eaf4ff;
         --footer-soft: #b9d7f7;
-        --nav-bg: #ffffff;
-        --code-bg: #08294d;
+        --nav-bg: rgba(255, 255, 255, 0.92);
+        --code-bg: #0b2545;
         --code-ink: #d6eaff;
-        --shadow: 0 14px 34px rgba(0, 60, 120, 0.16);
-        --shadow-sm: 0 6px 18px rgba(0, 60, 120, 0.12);
+        --shadow: 0 18px 40px rgba(11, 99, 214, 0.10);
+        --shadow-sm: 0 8px 24px rgba(11, 99, 214, 0.08);
+        --radius: 18px;
       }
       @media (prefers-color-scheme: dark) {
         :root {
@@ -73,13 +77,16 @@
         margin: 0;
         background: var(--bg);
         color: var(--ink);
-        font-family: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", sans-serif;
+        font-family: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
         line-height: 1.65;
         font-size: 17px;
       }
       h1, h2, h3 {
-        font-family: Georgia, "Times New Roman", serif;
-        line-height: 1.25;
+        font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+        line-height: 1.22;
+        letter-spacing: -0.01em;
         margin: 0;
       }
       a { color: var(--accent); }
@@ -91,14 +98,16 @@
       }
 
       .wrap {
-        max-width: 1080px;
+        max-width: 1120px;
         margin: 0 auto;
         padding: 0 20px;
       }
       .btn {
         display: inline-block;
-        padding: 12px 22px;
-        border-radius: 8px;
+        padding: 13px 24px;
+        border-radius: 999px;
+        letter-spacing: 0.01em;
+        transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
         font-weight: 600;
         text-decoration: none;
         font-size: 1rem;
@@ -125,13 +134,16 @@
         top: 0;
         z-index: 50;
         background: var(--nav-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
         border-bottom: 1px solid var(--line);
+        box-shadow: 0 4px 24px rgba(11, 37, 69, 0.05);
       }
       .site-nav .wrap {
         display: flex;
         align-items: center;
         gap: 20px;
-        min-height: 62px;
+        min-height: 68px;
       }
       .brand {
         display: flex;
@@ -142,7 +154,7 @@
         flex: 0 0 auto;
       }
       .brand .brand-name {
-        font-family: Georgia, "Times New Roman", serif;
+        font-family: "Playfair Display", Georgia, serif;
         font-weight: 700;
         font-size: 1.18rem;
         white-space: nowrap;
@@ -191,9 +203,13 @@
 
       /* ---------- Hero ---------- */
       .hero {
-        padding: 68px 0 60px;
-        background: var(--hero-bg);
+        padding: 76px 0 68px;
+        background: linear-gradient(160deg, #ffffff 0%, #eef5ff 52%, #dbeafe 100%);
         color: var(--hero-ink);
+        border-bottom: 1px solid var(--line);
+      }
+      @media (prefers-color-scheme: dark) {
+        .hero { background: linear-gradient(160deg, #0d2b52 0%, #0a274e 55%, #071c38 100%); }
       }
       .hero-grid {
         display: grid;
@@ -203,19 +219,38 @@
       }
       .hero .domain {
         display: inline-block;
-        font-size: 0.82rem;
-        letter-spacing: 0.14em;
+        font-size: 0.78rem;
+        letter-spacing: 0.18em;
         text-transform: uppercase;
         color: var(--hero-label);
-        font-weight: 700;
+        font-weight: 800;
         margin-bottom: 18px;
+        background: #ffffff;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 6px 14px;
+        box-shadow: var(--shadow-sm);
+      }
+      @media (prefers-color-scheme: dark) {
+        .hero .domain { background: var(--surface-soft); }
       }
       .hero h1 {
-        font-size: clamp(2.2rem, 6vw, 3.35rem);
+        font-size: clamp(2.3rem, 5.2vw, 3.4rem);
         font-weight: 700;
         letter-spacing: -0.01em;
+        line-height: 1.16;
+        text-wrap: balance;
       }
-      .hero h1 .accent { color: var(--hero-label); }
+      .hero h1 .accent {
+        display: block;
+        color: var(--accent);
+        font-style: italic;
+        margin-top: 0.06em;
+        white-space: nowrap;
+      }
+      @media (max-width: 420px) {
+        .hero h1 .accent { white-space: normal; }
+      }
       .hero p.lead {
         margin: 22px 0 0;
         font-size: 1.14rem;
@@ -229,14 +264,17 @@
         gap: 12px;
       }
       .hero .btn-primary {
-        background: #ffffff;
-        color: #00468a;
-      }
-      .hero .btn-ghost {
-        border: 1px solid rgba(255, 255, 255, 0.65);
+        background: var(--accent);
         color: #ffffff;
-        background: transparent;
+        box-shadow: 0 10px 24px rgba(11, 99, 214, 0.28);
       }
+      .hero .btn-primary:hover { background: var(--accent-dark); }
+      .hero .btn-ghost {
+        border: 1.5px solid var(--line-strong);
+        color: var(--ink);
+        background: #ffffff;
+      }
+      .hero .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
       .hero-stats {
         list-style: none;
         padding: 0;
@@ -246,13 +284,18 @@
         gap: 10px;
       }
       .hero-stats li {
-        border: 1px solid rgba(255, 255, 255, 0.35);
+        border: 1px solid var(--line);
+        background: #ffffff;
         border-radius: 999px;
-        padding: 6px 14px;
+        padding: 7px 15px;
         font-size: 0.88rem;
         color: var(--hero-soft);
+        box-shadow: 0 4px 14px rgba(11, 37, 69, 0.05);
       }
-      .hero-stats strong { color: #ffffff; }
+      @media (prefers-color-scheme: dark) {
+        .hero-stats li { background: var(--surface-soft); }
+      }
+      .hero-stats strong { color: var(--ink); }
       .hero figure { margin: 0; }
       .hero figure img {
         display: block;
@@ -260,9 +303,9 @@
         height: auto;
         aspect-ratio: 16 / 10;
         object-fit: cover;
-        border-radius: 14px;
-        border: 3px solid rgba(255, 255, 255, 0.35);
-        box-shadow: 0 18px 40px rgba(0, 20, 50, 0.35);
+        border-radius: 20px;
+        border: 6px solid #ffffff;
+        box-shadow: 0 24px 48px rgba(11, 37, 69, 0.16);
       }
       .hero figcaption {
         margin-top: 12px;
@@ -272,10 +315,10 @@
       }
 
       /* ---------- Sections ---------- */
-      section { padding: 60px 0; scroll-margin-top: 74px; }
+      section { padding: 72px 0; scroll-margin-top: 80px; }
       section.alt { background: var(--bg-alt); }
       .section-head { max-width: 42em; margin-bottom: 30px; }
-      .section-head h2 { font-size: 1.75rem; margin-bottom: 10px; }
+      .section-head h2 { font-size: 2rem; margin-bottom: 10px; }
       .section-head p { color: var(--ink-soft); margin: 0; }
       section p { color: var(--ink-soft); }
 
@@ -292,7 +335,7 @@
         height: auto;
         aspect-ratio: 4 / 3;
         object-fit: cover;
-        border-radius: 14px;
+        border-radius: 20px;
         border: 1px solid var(--line);
         box-shadow: var(--shadow);
       }
@@ -302,7 +345,7 @@
         color: var(--ink-faint);
         text-align: center;
       }
-      .split h2 { font-size: 1.75rem; margin-bottom: 14px; }
+      .split h2 { font-size: 2rem; margin-bottom: 14px; }
       .split p { margin: 0 0 14px; max-width: 38em; }
 
       .fact-list {
@@ -364,13 +407,13 @@
         flex-direction: column;
         background: var(--surface);
         border: 1px solid var(--line);
-        border-radius: 12px;
-        padding: 24px;
+        border-radius: var(--radius);
+        padding: 26px;
         box-shadow: var(--shadow-sm);
       }
       .card-art {
-        background: #e3f0ff;
-        border-radius: 8px;
+        background: #eef5ff;
+        border-radius: 12px;
         padding: 14px 10px 8px;
         margin-bottom: 18px;
         text-align: center;
@@ -454,7 +497,7 @@
       .video-thumb {
         position: relative;
         display: block;
-        border-radius: 14px;
+        border-radius: 20px;
         overflow: hidden;
         border: 1px solid var(--line);
         box-shadow: var(--shadow);
@@ -525,8 +568,8 @@
       .try-box {
         background: var(--surface);
         border: 1px solid var(--line);
-        border-radius: 12px;
-        padding: 24px;
+        border-radius: var(--radius);
+        padding: 26px;
         box-shadow: var(--shadow-sm);
       }
       .try-box h3 { font-size: 1.15rem; font-family: inherit; font-weight: 700; margin-bottom: 16px; }
@@ -559,8 +602,8 @@
       .contact-card {
         background: var(--surface);
         border: 1px solid var(--line);
-        border-radius: 12px;
-        padding: 24px;
+        border-radius: var(--radius);
+        padding: 26px;
         box-shadow: var(--shadow-sm);
       }
       .contact-card .c-label {
@@ -756,7 +799,7 @@
       <div class="wrap hero-grid">
         <div>
           <span class="domain">bujang-alap-web.my.id</span>
-          <h1>Belajar matematika kelas 8, <span class="accent">jelas dan bertahap.</span></h1>
+          <h1>Belajar Matematika Kelas 8 <span class="accent">Jadi Lebih Mudah</span></h1>
           <p class="lead">
             Selamat datang di Bujang Alap Web — rumahnya materi matematika
             kelas 8 Kurikulum Merdeka dari Hardiansyah Math. Ada website
@@ -768,7 +811,7 @@
             <a class="btn btn-ghost" href="#profil">Kenali profilnya</a>
           </div>
           <ul class="hero-stats">
-            <li><strong>2 bab</strong> sudah online</li>
+            <li><strong>2 bab, 1 game &amp; 1 video</strong> sudah online</li>
             <li><strong>Kelas 8</strong> · Kurikulum Merdeka</li>
             <li><strong>Video ±10 menit</strong> + kuis 10 soal</li>
             <li><strong>Gratis</strong> di GitHub Pages</li>
@@ -808,7 +851,7 @@
               <li><span class="fact-label">Fokus</span><span class="fact-value">Matematika kelas 8 — SMP/MTs</span></li>
               <li><span class="fact-label">Kurikulum</span><span class="fact-value">Kurikulum Merdeka</span></li>
               <li><span class="fact-label">Format materi</span><span class="fact-value">Website interaktif, video pembelajaran, latihan &amp; kuis</span></li>
-              <li><span class="fact-label">Sudah terbit</span><span class="fact-value">Bab 4 Relasi dan Fungsi · Bab 5 Persamaan Garis Lurus · Teorema Pythagoras · Game Pola Bilangan</span></li>
+              <li><span class="fact-label">Sudah terbit</span><span class="fact-value">Bab 4 Relasi dan Fungsi · Bab 5 Persamaan Garis Lurus · Game Pola Bilangan · Video Teorema Pythagoras</span></li>
               <li><span class="fact-label">Akses</span><span class="fact-value">Gratis, tanpa daftar, bisa dibuka dari HP maupun komputer</span></li>
             </ul>
           </div>
@@ -828,8 +871,9 @@
           <div class="section-head">
             <h2>Materi Kelas 8</h2>
             <p>
-              Dua bab sudah terbit dan bisa dibuka gratis. Setiap bab punya
-              halaman materinya sendiri — lengkap dengan penjelasan, alat
+              Dua bab sudah terbit dan bisa dibuka gratis, ditambah satu
+              game interaktif dan satu video bab lain. Setiap materi punya
+              halamannya sendiri — lengkap dengan penjelasan, alat
               interaktif, dan latihan di dalamnya.
             </p>
           </div>
@@ -943,58 +987,94 @@
                 <a class="go" href="https://hardiansyah-math.github.io/PGL/">Buka materi Bab 5 &rarr;</a>
               </div>
             </article>
+
+            <article class="card">
+              <div class="card-art" aria-hidden="true">
+                <svg width="280" height="140" viewBox="0 0 300 150" role="img">
+                  <path d="M 30 62 C 80 30, 120 96, 165 62 S 250 34, 272 52" fill="none" stroke="#a9cbf2" stroke-width="2" stroke-dasharray="5 4" />
+                  <circle cx="42" cy="52" r="19" fill="#005eb8" />
+                  <text x="42" y="59" text-anchor="middle" font-size="17" font-weight="700" fill="#ffffff">2</text>
+                  <circle cx="97" cy="66" r="19" fill="#005eb8" />
+                  <text x="97" y="73" text-anchor="middle" font-size="17" font-weight="700" fill="#ffffff">4</text>
+                  <circle cx="152" cy="52" r="19" fill="#005eb8" />
+                  <text x="152" y="59" text-anchor="middle" font-size="17" font-weight="700" fill="#ffffff">6</text>
+                  <circle cx="207" cy="66" r="19" fill="#005eb8" />
+                  <text x="207" y="73" text-anchor="middle" font-size="17" font-weight="700" fill="#ffffff">8</text>
+                  <circle cx="258" cy="52" r="19" fill="#ffffff" stroke="#2b83e6" stroke-width="2.5" stroke-dasharray="5 4" />
+                  <text x="258" y="60" text-anchor="middle" font-size="18" font-weight="700" fill="#005eb8">?</text>
+                  <text x="150" y="122" text-anchor="middle" font-size="14" font-style="italic" fill="#00468a">2, 4, 6, 8, … — suku berikutnya?</text>
+                </svg>
+              </div>
+              <span class="tag">Game Interaktif · Kelas 8</span>
+              <h3>Pola Bilangan</h3>
+              <p>
+                Belajar pola bilangan sambil bermain: tebak suku berikutnya,
+                susun pola gambar dan korek api, temukan rumus suku ke-n,
+                lalu adu cepat di barisan aritmetika dan geometri. Soalnya
+                diacak setiap permainan, jadi selalu terasa baru.
+              </p>
+              <h4 class="subhead">Topik yang dibahas</h4>
+              <ul class="topic-list">
+                <li>Pola ganjil &amp; genap</li>
+                <li>Pola segitiga &amp; persegi</li>
+                <li>Fibonacci &amp; bilangan prima</li>
+                <li>Pola gambar &amp; korek api</li>
+                <li>Rumus suku ke-n (Un)</li>
+                <li>Barisan aritmetika</li>
+                <li>Barisan geometri</li>
+              </ul>
+              <h4 class="subhead">Di dalam gamenya</h4>
+              <ul class="check-list">
+                <li>4 level yang terbuka bertahap, dari tebak pola sampai adu cepat 25 detik per soal</li>
+                <li>Skor, bonus beruntun, dan 3 nyawa di setiap permainan</li>
+                <li>Bintang 1–3 dan lencana untuk setiap level yang ditamatkan</li>
+                <li>Pembahasan rumus di setiap jawaban — salah pun tetap belajar</li>
+              </ul>
+              <div class="card-foot">
+                <a class="go" href="https://bujang-alap-web.my.id/pola-bilangan/">Mainkan game Pola Bilangan &rarr;</a>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-art" aria-hidden="true">
+                <svg width="280" height="140" viewBox="0 0 300 150" role="img">
+                  <polygon points="70,112 190,112 70,34" fill="#ffffff" stroke="#00468a" stroke-width="3" stroke-linejoin="round" />
+                  <path d="M 70 96 L 86 96 L 86 112" fill="none" stroke="#00468a" stroke-width="2" />
+                  <text x="52" y="78" text-anchor="middle" font-size="15" font-style="italic" font-weight="700" fill="#00468a">b</text>
+                  <text x="130" y="132" text-anchor="middle" font-size="15" font-style="italic" font-weight="700" fill="#00468a">a</text>
+                  <text x="140" y="58" text-anchor="middle" font-size="15" font-style="italic" font-weight="700" fill="#005eb8">c</text>
+                  <text x="240" y="70" text-anchor="middle" font-size="16" font-style="italic" font-weight="700" fill="#005eb8">c² = a²</text>
+                  <text x="240" y="92" text-anchor="middle" font-size="16" font-style="italic" font-weight="700" fill="#005eb8">+ b²</text>
+                </svg>
+              </div>
+              <span class="tag">Video · Kelas 8</span>
+              <h3>Teorema Pythagoras</h3>
+              <p>
+                Mengenal sisi miring (hipotenusa) segitiga siku-siku dan
+                rumus c² = a² + b², lalu memakainya untuk masalah nyata:
+                tangga yang bersandar di dinding, jarak tempuh kapal,
+                diagonal lapangan, sampai layang-layang.
+              </p>
+              <h4 class="subhead">Topik yang dibahas</h4>
+              <ul class="topic-list">
+                <li>Hipotenusa</li>
+                <li>Rumus c² = a² + b²</li>
+                <li>Tripel Pythagoras</li>
+                <li>Segitiga istimewa</li>
+                <li>Soal cerita sehari-hari</li>
+              </ul>
+              <h4 class="subhead">Di dalam videonya</h4>
+              <ul class="check-list">
+                <li>Video pembelajaran ±6 menit dengan narasi bahasa Indonesia</li>
+                <li>Contoh soal tangga 8 m dan perjalanan kapal 150 km</li>
+                <li>Diagonal lapangan 20 m dan layang-layang 40 m</li>
+                <li>Tips mengerjakan: gambar sketsanya dulu sebelum menghitung</li>
+              </ul>
+              <div class="card-foot">
+                <a class="go" href="https://bujang-alap-web.my.id/video-pythagoras/">Tonton video Pythagoras &rarr;</a>
+              </div>
+            </article>
           </div>
-              <article class="card">
-                <div class="card-art" aria-hidden="true">
-                  <svg width="280" height="140" viewBox="0 0 280 140" xmlns="http://www.w3.org/2000/svg">
-                    <polygon points="40,110 40,30 230,110" fill="#dbeafe" stroke="#005eb8" stroke-width="3" />
-                    <rect x="40" y="90" width="20" height="20" fill="none" stroke="#005eb8" stroke-width="2" />
-                    <text x="28" y="75" font-size="16" font-weight="700" fill="#00468a">a</text>
-                    <text x="125" y="132" font-size="16" font-weight="700" fill="#00468a">b</text>
-                    <text x="140" y="60" font-size="16" font-weight="700" fill="#00468a">c</text>
-                    <text x="150" y="34" font-size="15" font-style="italic" font-weight="700" fill="#00468a">c&#178; = a&#178; + b&#178;</text>
-                  </svg>
-                </div>
-                <span class="tag">Video · Kelas 8</span>
-                <h3>Teorema Pythagoras</h3>
-                <p>
-                  Video pembelajaran 5 menit 53 detik: hipotenusa, rumus
-                  c&#178; = a&#178; + b&#178;, tripel Pythagoras, segitiga istimewa,
-                  dan soal kontekstual tangga, kapal, lapangan, dan layang-layang.
-                </p>
-                <ul>
-                  <li>9 bab dengan tombol lompat ke bagian yang diinginkan</li>
-                  <li>Soal tangga 8 m, kapal 150 km, diagonal 20 m, layang-layang 40 m</li>
-                  <li>Tips: gambar dulu sketsanya, baru hitung rumusnya</li>
-                </ul>
-                <div class="card-foot">
-                  <a class="go" href="video-pythagoras/">Tonton video Pythagoras &rarr;</a>
-                </div>
-              </article>
-              <article class="card">
-                <div class="card-art" aria-hidden="true">
-                  <svg width="280" height="140" viewBox="0 0 280 140" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="20" y="20" width="240" height="100" rx="12" fill="#dbeafe" stroke="#005eb8" stroke-width="3" />
-                    <text x="140" y="62" font-size="22" font-weight="700" fill="#00468a" text-anchor="middle">1, 3, 6, 10, 15, ...</text>
-                    <text x="140" y="96" font-size="15" font-weight="700" fill="#00468a" text-anchor="middle">Suku berikutnya berapa?</text>
-                  </svg>
-                </div>
-                <span class="tag">Game &middot; Kelas 8</span>
-                <h3>Pola Bilangan</h3>
-                <p>
-                  Game 4 level: tebak suku berikutnya, pola gambar &amp; korek api,
-                  rumus suku ke-n, dan adu cepat barisan aritmetika &amp; geometri.
-                </p>
-                <ul>
-                  <li>Soal diacak setiap permainan, ada skor, nyawa, dan bintang</li>
-                  <li>Pembahasan rumus setelah setiap jawaban</li>
-                  <li>Tanpa daftar, bisa dimainkan dari HP maupun komputer</li>
-                </ul>
-                <div class="card-foot">
-                  <a class="go" href="pola-bilangan/">Mainkan game Pola Bilangan &rarr;</a>
-                </div>
-              </article>
-              
 
           <div class="next-row">
             <span class="next-tag">Segera hadir</span>
@@ -1002,7 +1082,8 @@
             <p>
               Bab-bab lain Matematika kelas 8 sedang disiapkan mengikuti
               urutan buku Kurikulum Merdeka. Begitu selesai, tautannya akan
-              muncul di halaman ini — untuk sekarang, mulai dari materi di atas.
+              muncul di halaman ini — untuk sekarang, mulai dari Bab 4,
+              Bab 5, game Pola Bilangan, dan video Pythagoras di atas.
             </p>
           </div>
         </div>
@@ -1282,8 +1363,8 @@
             <ul>
               <li><a href="https://hardiansyah-math.github.io/relasi-dan-fungsi/">Bab 4 — Relasi dan Fungsi</a></li>
               <li><a href="https://hardiansyah-math.github.io/PGL/">Bab 5 — Persamaan Garis Lurus</a></li>
-                <li><a href="video-pythagoras/">Teorema Pythagoras — Video</a></li>
-                <li><a href="pola-bilangan/">Pola Bilangan — Game</a></li>
+              <li><a href="https://bujang-alap-web.my.id/pola-bilangan/">Pola Bilangan — Game</a></li>
+              <li><a href="https://bujang-alap-web.my.id/video-pythagoras/">Teorema Pythagoras — Video</a></li>
               <li><a href="https://github.com/Hardiansyah-math">GitHub — Hardiansyah-math</a></li>
             </ul>
           </div>
