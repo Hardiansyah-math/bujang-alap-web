@@ -1,0 +1,1272 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>Game Pola Bilangan Kelas 8</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #eef6f2;
+        --bg-soft: #e2efe8;
+        --surface: #ffffff;
+        --surface-2: #f4faf7;
+        --ink: #132420;
+        --ink-soft: #42564f;
+        --muted: #6b8078;
+        --line: #d3e2da;
+        --primary: #0e7c66;
+        --primary-dark: #095c4b;
+        --primary-soft: #d9efe6;
+        --accent: #ff8a3d;
+        --accent-dark: #e06f1f;
+        --accent-soft: #ffecd9;
+        --yellow: #ffc531;
+        --yellow-soft: #fff3cf;
+        --danger: #e5484d;
+        --danger-soft: #fde3e3;
+        --good: #1a9e6b;
+        --good-soft: #d8f3e4;
+        --shadow: 0 10px 30px rgba(14, 60, 46, 0.10);
+        --shadow-sm: 0 3px 10px rgba(14, 60, 46, 0.08);
+        --radius: 18px;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0d1714;
+          --bg-soft: #122019;
+          --surface: #182622;
+          --surface-2: #1e2f2a;
+          --ink: #eaf4f0;
+          --ink-soft: #b9cdc5;
+          --muted: #8ba298;
+          --line: #2c443b;
+          --primary: #2fbd97;
+          --primary-dark: #57d3ae;
+          --primary-soft: #173d31;
+          --accent: #ffa25e;
+          --accent-dark: #ffb37e;
+          --accent-soft: #45301498;
+          --yellow: #ffd34d;
+          --yellow-soft: #40360f;
+          --danger: #ff7a7e;
+          --danger-soft: #472225;
+          --good: #4ed39a;
+          --good-soft: #14382a;
+          --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+          --shadow-sm: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+      button { font-family: inherit; cursor: pointer; }
+      .wrap { max-width: 920px; margin: 0 auto; padding: 20px 16px 56px; }
+
+      /* ---------- Header strip ---------- */
+      .topbar {
+        display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between;
+        margin-bottom: 18px;
+      }
+      .chip {
+        display: inline-flex; align-items: center; gap: 7px;
+        background: var(--surface); border: 1px solid var(--line);
+        border-radius: 999px; padding: 7px 14px; font-weight: 700; font-size: 0.9rem;
+        box-shadow: var(--shadow-sm);
+      }
+      .chip svg { width: 17px; height: 17px; flex: none; }
+      .chip .num { font-variant-numeric: tabular-nums; }
+
+      /* ---------- Hero ---------- */
+      .hero {
+        background: var(--primary);
+        color: #fff;
+        border-radius: 24px;
+        padding: 26px 24px 22px;
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+      }
+      @media (prefers-color-scheme: dark) { .hero { background: #12503f; } }
+      .hero h1 {
+        font-family: "Fredoka", "Plus Jakarta Sans", sans-serif;
+        font-size: clamp(1.65rem, 5.4vw, 2.5rem);
+        line-height: 1.15; margin: 0 0 8px; font-weight: 700; letter-spacing: 0.2px;
+        max-width: 560px;
+      }
+      .hero p { margin: 0; max-width: 560px; color: rgba(255,255,255,0.92); font-size: 1rem; }
+      .hero-seq {
+        display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; align-items: center;
+      }
+      .hero-seq .tile {
+        background: rgba(255,255,255,0.16); border: 1.5px solid rgba(255,255,255,0.35);
+        color: #fff; font-family: "Fredoka", sans-serif; font-weight: 600;
+        width: 46px; height: 46px; display: grid; place-items: center;
+        border-radius: 12px; font-size: 1.15rem;
+      }
+      .hero-seq .tile.q { background: var(--yellow); border-color: var(--yellow); color: #4a3400; }
+      .hero-seq .arrow { color: rgba(255,255,255,0.75); font-weight: 800; }
+      .hero-dots {
+        position: absolute; right: -14px; top: -14px; opacity: 0.22; pointer-events: none;
+      }
+
+      /* ---------- Level map ---------- */
+      .section-title {
+        font-family: "Fredoka", sans-serif; font-weight: 600;
+        font-size: 1.3rem; margin: 30px 0 6px;
+      }
+      .section-sub { color: var(--ink-soft); margin: 0 0 16px; font-size: 0.95rem; }
+      .levels { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+      @media (max-width: 620px) { .levels { grid-template-columns: 1fr; } }
+      .level-card {
+        background: var(--surface); border: 1.5px solid var(--line); border-radius: var(--radius);
+        padding: 18px; text-align: left; width: 100%; color: var(--ink);
+        box-shadow: var(--shadow-sm); transition: transform 0.15s ease, border-color 0.15s ease;
+        display: flex; flex-direction: column; gap: 8px;
+      }
+      .level-card:not(:disabled):hover { transform: translateY(-2px); border-color: var(--primary); }
+      .level-card:disabled { opacity: 0.62; cursor: not-allowed; }
+      .level-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+      .level-badge {
+        font-family: "Fredoka", sans-serif; font-weight: 600; font-size: 0.82rem;
+        background: var(--primary-soft); color: var(--primary-dark);
+        padding: 4px 11px; border-radius: 999px; letter-spacing: 0.4px;
+      }
+      .level-card.lv2 .level-badge { background: var(--accent-soft); color: var(--accent-dark); }
+      .level-card.lv3 .level-badge { background: var(--yellow-soft); color: #8a6400; }
+      @media (prefers-color-scheme: dark) { .level-card.lv3 .level-badge { color: var(--yellow); } }
+      .level-card.lv4 .level-badge { background: var(--danger-soft); color: var(--danger); }
+      .level-stars { display: inline-flex; gap: 2px; }
+      .level-stars svg { width: 18px; height: 18px; }
+      .level-card h3 {
+        font-family: "Fredoka", sans-serif; font-weight: 600; font-size: 1.18rem; margin: 0; line-height: 1.25;
+      }
+      .level-card p { margin: 0; color: var(--ink-soft); font-size: 0.92rem; flex: 1; }
+      .level-meta { display: flex; gap: 14px; color: var(--muted); font-size: 0.83rem; font-weight: 600; }
+      .level-play {
+        margin-top: 4px; display: inline-flex; align-items: center; gap: 8px;
+        font-weight: 800; color: var(--primary-dark); font-size: 0.95rem;
+      }
+      .level-card:disabled .level-play { color: var(--muted); }
+      .level-play svg { width: 18px; height: 18px; }
+
+      /* ---------- How to play + rumus ---------- */
+      .howto {
+        background: var(--surface); border: 1.5px solid var(--line); border-radius: var(--radius);
+        padding: 18px 20px; box-shadow: var(--shadow-sm); margin-top: 26px;
+      }
+      .howto h3 { font-family: "Fredoka", sans-serif; font-weight: 600; margin: 0 0 10px; font-size: 1.1rem; }
+      .howto ul { margin: 0; padding-left: 20px; color: var(--ink-soft); font-size: 0.94rem; }
+      .howto li { margin-bottom: 5px; }
+      .rumus-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 14px; }
+      .rumus {
+        background: var(--surface-2); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px;
+      }
+      .rumus .r-name { font-weight: 800; font-size: 0.86rem; color: var(--primary-dark); margin-bottom: 4px; }
+      .rumus .r-seq { color: var(--muted); font-size: 0.85rem; margin-bottom: 6px; font-variant-numeric: tabular-nums; }
+      .rumus .r-formula { font-family: "Fredoka", sans-serif; font-weight: 600; font-size: 1.08rem; }
+      .rumus .r-formula sub, .q-formula sub { font-size: 0.62em; }
+
+      /* ---------- Game screen ---------- */
+      .hidden { display: none !important; }
+      .game-head {
+        display: flex; flex-wrap: wrap; align-items: center; gap: 10px; justify-content: space-between; margin-bottom: 14px;
+      }
+      .btn-back {
+        background: var(--surface); border: 1.5px solid var(--line); color: var(--ink);
+        border-radius: 999px; padding: 8px 15px; font-weight: 700; font-size: 0.9rem;
+        display: inline-flex; align-items: center; gap: 6px; box-shadow: var(--shadow-sm);
+      }
+      .btn-back svg { width: 16px; height: 16px; }
+      .hearts { display: inline-flex; gap: 3px; align-items: center; }
+      .hearts svg { width: 23px; height: 23px; }
+      .progress-track {
+        height: 12px; background: var(--bg-soft); border-radius: 999px; overflow: hidden;
+        border: 1px solid var(--line); margin-bottom: 6px;
+      }
+      .progress-fill {
+        height: 100%; background: var(--primary); border-radius: 999px;
+        transition: width 0.4s ease; width: 0%;
+      }
+      .progress-label { font-size: 0.85rem; color: var(--muted); font-weight: 700; margin-bottom: 14px; display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+      .timer-track { height: 8px; background: var(--danger-soft); border-radius: 999px; overflow: hidden; margin-bottom: 14px; }
+      .timer-fill { height: 100%; background: var(--danger); width: 100%; transition: width 1s linear; }
+
+      .q-card {
+        background: var(--surface); border: 1.5px solid var(--line); border-radius: 22px;
+        padding: 24px 22px; box-shadow: var(--shadow);
+      }
+      .q-tag {
+        display: inline-block; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.5px;
+        background: var(--primary-soft); color: var(--primary-dark);
+        padding: 4px 11px; border-radius: 999px; margin-bottom: 12px; text-transform: uppercase;
+      }
+      .q-prompt { font-size: 1.13rem; font-weight: 600; margin: 0 0 6px; line-height: 1.5; }
+      .q-prompt b, .seq-row b { color: var(--primary-dark); }
+      .seq-row {
+        display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 16px 0 4px;
+      }
+      .seq-tile {
+        min-width: 52px; height: 56px; padding: 0 10px;
+        display: grid; place-items: center;
+        background: var(--surface-2); border: 2px solid var(--line); border-radius: 13px;
+        font-family: "Fredoka", sans-serif; font-weight: 600; font-size: 1.3rem;
+        font-variant-numeric: tabular-nums;
+      }
+      .seq-tile.q { background: var(--yellow-soft); border-color: var(--yellow); border-style: dashed; color: #8a6400; }
+      @media (prefers-color-scheme: dark) { .seq-tile.q { color: var(--yellow); } }
+      .seq-comma { color: var(--muted); font-weight: 800; font-size: 1.2rem; }
+      .q-formula {
+        font-family: "Fredoka", sans-serif; font-weight: 600; font-size: 1.35rem;
+        background: var(--surface-2); border: 1.5px solid var(--line); border-radius: 13px;
+        padding: 12px 16px; margin: 14px 0 4px; display: inline-block;
+      }
+      .figures {
+        display: flex; flex-wrap: wrap; gap: 12px; margin: 16px 0 4px;
+      }
+      .figure {
+        background: var(--surface-2); border: 1.5px solid var(--line); border-radius: 14px;
+        padding: 10px 12px 8px; text-align: center; min-width: 104px;
+      }
+      .figure svg { display: block; margin: 0 auto; }
+      .figure .f-label { font-size: 0.8rem; font-weight: 700; color: var(--muted); margin-top: 6px; }
+      .figure .f-label b { color: var(--ink); }
+
+      .options { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin-top: 20px; }
+      @media (max-width: 540px) { .options { grid-template-columns: 1fr; } }
+      .opt {
+        background: var(--surface); border: 2px solid var(--line); border-radius: 14px;
+        padding: 15px 16px; font-size: 1.08rem; font-weight: 700; color: var(--ink);
+        display: flex; align-items: center; gap: 12px; text-align: left;
+        font-variant-numeric: tabular-nums; transition: border-color 0.15s ease, background 0.15s ease;
+        min-height: 56px;
+      }
+      .opt .opt-key {
+        flex: none; width: 30px; height: 30px; border-radius: 9px;
+        background: var(--bg-soft); color: var(--ink-soft);
+        display: grid; place-items: center; font-family: "Fredoka", sans-serif; font-weight: 600; font-size: 0.95rem;
+      }
+      .opt:not(:disabled):hover { border-color: var(--primary); }
+      .opt:disabled { cursor: default; opacity: 0.85; }
+      .opt.correct { border-color: var(--good); background: var(--good-soft); opacity: 1; }
+      .opt.correct .opt-key { background: var(--good); color: #fff; }
+      .opt.wrong { border-color: var(--danger); background: var(--danger-soft); opacity: 1; }
+      .opt.wrong .opt-key { background: var(--danger); color: #fff; }
+
+      .feedback {
+        margin-top: 18px; border-radius: 14px; padding: 15px 17px; font-size: 0.96rem;
+        border: 1.5px solid;
+      }
+      .feedback.good { background: var(--good-soft); border-color: var(--good); }
+      .feedback.bad { background: var(--danger-soft); border-color: var(--danger); }
+      .feedback .f-title { font-family: "Fredoka", sans-serif; font-weight: 600; font-size: 1.05rem; margin-bottom: 3px; }
+      .feedback p { margin: 0; color: var(--ink); }
+      .btn {
+        border: none; border-radius: 13px; padding: 13px 24px;
+        font-weight: 800; font-size: 1rem; display: inline-flex; align-items: center; gap: 8px;
+        transition: transform 0.12s ease, background 0.15s ease;
+      }
+      .btn:active { transform: scale(0.97); }
+      .btn-primary { background: var(--primary); color: #fff; }
+      .btn-primary:hover { background: var(--primary-dark); }
+      @media (prefers-color-scheme: dark) { .btn-primary { color: #06231b; } .btn-primary:hover { color: #06231b; } }
+      .btn-accent { background: var(--accent); color: #fff; }
+      .btn-accent:hover { background: var(--accent-dark); }
+      .btn-ghost { background: var(--surface); color: var(--ink); border: 1.5px solid var(--line); }
+      .feedback .btn { margin-top: 12px; }
+      .streak-note { font-weight: 800; color: var(--accent-dark); }
+
+      /* ---------- Result ---------- */
+      .result-card {
+        background: var(--surface); border: 1.5px solid var(--line); border-radius: 22px;
+        padding: 32px 24px; box-shadow: var(--shadow); text-align: center;
+      }
+      .result-stars { display: flex; justify-content: center; gap: 6px; margin-bottom: 14px; }
+      .result-stars svg { width: 46px; height: 46px; }
+      .result-card h2 { font-family: "Fredoka", sans-serif; font-weight: 700; font-size: 1.7rem; margin: 0 0 6px; }
+      .result-card .r-sub { color: var(--ink-soft); margin: 0 auto 20px; max-width: 440px; }
+      .result-stats { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 24px; }
+      .r-stat {
+        background: var(--surface-2); border: 1px solid var(--line); border-radius: 14px;
+        padding: 12px 20px; min-width: 110px;
+      }
+      .r-stat .v { font-family: "Fredoka", sans-serif; font-weight: 700; font-size: 1.5rem; }
+      .r-stat .l { font-size: 0.8rem; color: var(--muted); font-weight: 700; }
+      .result-actions { display: flex; flex-wrap: wrap; gap: 11px; justify-content: center; }
+      .badge-name {
+        display: inline-block; background: var(--yellow-soft); border: 1.5px solid var(--yellow);
+        color: #8a6400; font-weight: 800; border-radius: 999px; padding: 6px 16px; margin-bottom: 16px; font-size: 0.92rem;
+      }
+      @media (prefers-color-scheme: dark) { .badge-name { color: var(--yellow); } }
+
+      footer { margin-top: 34px; text-align: center; color: var(--muted); font-size: 0.86rem; }
+      .confetti { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 50; }
+      .confetti i {
+        position: absolute; top: -14px; width: 10px; height: 14px; border-radius: 2px;
+        animation: fall linear forwards;
+      }
+      @keyframes fall {
+        to { transform: translateY(105vh) rotate(560deg); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .confetti i { animation: none; display: none; }
+        .level-card, .btn, .progress-fill { transition: none; }
+        html { scroll-behavior: auto; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+
+      <!-- ================= HOME ================= -->
+      <div id="view-home">
+        <div class="topbar">
+          <span class="chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#ffc531" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6L12 16.7 6.6 19.6l1.1-6L3.2 9.4l6.1-.8z" fill="#ffc531" stroke="none"/></svg>
+            Skor Total: <span class="num" id="total-score">0</span>
+          </span>
+          <span class="chip">Matematika · Kelas 8 SMP · Pola Bilangan</span>
+        </div>
+
+        <section class="hero">
+          <svg class="hero-dots" width="170" height="170" viewBox="0 0 170 170" fill="#fff" aria-hidden="true">
+            <circle cx="15" cy="15" r="6"/><circle cx="55" cy="15" r="6"/><circle cx="95" cy="15" r="6"/><circle cx="135" cy="15" r="6"/>
+            <circle cx="15" cy="55" r="6"/><circle cx="55" cy="55" r="6"/><circle cx="95" cy="55" r="6"/><circle cx="135" cy="55" r="6"/>
+            <circle cx="15" cy="95" r="6"/><circle cx="55" cy="95" r="6"/><circle cx="95" cy="95" r="6"/><circle cx="135" cy="95" r="6"/>
+            <circle cx="15" cy="135" r="6"/><circle cx="55" cy="135" r="6"/><circle cx="95" cy="135" r="6"/><circle cx="135" cy="135" r="6"/>
+          </svg>
+          <h1>Tebak polanya, temukan rumusnya, kumpulkan bintangnya!</h1>
+          <p>Latihan Pola Bilangan kelas 8 dalam bentuk permainan: dari menebak suku berikutnya, membaca pola gambar dan batang korek api, sampai adu cepat barisan aritmetika dan geometri.</p>
+          <div class="hero-seq" aria-hidden="true">
+            <span class="tile">1</span><span class="arrow">,</span>
+            <span class="tile">3</span><span class="arrow">,</span>
+            <span class="tile">6</span><span class="arrow">,</span>
+            <span class="tile">10</span><span class="arrow">,</span>
+            <span class="tile">15</span><span class="arrow">,</span>
+            <span class="tile q">?</span>
+          </div>
+        </section>
+
+        <h2 class="section-title">Pilih Level</h2>
+        <p class="section-sub">Selesaikan satu level untuk membuka level berikutnya. Setiap level punya 3 nyawa — jaga baik-baik!</p>
+        <div class="levels" id="level-list"></div>
+
+        <div class="howto">
+          <h3>Cara Main</h3>
+          <ul>
+            <li>Setiap jawaban benar bernilai <b>100 poin</b>. Jawaban benar beruntun memberi bonus beruntun: +20, +40, +60, dan seterusnya.</li>
+            <li>Jawaban salah mengurangi <b>1 nyawa</b>. Kalau nyawa habis, permainan di level itu berakhir.</li>
+            <li>Setelah menjawab, baca <b>pembahasannya</b> — di situlah rumusnya dijelaskan pelan-pelan.</li>
+            <li>Di Level 4 ada batas waktu <b>25 detik per soal</b>. Makin cepat menjawab, makin besar bonus waktunya.</li>
+            <li>Akhiri level dengan nyawa penuh untuk dapat <b>3 bintang</b>.</li>
+          </ul>
+        </div>
+
+        <h2 class="section-title">Rumus Penting — Intip Dulu Boleh!</h2>
+        <p class="section-sub">Pola-pola terkenal yang akan sering muncul di dalam game.</p>
+        <div class="rumus-grid">
+          <div class="rumus">
+            <div class="r-name">POLA GANJIL</div>
+            <div class="r-seq">1, 3, 5, 7, 9, …</div>
+            <div class="r-formula">U<sub>n</sub> = 2n − 1</div>
+          </div>
+          <div class="rumus">
+            <div class="r-name">POLA GENAP</div>
+            <div class="r-seq">2, 4, 6, 8, 10, …</div>
+            <div class="r-formula">U<sub>n</sub> = 2n</div>
+          </div>
+          <div class="rumus">
+            <div class="r-name">POLA SEGITIGA</div>
+            <div class="r-seq">1, 3, 6, 10, 15, …</div>
+            <div class="r-formula">U<sub>n</sub> = ½ n(n + 1)</div>
+          </div>
+          <div class="rumus">
+            <div class="r-name">POLA PERSEGI</div>
+            <div class="r-seq">1, 4, 9, 16, 25, …</div>
+            <div class="r-formula">U<sub>n</sub> = n²</div>
+          </div>
+          <div class="rumus">
+            <div class="r-name">BARISAN ARITMETIKA</div>
+            <div class="r-seq">selisih (beda) selalu tetap</div>
+            <div class="r-formula">U<sub>n</sub> = a + (n − 1)b</div>
+          </div>
+          <div class="rumus">
+            <div class="r-name">BARISAN GEOMETRI</div>
+            <div class="r-seq">perbandingan (rasio) selalu tetap</div>
+            <div class="r-formula">U<sub>n</sub> = a × r<sup>n−1</sup></div>
+          </div>
+        </div>
+
+        <footer>Materi Pola Bilangan · Matematika Kelas 8 SMP · Kurikulum Merdeka</footer>
+      </div>
+
+      <!-- ================= GAME ================= -->
+      <div id="view-game" class="hidden">
+        <div class="game-head">
+          <button class="btn-back" id="btn-quit" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+            Pilih Level
+          </button>
+          <span class="chip">
+            <svg viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6L12 16.7 6.6 19.6l1.1-6L3.2 9.4l6.1-.8z" fill="#ffc531"/></svg>
+            Skor: <span class="num" id="game-score">0</span>
+          </span>
+          <span class="hearts" id="hearts" aria-label="Sisa nyawa"></span>
+        </div>
+
+        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+        <div class="progress-label">
+          <span id="progress-text">Soal 1 dari 8</span>
+          <span id="streak-text"></span>
+        </div>
+        <div class="timer-track hidden" id="timer-track"><div class="timer-fill" id="timer-fill"></div></div>
+
+        <div class="q-card">
+          <span class="q-tag" id="q-tag">Level 1</span>
+          <p class="q-prompt" id="q-prompt"></p>
+          <div id="q-visual"></div>
+          <div class="options" id="q-options"></div>
+          <div id="q-feedback"></div>
+        </div>
+      </div>
+
+      <!-- ================= RESULT ================= -->
+      <div id="view-result" class="hidden">
+        <div class="result-card">
+          <div class="result-stars" id="result-stars"></div>
+          <div><span class="badge-name" id="result-badge"></span></div>
+          <h2 id="result-title"></h2>
+          <p class="r-sub" id="result-sub"></p>
+          <div class="result-stats">
+            <div class="r-stat"><div class="v" id="r-score">0</div><div class="l">SKOR LEVEL</div></div>
+            <div class="r-stat"><div class="v" id="r-correct">0/0</div><div class="l">JAWABAN BENAR</div></div>
+            <div class="r-stat"><div class="v" id="r-lives">0</div><div class="l">SISA NYAWA</div></div>
+          </div>
+          <div class="result-actions">
+            <button class="btn btn-ghost" id="btn-result-home" type="button">Pilih Level</button>
+            <button class="btn btn-primary" id="btn-result-retry" type="button">Main Lagi</button>
+            <button class="btn btn-accent hidden" id="btn-result-next" type="button">Level Berikutnya</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <script>
+      "use strict";
+      /* ================= Helpers ================= */
+      function rnd(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+      function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+      function shuffle(arr) {
+        var a = arr.slice();
+        for (var i = a.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var t = a[i]; a[i] = a[j]; a[j] = t;
+        }
+        return a;
+      }
+      function uniqueNums(list) {
+        var out = [];
+        list.forEach(function (v) { if (out.indexOf(v) === -1) out.push(v); });
+        return out;
+      }
+      function makeOptions(correct, distractors) {
+        var opts = uniqueNums([correct].concat(distractors));
+        var guard = 0;
+        while (opts.length < 4 && guard < 60) {
+          guard++;
+          var cand = correct + pick([-3, -2, -1, 1, 2, 3, 4, 5, 10, -5, -10]) * pick([1, 1, 2]);
+          if (opts.indexOf(cand) === -1) opts.push(cand);
+        }
+        opts = shuffle(opts.slice(0, 4));
+        return { options: opts.map(String), correctIndex: opts.indexOf(correct) };
+      }
+      function makeTextOptions(correct, distractors) {
+        var opts = uniqueNums([correct].concat(distractors));
+        opts = shuffle(opts.slice(0, 4));
+        return { options: opts, correctIndex: opts.indexOf(correct) };
+      }
+      function seqTiles(values, askLast) {
+        var html = '<div class="seq-row">';
+        values.forEach(function (v, i) {
+          if (i > 0) html += '<span class="seq-comma">,</span>';
+          html += '<span class="seq-tile">' + v + "</span>";
+        });
+        if (askLast) {
+          html += '<span class="seq-comma">,</span><span class="seq-tile q">?</span>';
+        }
+        return html + "</div>";
+      }
+      function formulaBox(html) { return '<div class="q-formula">' + html + "</div>"; }
+      function Un(sub) { return "U<sub>" + sub + "</sub>"; }
+
+      /* Visual: titik-titik membentuk segitiga / persegi */
+      function dotFigure(kind, n) {
+        var r = 7, gap = 24, pad = 12, dots = "";
+        var rows = [], i, j;
+        if (kind === "tri") { for (i = 1; i <= n; i++) rows.push(i); }
+        else if (kind === "square") { for (i = 1; i <= n; i++) rows.push(n); }
+        else if (kind === "rect") { for (i = 1; i <= n; i++) rows.push(n + 1); }
+        var maxCols = Math.max.apply(null, rows);
+        var w = pad * 2 + (maxCols - 1) * gap;
+        var h = pad * 2 + (rows.length - 1) * gap;
+        rows.forEach(function (cols, ri) {
+          for (j = 0; j < cols; j++) {
+            dots += '<circle cx="' + (pad + j * gap) + '" cy="' + (pad + ri * gap) + '" r="' + r + '" fill="#0e7c66"/>';
+          }
+        });
+        return '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + " " + h + '" role="img" aria-label="Gambar pola titik">' + dots + "</svg>";
+      }
+      /* Visual: segitiga dari batang korek api berderet */
+      function matchTriangles(n) {
+        var seg = 30, baseY = 52, topY = 10, pad = 8;
+        var w = pad * 2 + n * seg, h = 64, lines = "", i;
+        for (i = 0; i < n; i++) {
+          var x0 = pad + i * seg, x1 = x0 + seg, xm = x0 + seg / 2;
+          lines += '<line x1="' + x0 + '" y1="' + baseY + '" x2="' + x1 + '" y2="' + baseY + '"/>';
+          lines += '<line x1="' + x0 + '" y1="' + baseY + '" x2="' + xm + '" y2="' + topY + '"/>';
+          lines += '<line x1="' + xm + '" y1="' + topY + '" x2="' + x1 + '" y2="' + baseY + '"/>';
+        }
+        return '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + " " + h + '" stroke="#e06f1f" stroke-width="4" stroke-linecap="round" role="img" aria-label="Gambar segitiga dari batang korek api">' + lines + "</svg>";
+      }
+      /* Visual: persegi dari batang korek api berderet */
+      function matchSquares(n) {
+        var seg = 30, y0 = 10, y1 = 46, pad = 8;
+        var w = pad * 2 + n * seg, h = 58, lines = "", i;
+        for (i = 0; i <= n; i++) {
+          var x = pad + i * seg;
+          lines += '<line x1="' + x + '" y1="' + y0 + '" x2="' + x + '" y2="' + y1 + '"/>';
+        }
+        lines += '<line x1="' + pad + '" y1="' + y0 + '" x2="' + (pad + n * seg) + '" y2="' + y0 + '"/>';
+        lines += '<line x1="' + pad + '" y1="' + y1 + '" x2="' + (pad + n * seg) + '" y2="' + y1 + '"/>';
+        return '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + " " + h + '" stroke="#e06f1f" stroke-width="4" stroke-linecap="round" role="img" aria-label="Gambar persegi dari batang korek api">' + lines + "</svg>";
+      }
+      function figureBox(svg, label) {
+        return '<div class="figure">' + svg + '<div class="f-label">' + label + "</div></div>";
+      }
+
+      /* ================= Sound (WebAudio, dibuat saat interaksi pertama) ================= */
+      var audioCtx = null;
+      function beep(freq, dur, type, delay) {
+        try {
+          if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          if (audioCtx.state === "suspended") audioCtx.resume();
+          var t = audioCtx.currentTime + (delay || 0);
+          var osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+          osc.type = type || "sine"; osc.frequency.value = freq;
+          gain.gain.setValueAtTime(0.12, t);
+          gain.gain.exponentialRampToValueAtTime(0.001, t + dur);
+          osc.connect(gain); gain.connect(audioCtx.destination);
+          osc.start(t); osc.stop(t + dur);
+        } catch (e) { /* suara hanya pelengkap */ }
+      }
+      function soundGood() { beep(660, 0.14, "sine", 0); beep(880, 0.2, "sine", 0.1); }
+      function soundBad() { beep(196, 0.25, "sawtooth", 0); }
+      function soundWin() { [523, 659, 784, 1047].forEach(function (f, i) { beep(f, 0.22, "sine", i * 0.12); }); }
+
+      /* ================= LEVEL 1 — Tebak suku berikutnya ================= */
+      function q1Arithmetic() {
+        var a = rnd(1, 15), b = pick([2, 3, 4, 5, 6, 7, 8, 9, 10]);
+        var seq = [0, 1, 2, 3, 4].map(function (i) { return a + i * b; });
+        var ans = a + 5 * b;
+        var o = makeOptions(ans, [ans + b, ans - b, ans + 1, a + 4 * b]);
+        return {
+          tag: "Pola Bertambah Tetap",
+          prompt: "Perhatikan pola bilangan berikut. Berapa <b>suku berikutnya</b>?",
+          visual: seqTiles(seq, true),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Selisih dua suku yang berurutan selalu " + b + " (" + seq[0] + " ke " + seq[1] + " bertambah " + b + ", begitu seterusnya). Jadi suku berikutnya = " + seq[4] + " + " + b + " = <b>" + ans + "</b>."
+        };
+      }
+      function q1Decreasing() {
+        var b = pick([3, 4, 5, 6, 7, 8]);
+        var a = 5 * b + rnd(2, 20);
+        var seq = [0, 1, 2, 3, 4].map(function (i) { return a - i * b; });
+        var ans = a - 5 * b;
+        var o = makeOptions(ans, [ans + b, ans - b, seq[4] - 1, seq[4] + b]);
+        return {
+          tag: "Pola Berkurang Tetap",
+          prompt: "Pola bilangan berikut makin lama makin kecil. Berapa <b>suku berikutnya</b>?",
+          visual: seqTiles(seq, true),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Setiap suku berkurang " + b + " dari suku sebelumnya. Jadi suku berikutnya = " + seq[4] + " − " + b + " = <b>" + ans + "</b>."
+        };
+      }
+      function q1Geometric() {
+        var a = pick([1, 2, 3, 4, 5]), r = pick([2, 2, 3]);
+        var seq = [0, 1, 2, 3, 4].map(function (i) { return a * Math.pow(r, i); });
+        var ans = a * Math.pow(r, 5);
+        var o = makeOptions(ans, [seq[4] + r, seq[4] * (r + 1), ans + a, seq[4] + seq[3]]);
+        return {
+          tag: "Pola Kali Tetap",
+          prompt: "Perhatikan pola bilangan berikut. Berapa <b>suku berikutnya</b>?",
+          visual: seqTiles(seq, true),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Setiap suku diperoleh dengan <b>mengalikan " + r + "</b> suku sebelumnya (" + seq[0] + " × " + r + " = " + seq[1] + ", dan seterusnya). Jadi suku berikutnya = " + seq[4] + " × " + r + " = <b>" + ans + "</b>. Ini awal dari barisan geometri."
+        };
+      }
+      function q1GanjilGenap() {
+        var ganjil = Math.random() < 0.5;
+        var start = ganjil ? rnd(0, 4) * 2 + 1 : rnd(1, 5) * 2;
+        var seq = [0, 1, 2, 3, 4].map(function (i) { return start + 2 * i; });
+        var ans = start + 10;
+        var o = makeOptions(ans, [ans - 1, ans + 1, ans + 3, seq[4] + 4]);
+        return {
+          tag: ganjil ? "Pola Ganjil" : "Pola Genap",
+          prompt: "Ini pola bilangan " + (ganjil ? "ganjil" : "genap") + ". Berapa <b>suku berikutnya</b>?",
+          visual: seqTiles(seq, true),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Bilangan " + (ganjil ? "ganjil" : "genap") + " selalu bertambah 2. Jadi suku berikutnya = " + seq[4] + " + 2 = <b>" + ans + "</b>." + (ganjil ? " Rumusnya: " + Un("n") + " = 2n − 1." : " Rumusnya: " + Un("n") + " = 2n.")
+        };
+      }
+      function q1Triangular() {
+        var k = pick([1, 1, 2]);
+        var T = function (n) { return n * (n + 1) / 2; };
+        var seq = [0, 1, 2, 3, 4].map(function (i) { return T(k + i); });
+        var ans = T(k + 5);
+        var o = makeOptions(ans, [ans + 1, seq[4] + (k + 4), seq[4] + 5, ans - 2]);
+        return {
+          tag: "Pola Segitiga",
+          prompt: "Bilangan-bilangan ini disebut <b>bilangan segitiga</b>. Berapa <b>suku berikutnya</b>?",
+          visual: seqTiles(seq, true),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Lihat selisihnya: bertambah 2, lalu 3, lalu 4, lalu 5 — selisihnya naik 1 setiap langkah. Jadi langkah berikutnya selisihnya " + (k + 5) + ": " + seq[4] + " + " + (k + 5) + " = <b>" + ans + "</b>. Rumusnya: " + Un("n") + " = ½ n(n + 1)."
+        };
+      }
+      function q1Square() {
+        var k = pick([1, 1, 2, 3]);
+        var seq = [0, 1, 2, 3, 4].map(function (i) { return (k + i) * (k + i); });
+        var ans = (k + 5) * (k + 5);
+        var o = makeOptions(ans, [seq[4] + 9, seq[4] + (2 * (k + 4) - 1), (k + 5) * (k + 4), ans + 2]);
+        return {
+          tag: "Pola Persegi",
+          prompt: "Bilangan-bilangan ini adalah <b>bilangan persegi</b> (hasil kuadrat). Berapa <b>suku berikutnya</b>?",
+          visual: seqTiles(seq, true),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Setiap suku adalah kuadrat: " + seq.map(function (v, i) { return (k + i) + "² = " + v; }).join(", ") + ". Suku berikutnya = " + (k + 5) + "² = <b>" + ans + "</b>. Rumusnya: " + Un("n") + " = n²."
+        };
+      }
+      function q1Rect() {
+        var k = pick([1, 2]);
+        var R = function (n) { return n * (n + 1); };
+        var seq = [0, 1, 2, 3, 4].map(function (i) { return R(k + i); });
+        var ans = R(k + 5);
+        var o = makeOptions(ans, [ans + 2, seq[4] + (k + 5), seq[4] + 10, ans - 4]);
+        return {
+          tag: "Pola Persegi Panjang",
+          prompt: "Ini <b>pola persegi panjang</b>: 1×2, 2×3, 3×4, dan seterusnya. Berapa <b>suku berikutnya</b>?",
+          visual: seqTiles(seq, true),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Setiap suku berbentuk n × (n + 1). Suku berikutnya = " + (k + 5) + " × " + (k + 6) + " = <b>" + ans + "</b>. Rumusnya: " + Un("n") + " = n(n + 1)."
+        };
+      }
+      function q1Fibonacci() {
+        var a = pick([1, 1, 2, 3]), b = pick([1, 2, 3]);
+        var seq = [a, b];
+        while (seq.length < 5) seq.push(seq[seq.length - 1] + seq[seq.length - 2]);
+        var ans = seq[4] + seq[3];
+        var o = makeOptions(ans, [seq[4] + seq[2], ans + 1, seq[4] * 2, seq[4] + b]);
+        return {
+          tag: "Pola Fibonacci",
+          prompt: "Pola ini terkenal dengan nama <b>pola Fibonacci</b>. Berapa <b>suku berikutnya</b>?",
+          visual: seqTiles(seq, true),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Setiap suku adalah <b>jumlah dua suku sebelumnya</b>: " + seq[2] + " = " + seq[0] + " + " + seq[1] + ", " + seq[3] + " = " + seq[1] + " + " + seq[2] + ". Jadi suku berikutnya = " + seq[3] + " + " + seq[4] + " = <b>" + ans + "</b>."
+        };
+      }
+      function q1Prime() {
+        var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31];
+        var k = rnd(0, 4);
+        var seq = primes.slice(k, k + 5);
+        var ans = primes[k + 5];
+        var o = makeOptions(ans, [ans + 1, ans + 2, seq[4] + 4, ans - 2]);
+        return {
+          tag: "Pola Bilangan Prima",
+          prompt: "Bilangan-bilangan ini adalah <b>bilangan prima</b> berurutan. Berapa <b>suku berikutnya</b>?",
+          visual: seqTiles(seq, true),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Bilangan prima hanya bisa dibagi 1 dan dirinya sendiri. Setelah " + seq[4] + ", bilangan prima berikutnya adalah <b>" + ans + "</b> (ingat, " + (seq[4] + 1) + " bukan prima karena bisa dibagi bilangan lain)."
+        };
+      }
+      function q1GrowingDiff() {
+        var a = rnd(1, 8), d0 = pick([1, 2, 3]), step = pick([1, 2]);
+        var seq = [a], d = d0;
+        while (seq.length < 5) { seq.push(seq[seq.length - 1] + d); d += step; }
+        var ans = seq[4] + d;
+        var o = makeOptions(ans, [seq[4] + (d - step), ans + step, seq[4] + d0, ans - 1]);
+        return {
+          tag: "Selisih Makin Besar",
+          prompt: "Hati-hati, selisih pola ini <b>tidak tetap</b>. Berapa <b>suku berikutnya</b>?",
+          visual: seqTiles(seq, true),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Selisihnya: " + (seq[1] - seq[0]) + ", " + (seq[2] - seq[1]) + ", " + (seq[3] - seq[2]) + ", " + (seq[4] - seq[3]) + " — naik " + step + " setiap langkah. Selisih berikutnya = " + d + ", jadi suku berikutnya = " + seq[4] + " + " + d + " = <b>" + ans + "</b>."
+        };
+      }
+
+      /* ================= LEVEL 2 — Konfigurasi objek & korek api ================= */
+      function q2MatchTri() {
+        var m = rnd(4, 9);
+        var ans = 2 * m + 1;
+        var figs = '<div class="figures">' +
+          figureBox(matchTriangles(1), "Pola 1 · <b>3</b> batang") +
+          figureBox(matchTriangles(2), "Pola 2 · <b>5</b> batang") +
+          figureBox(matchTriangles(3), "Pola 3 · <b>7</b> batang") + "</div>";
+        var o = makeOptions(ans, [2 * m, 3 * m, ans + 2, 2 * m - 1]);
+        return {
+          tag: "Korek Api Segitiga",
+          prompt: "Segitiga berderet disusun dari batang korek api seperti gambar. Berapa batang korek api yang dibutuhkan pada <b>pola ke-" + m + "</b>?",
+          visual: figs,
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Banyak batang: pola 1 = 3, pola 2 = 5, pola 3 = 7 — setiap pola bertambah 2 batang, rumusnya " + Un("n") + " = 2n + 1. Pola ke-" + m + " = 2 × " + m + " + 1 = <b>" + ans + " batang</b>."
+        };
+      }
+      function q2MatchSquare() {
+        var m = rnd(4, 9);
+        var ans = 3 * m + 1;
+        var figs = '<div class="figures">' +
+          figureBox(matchSquares(1), "Pola 1 · <b>4</b> batang") +
+          figureBox(matchSquares(2), "Pola 2 · <b>7</b> batang") +
+          figureBox(matchSquares(3), "Pola 3 · <b>10</b> batang") + "</div>";
+        var o = makeOptions(ans, [4 * m, 3 * m, ans + 3, 2 * m + 2]);
+        return {
+          tag: "Korek Api Persegi",
+          prompt: "Persegi berderet disusun dari batang korek api seperti gambar. Berapa batang yang dibutuhkan pada <b>pola ke-" + m + "</b>?",
+          visual: figs,
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Persegi pertama perlu 4 batang, persegi berikutnya cukup tambah 3 batang karena satu sisi dipakai bersama. Rumusnya " + Un("n") + " = 3n + 1. Pola ke-" + m + " = 3 × " + m + " + 1 = <b>" + ans + " batang</b>."
+        };
+      }
+      function q2Dots(kind) {
+        var m = pick([4, 5, 5, 6]);
+        var val = kind === "tri" ? function (n) { return n * (n + 1) / 2; }
+          : kind === "square" ? function (n) { return n * n; }
+          : function (n) { return n * (n + 1); };
+        var name = kind === "tri" ? "segitiga" : kind === "square" ? "persegi" : "persegi panjang";
+        var figs = '<div class="figures">' +
+          figureBox(dotFigure(kind, 1), "Pola 1 · <b>" + val(1) + "</b> titik") +
+          figureBox(dotFigure(kind, 2), "Pola 2 · <b>" + val(2) + "</b> titik") +
+          figureBox(dotFigure(kind, 3), "Pola 3 · <b>" + val(3) + "</b> titik") + "</div>";
+        var ans = val(m);
+        var o = makeOptions(ans, [val(m - 1) + m, val(m) + m, kind === "square" ? (m + 1) * (m + 1) - 2 * m : ans + 3, ans - m]);
+        var rumus = kind === "tri" ? Un("n") + " = ½ n(n + 1)" : kind === "square" ? Un("n") + " = n²" : Un("n") + " = n(n + 1)";
+        return {
+          tag: "Konfigurasi " + (kind === "tri" ? "Segitiga" : kind === "square" ? "Persegi" : "Persegi Panjang"),
+          prompt: "Titik-titik disusun membentuk pola " + name + ". Berapa banyak titik pada <b>pola ke-" + m + "</b>?",
+          visual: figs,
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Pola " + name + " memiliki rumus " + rumus + ". Pola ke-" + m + " = <b>" + ans + " titik</b>."
+        };
+      }
+      function q2Tables() {
+        var m = rnd(5, 10);
+        var ans = 2 * m + 2;
+        var seq = [4, 6, 8, 10];
+        var o = makeOptions(ans, [4 * m, 2 * m, ans + 2, 3 * m + 1]);
+        return {
+          tag: "Soal Cerita Konfigurasi",
+          prompt: "Satu meja kantin bisa diduduki 4 siswa. Jika meja-meja digabung memanjang, 2 meja memuat 6 siswa, 3 meja memuat 8 siswa, 4 meja memuat 10 siswa. Berapa siswa yang muat jika <b>" + m + " meja</b> digabung?",
+          visual: seqTiles(seq, false),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Setiap tambahan 1 meja menambah 2 tempat duduk (sisi ujung tetap 1 + 1). Rumusnya " + Un("n") + " = 2n + 2. Untuk " + m + " meja: 2 × " + m + " + 2 = <b>" + ans + " siswa</b>."
+        };
+      }
+      function q2SeparateSquares() {
+        var m = rnd(4, 8);
+        var ans = 4 * m;
+        var o = makeOptions(ans, [3 * m + 1, ans - m, 4 * m + 1, 2 * m + 2]);
+        return {
+          tag: "Korek Api Persegi Terpisah",
+          prompt: "Setiap persegi berikut dibuat <b>terpisah</b> (tidak menempel): 1 persegi perlu 4 batang, 2 persegi perlu 8 batang, 3 persegi perlu 12 batang. Berapa batang untuk membuat <b>" + m + " persegi</b>?",
+          visual: seqTiles([4, 8, 12], false),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Karena perseginya terpisah, setiap persegi selalu perlu 4 batang penuh — tidak ada sisi yang dipakai bersama. Rumusnya " + Un("n") + " = 4n, jadi " + m + " persegi = 4 × " + m + " = <b>" + ans + " batang</b>. Beda dengan persegi berderet yang rumusnya 3n + 1!"
+        };
+      }
+      function q2FindPolaKe() {
+        var target = pick([21, 31, 41, 51, 61]);
+        var n = (target - 1) / 2;
+        var o = makeOptions(n, [n + 2, n - 1, target / 2, n + 5]);
+        return {
+          tag: "Korek Api Segitiga",
+          prompt: "Susunan segitiga dari batang korek api mengikuti rumus " + Un("n") + " = 2n + 1. Jika tersedia <b>" + target + " batang</b> dan semuanya habis terpakai, susunan itu adalah <b>pola ke berapa</b>?",
+          visual: formulaBox(Un("n") + " = 2n + 1"),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Cari n dari 2n + 1 = " + target + ". Kurangi kedua ruas dengan 1: 2n = " + (target - 1) + ", lalu bagi 2: n = <b>" + n + "</b>."
+        };
+      }
+
+      /* ================= LEVEL 3 — Rumus suku ke-n ================= */
+      function fmtLin(b, c) {
+        var s = (b === 1 ? "n" : b + "n");
+        if (c > 0) s += " + " + c; else if (c < 0) s += " − " + Math.abs(c);
+        return s;
+      }
+      function q3FindFormula() {
+        var b = pick([2, 3, 4, 5, 6]), a = rnd(1, 12);
+        var c = a - b;
+        var seq = [0, 1, 2, 3].map(function (i) { return a + i * b; });
+        var correct = Un("n") + " = " + fmtLin(b, c);
+        var o = makeTextOptions(correct, [
+          Un("n") + " = " + fmtLin(b, a),
+          Un("n") + " = " + fmtLin(b + 1, c),
+          Un("n") + " = " + fmtLin(a, c),
+          Un("n") + " = " + fmtLin(b, c - b)
+        ]);
+        return {
+          tag: "Tentukan Rumusnya",
+          prompt: "Tentukan <b>rumus suku ke-n</b> dari barisan berikut!",
+          visual: seqTiles(seq, false),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Beda barisan ini tetap: b = " + b + ". Rumus barisan aritmetika: " + Un("n") + " = a + (n − 1)b = " + a + " + (n − 1) × " + b + " = <b>" + fmtLin(b, c) + "</b>. Cek: n = 1 → " + (b + c) + ". Benar!"
+        };
+      }
+      function q3UseFormula() {
+        var p = pick([2, 3, 4, 5]), q = rnd(-4, 8), k = pick([10, 12, 15, 20, 25]);
+        if (q === 0) q = 3;
+        var formula = fmtLin(p, q);
+        var ans = p * k + q;
+        var o = makeOptions(ans, [p * k, p * (k - 1) + q, ans + p, p + q * k]);
+        return {
+          tag: "Pakai Rumusnya",
+          prompt: "Diketahui rumus suku ke-n suatu barisan adalah <b>" + Un("n") + " = " + formula + "</b>. Berapa nilai <b>suku ke-" + k + "</b>?",
+          visual: formulaBox(Un("n") + " = " + formula),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Ganti n dengan " + k + ": " + Un(k) + " = " + p + " × " + k + (q >= 0 ? " + " + q : " − " + Math.abs(q)) + " = <b>" + ans + "</b>. Sesederhana itu — rumus adalah mesin hitung suku mana pun."
+        };
+      }
+      function q3KnownPatternFormula() {
+        var kinds = [
+          { name: "bilangan segitiga", seq: [1, 3, 6, 10, 15], f: "½ n(n + 1)", d: ["n²", "2n − 1", "n(n + 1)", "½ n(n − 1)"] },
+          { name: "bilangan persegi", seq: [1, 4, 9, 16, 25], f: "n²", d: ["2n", "n(n + 1)", "½ n(n + 1)", "(n + 1)²"] },
+          { name: "bilangan ganjil", seq: [1, 3, 5, 7, 9], f: "2n − 1", d: ["2n", "2n + 1", "n + 2", "3n − 2"] },
+          { name: "bilangan genap", seq: [2, 4, 6, 8, 10], f: "2n", d: ["2n − 1", "2n + 2", "n²", "n + 2"] },
+          { name: "bilangan persegi panjang", seq: [2, 6, 12, 20, 30], f: "n(n + 1)", d: ["n²", "½ n(n + 1)", "2n + 2", "n(n − 1)"] }
+        ];
+        var item = pick(kinds);
+        var correct = Un("n") + " = " + item.f;
+        var o = makeTextOptions(correct, item.d.map(function (d) { return Un("n") + " = " + d; }));
+        return {
+          tag: "Rumus Pola Terkenal",
+          prompt: "Barisan berikut adalah pola <b>" + item.name + "</b>. Apa <b>rumus suku ke-n</b>-nya?",
+          visual: seqTiles(item.seq, false),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Pola " + item.name + " rumusnya " + Un("n") + " = <b>" + item.f + "</b>. Coba cek n = 3: hasilnya harus sama dengan suku ke-3, yaitu " + item.seq[2] + "."
+        };
+      }
+      function q3QuadraticUse() {
+        var c = pick([0, 1, 2, 3]), k = pick([6, 7, 8, 9, 10]);
+        var formula = c === 0 ? "n²" : "n² + " + c;
+        var ans = k * k + c;
+        var o = makeOptions(ans, [(k + 1) * (k + 1) + c, 2 * k + c, ans - 2 * k + 2, k * (k + 1) + c]);
+        return {
+          tag: "Rumus Kuadrat",
+          prompt: "Suatu pola memiliki rumus <b>" + Un("n") + " = " + formula + "</b>. Berapa <b>suku ke-" + k + "</b> pola itu?",
+          visual: formulaBox(Un("n") + " = " + formula),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Ganti n dengan " + k + ": " + k + "²" + (c ? " + " + c : "") + " = " + (k * k) + (c ? " + " + c : "") + " = <b>" + ans + "</b>."
+        };
+      }
+      function q3FromTwoTerms() {
+        var a = rnd(2, 10), b = pick([2, 3, 4, 5]);
+        var U3 = a + 2 * b, U7 = a + 6 * b, k = pick([15, 20]);
+        var ans = a + (k - 1) * b;
+        var o = makeOptions(ans, [a + k * b, U7 + (k - 7) * (b + 1), ans - b, a * k]);
+        return {
+          tag: "Dari Dua Suku",
+          prompt: "Pada suatu barisan aritmetika, suku ke-3 adalah <b>" + U3 + "</b> dan suku ke-7 adalah <b>" + U7 + "</b>. Berapa <b>suku ke-" + k + "</b>?",
+          visual: formulaBox(Un("3") + " = " + U3 + " &nbsp;·&nbsp; " + Un("7") + " = " + U7),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Dari suku ke-3 ke suku ke-7 ada 4 langkah, nilainya naik " + (U7 - U3) + ", jadi beda b = " + (U7 - U3) + " ÷ 4 = " + b + ". Suku pertama a = " + U3 + " − 2 × " + b + " = " + a + ". Maka " + Un(k) + " = " + a + " + " + (k - 1) + " × " + b + " = <b>" + ans + "</b>."
+        };
+      }
+      function q3WhichTerm() {
+        var p = pick([3, 4, 5]), q = rnd(1, 6);
+        var n = pick([9, 11, 12, 13, 14]);
+        var target = p * n + q;
+        var o = makeOptions(n, [n + 2, n - 2, Math.round(target / p), n + 4]);
+        return {
+          tag: "Suku ke Berapa?",
+          prompt: "Barisan dengan rumus <b>" + Un("n") + " = " + fmtLin(p, q) + "</b> memuat bilangan <b>" + target + "</b>. Bilangan itu adalah <b>suku ke berapa</b>?",
+          visual: formulaBox(Un("n") + " = " + fmtLin(p, q)),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Selesaikan " + fmtLin(p, q) + " = " + target + ": " + p + "n = " + target + " − " + q + " = " + (target - q) + ", sehingga n = " + (target - q) + " ÷ " + p + " = <b>" + n + "</b>."
+        };
+      }
+
+      /* ================= LEVEL 4 — Aritmetika & Geometri (cepat) ================= */
+      function q4ArithTerm() {
+        var a = rnd(2, 20), b = pick([2, 3, 4, 5, 6, 7, 8]), n = pick([10, 12, 15, 18, 20, 25]);
+        var ans = a + (n - 1) * b;
+        var o = makeOptions(ans, [a + n * b, a + (n - 1) * (b + 1), ans - a, a * b + n]);
+        return {
+          tag: "Aritmetika",
+          prompt: "Barisan aritmetika: suku pertama <b>" + a + "</b>, beda <b>" + b + "</b>. Berapa <b>suku ke-" + n + "</b>?",
+          visual: formulaBox(Un("n") + " = a + (n − 1)b"),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: Un(n) + " = " + a + " + (" + n + " − 1) × " + b + " = " + a + " + " + ((n - 1) * b) + " = <b>" + ans + "</b>. Ingat: dari suku ke-1 ke suku ke-" + n + " ada " + (n - 1) + " langkah, bukan " + n + "."
+        };
+      }
+      function q4FindBeda() {
+        var a = rnd(1, 12), b = pick([3, 4, 5, 6, 7]);
+        var p = pick([4, 5, 6]), q = pick([9, 11, 13]);
+        var Up = a + (p - 1) * b, Uq = a + (q - 1) * b;
+        var o = makeOptions(b, [b + 1, Math.round((Uq - Up) / q), b - 1, Uq - Up]);
+        return {
+          tag: "Aritmetika",
+          prompt: "Diketahui " + Un(p) + " = <b>" + Up + "</b> dan " + Un(q) + " = <b>" + Uq + "</b> pada barisan aritmetika. Berapa <b>bedanya</b>?",
+          visual: formulaBox(Un(p) + " = " + Up + " &nbsp;·&nbsp; " + Un(q) + " = " + Uq),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Selisih nilai = " + Uq + " − " + Up + " = " + (Uq - Up) + ", terjadi dalam " + q + " − " + p + " = " + (q - p) + " langkah. Beda = " + (Uq - Up) + " ÷ " + (q - p) + " = <b>" + b + "</b>."
+        };
+      }
+      function q4GeoTerm() {
+        var a = pick([2, 3, 4, 5, 6]), r = pick([2, 2, 3]), n = pick([5, 6, 7]);
+        var ans = a * Math.pow(r, n - 1);
+        var o = makeOptions(ans, [a * Math.pow(r, n), a * Math.pow(r, n - 2), ans + a * r, a + Math.pow(r, n - 1)]);
+        return {
+          tag: "Geometri",
+          prompt: "Barisan geometri: suku pertama <b>" + a + "</b>, rasio <b>" + r + "</b>. Berapa <b>suku ke-" + n + "</b>?",
+          visual: formulaBox(Un("n") + " = a × r<sup>n−1</sup>"),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: Un(n) + " = " + a + " × " + r + "<sup>" + (n - 1) + "</sup> = " + a + " × " + Math.pow(r, n - 1) + " = <b>" + ans + "</b>. Pangkatnya n − 1 = " + (n - 1) + ", karena suku pertama belum dikali rasio."
+        };
+      }
+      function q4FindRasio() {
+        var a = pick([2, 3, 4, 6, 8]), r = pick([2, 3, 4]);
+        var seq = [0, 1, 2, 3].map(function (i) { return a * Math.pow(r, i); });
+        var o = makeOptions(r, [r + 1, seq[1] - seq[0], r - 1 > 0 ? r - 1 : r + 2, seq[3] / seq[1]]);
+        return {
+          tag: "Geometri",
+          prompt: "Berapa <b>rasio</b> barisan geometri berikut?",
+          visual: seqTiles(seq, false),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Rasio = suku setelah ÷ suku sebelum: " + seq[1] + " ÷ " + seq[0] + " = <b>" + r + "</b>. Cek: " + seq[2] + " ÷ " + seq[1] + " juga " + r + ". Tetap!"
+        };
+      }
+      function q4Sum() {
+        var a = pick([2, 4, 5, 6, 8, 10]), b = pick([2, 3, 4, 5]), n = pick([8, 10, 12]);
+        var Unv = a + (n - 1) * b;
+        var ans = n / 2 * (a + Unv);
+        var o = makeOptions(ans, [n * a, n / 2 * (a + Unv) + b * n / 2, ans - b * n, (a + Unv) * n]);
+        return {
+          tag: "Deret Aritmetika",
+          prompt: "Jumlah <b>" + n + " suku pertama</b> deret aritmetika dengan suku pertama " + a + " dan beda " + b + " adalah…",
+          visual: formulaBox("S<sub>n</sub> = ½ n (a + " + Un("n") + ")"),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Suku ke-" + n + " = " + a + " + " + (n - 1) + " × " + b + " = " + Unv + ". Jumlah S<sub>" + n + "</sub> = ½ × " + n + " × (" + a + " + " + Unv + ") = <b>" + ans + "</b>."
+        };
+      }
+      function q4StorySeats() {
+        var a = pick([12, 15, 18, 20]), b = pick([2, 3, 4]), row = pick([8, 10, 12]);
+        var ans = a + (row - 1) * b;
+        var o = makeOptions(ans, [a + row * b, a * row, ans + b * 2, a + (row - 1) * (b + 1)]);
+        return {
+          tag: "Soal Cerita",
+          prompt: "Di sebuah aula, baris pertama memuat <b>" + a + " kursi</b>. Setiap baris berikutnya memuat <b>" + b + " kursi lebih banyak</b> dari baris sebelumnya. Berapa kursi pada <b>baris ke-" + row + "</b>?",
+          visual: seqTiles([a, a + b, a + 2 * b], false),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Ini barisan aritmetika dengan a = " + a + ", b = " + b + ". " + Un(row) + " = " + a + " + (" + row + " − 1) × " + b + " = <b>" + ans + " kursi</b>."
+        };
+      }
+      function q4StorySavings() {
+        var a = pick([5, 10, 15, 20]) * 1000, b = pick([2, 5]) * 1000, week = pick([6, 8, 10]);
+        var ans = a + (week - 1) * b;
+        var fmt = function (v) { return "Rp" + v.toLocaleString("id-ID"); };
+        var o0 = makeOptions(ans, [a + week * b, a * week, ans + b]);
+        return {
+          tag: "Soal Cerita",
+          prompt: "Minggu pertama Sinta menabung <b>" + fmt(a) + "</b>. Setiap minggu berikutnya ia menabung <b>" + fmt(b) + " lebih banyak</b> dari minggu sebelumnya. Berapa tabungannya pada <b>minggu ke-" + week + "</b>?",
+          visual: seqTiles([a, a + b, a + 2 * b].map(function (v) { return (v / 1000) + " rb"; }), false),
+          options: o0.options.map(function (s) { return fmt(Number(s)); }),
+          correctIndex: o0.correctIndex,
+          explain: "Barisan aritmetika a = " + fmt(a) + ", b = " + fmt(b) + ". " + Un(week) + " = " + fmt(a) + " + " + (week - 1) + " × " + fmt(b) + " = <b>" + fmt(ans) + "</b>. (Ini tabungan minggu itu saja, bukan total tabungan.)"
+        };
+      }
+      function q4Bacteria() {
+        var a = pick([3, 5, 6, 10]), steps = pick([4, 5, 6]);
+        var ans = a * Math.pow(2, steps);
+        var o = makeOptions(ans, [a * 2 * steps, a * Math.pow(2, steps + 1), a * Math.pow(2, steps - 1), ans + a]);
+        return {
+          tag: "Geometri — Soal Cerita",
+          prompt: "Suatu bakteri membelah menjadi 2 setiap jam. Mula-mula ada <b>" + a + " bakteri</b>. Berapa banyak bakteri setelah <b>" + steps + " jam</b>?",
+          visual: seqTiles([a, a * 2, a * 4], false),
+          options: o.options, correctIndex: o.correctIndex,
+          explain: "Setiap jam jumlahnya dikali 2 (rasio 2). Setelah " + steps + " jam: " + a + " × 2<sup>" + steps + "</sup> = " + a + " × " + Math.pow(2, steps) + " = <b>" + ans + " bakteri</b>."
+        };
+      }
+
+      /* ================= Level definitions ================= */
+      var LEVELS = [
+        {
+          id: 1, name: "Tebak Suku Berikutnya", cls: "lv1",
+          desc: "Pola ganjil, genap, segitiga, persegi, persegi panjang, Fibonacci, prima, dan pola kali tetap.",
+          count: 8, timed: 0,
+          pool: [q1Arithmetic, q1Decreasing, q1Geometric, q1GanjilGenap, q1Triangular, q1Square, q1Rect, q1Fibonacci, q1Prime, q1GrowingDiff]
+        },
+        {
+          id: 2, name: "Pola Gambar & Korek Api", cls: "lv2",
+          desc: "Konfigurasi titik, susunan segitiga dan persegi dari batang korek api, sampai soal cerita meja kantin.",
+          count: 8, timed: 0,
+          pool: [q2MatchTri, q2MatchSquare, function () { return q2Dots("tri"); }, function () { return q2Dots("square"); }, function () { return q2Dots("rect"); }, q2Tables, q2SeparateSquares, q2FindPolaKe]
+        },
+        {
+          id: 3, name: "Rumus Suku ke-n", cls: "lv3",
+          desc: "Menentukan rumus Uₙ dari barisan, memakai rumus untuk mencari suku jauh, dan mencari suku ke berapa suatu bilangan.",
+          count: 8, timed: 0,
+          pool: [q3FindFormula, q3UseFormula, q3KnownPatternFormula, q3QuadraticUse, q3FromTwoTerms, q3WhichTerm]
+        },
+        {
+          id: 4, name: "Aritmetika & Geometri — Adu Cepat", cls: "lv4",
+          desc: "Suku ke-n, beda, rasio, jumlah deret, dan soal cerita. Ada batas waktu 25 detik per soal — bonus untuk yang cepat!",
+          count: 10, timed: 25,
+          pool: [q4ArithTerm, q4FindBeda, q4GeoTerm, q4FindRasio, q4Sum, q4StorySeats, q4StorySavings, q4Bacteria]
+        }
+      ];
+
+      /* ================= State (in-memory saja) ================= */
+      var progress = {}; // levelId -> {stars, best}
+      LEVELS.forEach(function (lv, i) { progress[lv.id] = { stars: 0, best: 0, unlocked: i === 0 }; });
+      var totalScore = 0;
+      var game = null;
+      var timerId = null;
+
+      var $ = function (id) { return document.getElementById(id); };
+
+      function starSvg(filled) {
+        return '<svg viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6L12 16.7 6.6 19.6l1.1-6L3.2 9.4l6.1-.8z" fill="' + (filled ? "#ffc531" : "none") + '" stroke="' + (filled ? "#e0a800" : "#9db3ab") + '" stroke-width="1.6" stroke-linejoin="round"/></svg>';
+      }
+      function heartSvg(alive) {
+        return '<svg viewBox="0 0 24 24"><path d="M12 20.7C6.4 16.9 3 13.6 3 9.9 3 7.2 5.1 5 7.8 5c1.7 0 3.3.9 4.2 2.3C12.9 5.9 14.5 5 16.2 5 18.9 5 21 7.2 21 9.9c0 3.7-3.4 7-9 10.8z" fill="' + (alive ? "#e5484d" : "none") + '" stroke="' + (alive ? "#c23338" : "#9db3ab") + '" stroke-width="1.6" stroke-linejoin="round"/></svg>';
+      }
+      function lockSvg() {
+        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="9" rx="2" fill="currentColor" stroke="none"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
+      }
+
+      /* ================= Home ================= */
+      function renderHome() {
+        $("total-score").textContent = totalScore;
+        var html = "";
+        LEVELS.forEach(function (lv) {
+          var p = progress[lv.id];
+          var stars = "";
+          for (var s = 0; s < 3; s++) stars += starSvg(s < p.stars);
+          html += '<button type="button" class="level-card ' + lv.cls + '" data-level="' + lv.id + '"' + (p.unlocked ? "" : " disabled") + ">" +
+            '<span class="level-top"><span class="level-badge">LEVEL ' + lv.id + '</span><span class="level-stars">' + stars + "</span></span>" +
+            "<h3>" + lv.name + "</h3>" +
+            "<p>" + lv.desc + "</p>" +
+            '<span class="level-meta"><span>' + lv.count + " soal</span><span>3 nyawa</span>" + (lv.timed ? "<span>" + lv.timed + " detik/soal</span>" : "") + (p.best ? "<span>Terbaik: " + p.best + "</span>" : "") + "</span>" +
+            '<span class="level-play">' + (p.unlocked
+              ? '<svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg> ' + (p.stars > 0 ? "Main Lagi" : "Mulai Main")
+              : '<svg viewBox="0 0 24 24" style="width:18px;height:18px">' + lockSvg().replace('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">', "").replace("</svg>", "") + "</svg> Terkunci — selesaikan level sebelumnya") +
+            "</span></button>";
+        });
+        $("level-list").innerHTML = html;
+        Array.prototype.forEach.call(document.querySelectorAll(".level-card"), function (btn) {
+          btn.addEventListener("click", function () { startLevel(Number(btn.getAttribute("data-level"))); });
+        });
+      }
+      function showView(id) {
+        ["view-home", "view-game", "view-result"].forEach(function (v) { $(v).classList.toggle("hidden", v !== id); });
+        window.scrollTo({ top: 0 });
+      }
+
+      /* ================= Game flow ================= */
+      function buildQuestions(lv) {
+        var gens = shuffle(lv.pool);
+        var qs = [];
+        for (var i = 0; i < lv.count; i++) qs.push(gens[i % gens.length]());
+        return qs;
+      }
+      function startLevel(id) {
+        var lv = LEVELS[id - 1];
+        game = {
+          level: lv, questions: buildQuestions(lv), idx: 0,
+          score: 0, lives: 3, correct: 0, streak: 0, answered: false, timeLeft: lv.timed
+        };
+        showView("view-game");
+        renderQuestion();
+      }
+      function stopTimer() { if (timerId) { clearInterval(timerId); timerId = null; } }
+      function startTimer() {
+        stopTimer();
+        if (!game.level.timed) { $("timer-track").classList.add("hidden"); return; }
+        game.timeLeft = game.level.timed;
+        $("timer-track").classList.remove("hidden");
+        var fill = $("timer-fill");
+        fill.style.transition = "none"; fill.style.width = "100%";
+        requestAnimationFrame(function () {
+          fill.style.transition = "width 1s linear";
+        });
+        timerId = setInterval(function () {
+          game.timeLeft -= 1;
+          fill.style.width = Math.max(0, game.timeLeft / game.level.timed * 100) + "%";
+          if (game.timeLeft <= 0) { stopTimer(); onTimeout(); }
+        }, 1000);
+      }
+      function renderHearts() {
+        var html = "";
+        for (var i = 0; i < 3; i++) html += heartSvg(i < game.lives);
+        $("hearts").innerHTML = html;
+      }
+      function renderQuestion() {
+        var q = game.questions[game.idx];
+        game.answered = false;
+        $("q-tag").textContent = "Level " + game.level.id + " · " + q.tag;
+        $("q-prompt").innerHTML = q.prompt;
+        $("q-visual").innerHTML = q.visual || "";
+        $("q-feedback").innerHTML = "";
+        $("game-score").textContent = game.score;
+        $("progress-text").textContent = "Soal " + (game.idx + 1) + " dari " + game.questions.length;
+        $("progress-fill").style.width = (game.idx / game.questions.length * 100) + "%";
+        $("streak-text").textContent = game.streak >= 2 ? "Beruntun benar: " + game.streak + "×" : "";
+        renderHearts();
+        var keys = ["A", "B", "C", "D"];
+        var html = "";
+        q.options.forEach(function (opt, i) {
+          html += '<button type="button" class="opt" data-i="' + i + '"><span class="opt-key">' + keys[i] + '</span><span>' + opt + "</span></button>";
+        });
+        $("q-options").innerHTML = html;
+        Array.prototype.forEach.call(document.querySelectorAll(".opt"), function (btn) {
+          btn.addEventListener("click", function () { answer(Number(btn.getAttribute("data-i"))); });
+        });
+        startTimer();
+      }
+      function lockOptions(chosen) {
+        var q = game.questions[game.idx];
+        Array.prototype.forEach.call(document.querySelectorAll(".opt"), function (btn) {
+          var i = Number(btn.getAttribute("data-i"));
+          btn.disabled = true;
+          if (i === q.correctIndex) btn.classList.add("correct");
+          else if (i === chosen) btn.classList.add("wrong");
+        });
+      }
+      function showFeedback(good, title, extraHtml) {
+        var q = game.questions[game.idx];
+        var last = game.idx === game.questions.length - 1;
+        var dead = game.lives <= 0;
+        $("q-feedback").innerHTML =
+          '<div class="feedback ' + (good ? "good" : "bad") + '">' +
+          '<div class="f-title">' + title + "</div>" +
+          (extraHtml || "") +
+          "<p>" + q.explain + "</p>" +
+          '<button type="button" class="btn ' + (good ? "btn-primary" : "btn-accent") + '" id="btn-next">' +
+          (dead ? "Lihat Hasil" : last ? "Lihat Hasil" : "Soal Berikutnya") + "</button></div>";
+        $("btn-next").addEventListener("click", nextStep);
+        $("btn-next").focus();
+      }
+      function answer(i) {
+        if (!game || game.answered) return;
+        game.answered = true;
+        stopTimer();
+        var q = game.questions[game.idx];
+        lockOptions(i);
+        if (i === q.correctIndex) {
+          game.correct++;
+          game.streak++;
+          var pts = 100 + (game.streak - 1) * 20;
+          var bonusNote = "";
+          if (game.level.timed && game.timeLeft > 0) {
+            var tb = game.timeLeft * 2;
+            pts += tb;
+            bonusNote = ' Termasuk bonus waktu <b>+' + tb + "</b> (" + game.timeLeft + " detik tersisa).";
+          }
+          if (game.streak >= 2) bonusNote += ' <span class="streak-note">Beruntun ' + game.streak + "× benar: bonus beruntun +" + ((game.streak - 1) * 20) + "!</span>";
+          game.score += pts;
+          $("game-score").textContent = game.score;
+          soundGood();
+          showFeedback(true, pick(["Betul! +", "Tepat sekali! +", "Keren! +", "Pintar! +"]) + pts + " poin", bonusNote ? "<p>" + bonusNote + "</p>" : "");
+        } else {
+          game.streak = 0;
+          game.lives--;
+          renderHearts();
+          soundBad();
+          showFeedback(false, game.lives > 0 ? "Yah, kurang tepat. Nyawa tersisa " + game.lives + "." : "Nyawa habis! Jawaban yang benar: " + q.options[q.correctIndex] + ".");
+        }
+      }
+      function onTimeout() {
+        if (!game || game.answered) return;
+        game.answered = true;
+        var q = game.questions[game.idx];
+        game.streak = 0;
+        game.lives--;
+        renderHearts();
+        lockOptions(-1);
+        soundBad();
+        showFeedback(false, game.lives > 0 ? "Waktu habis! Nyawa tersisa " + game.lives + "." : "Waktu habis dan nyawa habis! Jawaban yang benar: " + q.options[q.correctIndex] + ".");
+      }
+      function nextStep() {
+        if (game.lives <= 0 || game.idx >= game.questions.length - 1) { finishLevel(); return; }
+        game.idx++;
+        renderQuestion();
+      }
+
+      /* ================= Result ================= */
+      function confetti() {
+        var box = document.createElement("div");
+        box.className = "confetti";
+        var colors = ["#0e7c66", "#ff8a3d", "#ffc531", "#2fbd97", "#e5484d"];
+        for (var i = 0; i < 60; i++) {
+          var el = document.createElement("i");
+          el.style.left = Math.random() * 100 + "%";
+          el.style.background = colors[i % colors.length];
+          el.style.animationDuration = (1.6 + Math.random() * 1.6) + "s";
+          el.style.animationDelay = (Math.random() * 0.5) + "s";
+          el.style.transform = "rotate(" + rnd(0, 360) + "deg)";
+          box.appendChild(el);
+        }
+        document.body.appendChild(box);
+        setTimeout(function () { box.remove(); }, 4200);
+      }
+      function finishLevel() {
+        stopTimer();
+        var lv = game.level;
+        var survived = game.lives > 0;
+        var stars = 0;
+        if (survived) stars = game.lives === 3 ? 3 : game.lives === 2 ? 2 : 1;
+        var p = progress[lv.id];
+        if (stars > p.stars) p.stars = stars;
+        if (game.score > p.best) p.best = game.score;
+        if (survived && lv.id < LEVELS.length) progress[lv.id + 1].unlocked = true;
+        totalScore = LEVELS.reduce(function (sum, l) { return sum + (progress[l.id].best || 0); }, 0);
+
+        var badge, title, sub;
+        if (survived && stars === 3) { badge = "Ahli Pola"; title = "Sempurna! Level " + lv.id + " Tuntas"; sub = "Semua soal selesai tanpa kehilangan satu nyawa pun. Kamu sudah berpikir seperti pembuat rumus!"; }
+        else if (survived && stars === 2) { badge = "Penakluk Pola"; title = "Hebat! Level " + lv.id + " Tuntas"; sub = "Level selesai dengan sisa 2 nyawa. Main sekali lagi untuk memburu 3 bintang."; }
+        else if (survived) { badge = "Penjelajah Pola"; title = "Berhasil! Level " + lv.id + " Tuntas"; sub = "Kamu lolos dengan sisa 1 nyawa — tipis, tapi sah! Baca lagi pembahasannya supaya makin mantap."; }
+        else { badge = "Jangan Menyerah"; title = "Nyawa Habis di Level " + lv.id; sub = "Tidak apa-apa, pola memang kadang licin. Baca pembahasan tiap soal, lalu coba lagi — level ini tetap terbuka untukmu."; }
+
+        var starHtml = "";
+        for (var s = 0; s < 3; s++) starHtml += starSvg(s < stars);
+        $("result-stars").innerHTML = starHtml;
+        $("result-badge").textContent = badge;
+        $("result-title").textContent = title;
+        $("result-sub").textContent = sub;
+        $("r-score").textContent = game.score;
+        $("r-correct").textContent = game.correct + "/" + game.questions.length;
+        $("r-lives").textContent = Math.max(0, game.lives);
+        $("btn-result-next").classList.toggle("hidden", !(survived && lv.id < LEVELS.length));
+        showView("view-result");
+        if (survived) { soundWin(); confetti(); }
+        renderHome();
+      }
+
+      /* ================= Wire up ================= */
+      $("btn-quit").addEventListener("click", function () { stopTimer(); game = null; showView("view-home"); });
+      $("btn-result-home").addEventListener("click", function () { showView("view-home"); });
+      $("btn-result-retry").addEventListener("click", function () { startLevel(game.level.id); });
+      $("btn-result-next").addEventListener("click", function () { startLevel(game.level.id + 1); });
+      renderHome();
+    </script>
+  </body>
+</html>
