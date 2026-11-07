@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="description" content="Bujang Alap Web — website Hardiansyah Math: profil, materi matematika kelas 8 Kurikulum Merdeka (Bab 4 Relasi dan Fungsi, Bab 5 Persamaan Garis Lurus), game interaktif Pola Bilangan, video Teorema Pythagoras, latihan & kuis, dan kontak." />
+    <meta name="description" content="Bujang Alap Web — website Hardiansyah Math: profil, materi matematika kelas 8 Kurikulum Merdeka (Bab 4 Relasi dan Fungsi, Bab 5 Persamaan Garis Lurus), game interaktif Pola Bilangan, video Teorema Pythagoras, latihan & kuis, tautan CBT Spensateruna (ujian online SMPN 1 Terusan Nunyai), dan kontak." />
     <link rel="icon" href="data:," />
     <title>Bujang Alap Web — Hardiansyah Math</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -493,6 +493,59 @@
       .next-row h3 { font-size: 1.12rem; font-family: inherit; font-weight: 700; }
       .next-row p { margin: 0; font-size: 0.95rem; flex: 1 1 260px; }
 
+      /* ---------- CBT banner ---------- */
+      .cbt-banner {
+        margin-top: 18px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 26px;
+        box-shadow: var(--shadow-sm);
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 22px;
+        align-items: center;
+      }
+      .cbt-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 16px;
+        background: var(--accent-soft);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 auto;
+      }
+      .cbt-banner .tag {
+        display: inline-block;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 3px 10px;
+        border-radius: 999px;
+        margin-bottom: 10px;
+      }
+      @media (prefers-color-scheme: dark) {
+        .cbt-banner .tag { color: #b9d7f7; }
+      }
+      .cbt-banner h3 { font-size: 1.3rem; margin-bottom: 8px; }
+      .cbt-banner p { font-size: 0.96rem; margin: 0; }
+      .cbt-banner .cbt-domain {
+        display: block;
+        margin-top: 10px;
+        font-size: 0.88rem;
+        font-weight: 700;
+        color: var(--ink-faint);
+        word-break: break-all;
+      }
+      @media (max-width: 620px) {
+        .cbt-banner { grid-template-columns: 1fr; gap: 16px; }
+        .cbt-banner .btn { width: 100%; }
+      }
+
       /* ---------- Video ---------- */
       .video-thumb {
         position: relative;
@@ -616,6 +669,7 @@
       }
       .contact-card h3 { font-size: 1.18rem; margin-bottom: 8px; word-break: break-word; }
       .contact-card p { font-size: 0.95rem; margin: 0 0 16px; }
+      .contact-card.contact-wide { grid-column: 1 / -1; }
       .contact-note {
         margin-top: 22px;
         max-width: 44em;
@@ -789,6 +843,7 @@
           <a href="#materi">Materi</a>
           <a href="#video">Video</a>
           <a href="#latihan">Latihan &amp; Kuis</a>
+          <a href="https://cbt-spensateruna.web.id">CBT</a>
           <a href="#kontak">Kontak</a>
           <a class="nav-cta" href="https://github.com/Hardiansyah-math">GitHub</a>
         </div>
@@ -874,7 +929,9 @@
               Dua bab sudah terbit dan bisa dibuka gratis, ditambah satu
               game interaktif dan satu video bab lain. Setiap materi punya
               halamannya sendiri — lengkap dengan penjelasan, alat
-              interaktif, dan latihan di dalamnya.
+              interaktif, dan latihan di dalamnya. Di bawah daftar materi
+              ini juga ada tautan ke CBT Spensateruna, portal ujian online
+              SMPN 1 Terusan Nunyai.
             </p>
           </div>
           <div class="cards">
@@ -1076,6 +1133,29 @@
             </article>
           </div>
 
+          <div class="cbt-banner">
+            <div class="cbt-icon" aria-hidden="true">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#0b63d6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2.5" y="4" width="19" height="13" rx="2" />
+                <path d="M8.5 21h7" />
+                <path d="M12 17v4" />
+                <path d="m9 10.2 2.1 2.1 4-4.2" />
+              </svg>
+            </div>
+            <div>
+              <span class="tag">Ujian Online · SMPN 1 Terusan Nunyai</span>
+              <h3>CBT Spensateruna — Portal Ujian Online</h3>
+              <p>
+                Situs ujian berbasis komputer (CBT) SMPN 1 Terusan Nunyai —
+                tempat siswa mengerjakan ujian dan ASAS secara online.
+                Seperti motto di halaman loginnya: &ldquo;Belajar jujur itu
+                sangat indah.&rdquo;
+              </p>
+              <span class="cbt-domain">cbt-spensateruna.web.id</span>
+            </div>
+            <a class="btn btn-accent" href="https://cbt-spensateruna.web.id">Buka CBT &rarr;</a>
+          </div>
+
           <div class="next-row">
             <span class="next-tag">Segera hadir</span>
             <h3>Bab berikutnya</h3>
@@ -1225,6 +1305,12 @@
               <p>Website Bab 5 berisi video pembelajaran ±10 menit tentang y = mx + c, gradien, dan persamaan garis, plus latihan soal.</p>
               <a class="btn btn-outline" href="https://hardiansyah-math.github.io/PGL/">hardiansyah-math.github.io/PGL</a>
             </article>
+            <article class="contact-card contact-wide">
+              <div class="c-label">Ujian Online</div>
+              <h3>CBT Spensateruna — cbt-spensateruna.web.id</h3>
+              <p>Portal ujian berbasis komputer (CBT) SMPN 1 Terusan Nunyai untuk mengerjakan ujian dan ASAS secara online. Situs ini terpisah dari Bujang Alap Web dan dibuka langsung lewat tautan berikut.</p>
+              <a class="btn btn-outline" href="https://cbt-spensateruna.web.id">Buka cbt-spensateruna.web.id</a>
+            </article>
           </div>
           <p class="contact-note">
             Untuk murid: kalau ada materi yang belum jelas, kerjakan dulu
@@ -1365,6 +1451,7 @@
               <li><a href="https://hardiansyah-math.github.io/PGL/">Bab 5 — Persamaan Garis Lurus</a></li>
               <li><a href="https://bujang-alap-web.my.id/pola-bilangan/">Pola Bilangan — Game</a></li>
               <li><a href="https://bujang-alap-web.my.id/video-pythagoras/">Teorema Pythagoras — Video</a></li>
+              <li><a href="https://cbt-spensateruna.web.id">CBT — Ujian Online SMPN 1 Terusan Nunyai</a></li>
               <li><a href="https://github.com/Hardiansyah-math">GitHub — Hardiansyah-math</a></li>
             </ul>
           </div>
