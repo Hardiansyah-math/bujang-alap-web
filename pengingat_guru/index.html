@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pengingat untuk Guru yang Ingin Memanusiakan Manusia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,400&family=Hanken+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--p:0;color-scheme:dark light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);background:#0E1226}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:#0E1226;font-family:"Hanken Grotesk",system-ui,sans-serif;line-height:1.6}
+.serif,h1,h2,.q,.end blockquote{font-family:"Fraunces",Georgia,serif}
+.hero{position:relative;overflow:hidden;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:4rem 1.25rem 12rem clamp(1.25rem,12vw,10rem);color:#EEF0FA;
+background:
+radial-gradient(2px 2px at 12% 18%,#fff,transparent),radial-gradient(1.5px 1.5px at 78% 12%,#fff,transparent),
+radial-gradient(1.5px 1.5px at 62% 34%,#dfe5ff,transparent),radial-gradient(2px 2px at 90% 58%,#fff,transparent),
+radial-gradient(1.5px 1.5px at 30% 70%,#dfe5ff,transparent),radial-gradient(1.5px 1.5px at 8% 88%,#fff,transparent),#0E1226}
+h1{margin:0;font-size:clamp(2.4rem,9vw,5.5rem);line-height:1.04;font-weight:700;max-width:15ch;letter-spacing:-.01em}
+.sub{margin:1.5rem 0 0;font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:clamp(1.2rem,2.8vw,1.6rem);max-width:30rem;opacity:.9}
+.by{margin:.75rem 0 0;font-size:.95rem;opacity:.7}
+.hint{margin-top:3.5rem;font-size:.95rem;opacity:.6}
+.moon{position:absolute;top:clamp(2rem,9vh,5rem);right:clamp(1.5rem,10vw,9rem);width:clamp(3.5rem,9vw,6rem);aspect-ratio:1;border-radius:50%;box-shadow:inset -.9rem .25rem 0 0 #EEF0FA,0 0 3rem rgba(238,240,250,.25)}
+.hills{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:clamp(8rem,22vh,14rem);display:block}
+.hero>*:not(.hills):not(.moon){position:relative;z-index:1}
+section{--card:rgba(255,255,255,.13);padding:clamp(5rem,12vh,8rem) 1.25rem clamp(3.5rem,9vh,6rem) clamp(1.25rem,12vw,10rem);background:linear-gradient(180deg,var(--from) 0,var(--to) 14%);color:var(--fg)}
+section:nth-of-type(1){--from:#151A33;--to:#151A33;--fg:#EEF0FA}
+section:nth-of-type(2){--from:#151A33;--to:#232A52;--fg:#EEF0FA}
+section:nth-of-type(3){--from:#232A52;--to:#3A3F72;--fg:#F1F1FB}
+section:nth-of-type(4){--from:#3A3F72;--to:#5C4A7A;--fg:#F6F0F8}
+section:nth-of-type(5){--from:#5C4A7A;--to:#8E5A79;--fg:#FFF3F4}
+section:nth-of-type(6){--from:#8E5A79;--to:#C9776F;--fg:#1F0F17}
+section:nth-of-type(7){--from:#C9776F;--to:#F0A97A;--fg:#2B1710}
+section:nth-of-type(8){--from:#F0A97A;--to:#FBE3AE;--fg:#2E2412}
+.inner{max-width:40rem}
+section:nth-of-type(n+6){--card:rgba(0,0,0,.07)}
+section:nth-of-type(even) .inner{margin-left:clamp(0px,9vw,8rem)}
+.n{display:block;font-family:"Fraunces",Georgia,serif;font-size:clamp(5rem,16vw,9rem);line-height:.9;font-weight:700;color:transparent;-webkit-text-stroke:1.5px var(--fg);opacity:.5}
+h2{margin:.25rem 0 1.25rem;font-size:clamp(1.8rem,5.2vw,3.1rem);line-height:1.12;font-weight:600}
+.inner p{margin:0;font-size:clamp(1.05rem,2.2vw,1.25rem);max-width:36rem}
+details{margin-top:1.75rem}
+summary{display:inline-flex;gap:.6rem;align-items:center;cursor:pointer;list-style:none;font-weight:600;border:1.5px solid currentColor;border-radius:999px;padding:.55rem 1.1rem;transition:background .2s}
+summary:hover{background:var(--card)}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:1.25rem;line-height:1}
+details[open] summary::after{content:"\2212"}
+summary:focus-visible{outline:3px solid currentColor;outline-offset:4px}
+.inner p.q{margin-top:1.25rem;font-style:italic;font-size:clamp(1.25rem,3vw,1.6rem);line-height:1.4;background:var(--card);border-radius:16px;padding:1.1rem 1.4rem;backdrop-filter:blur(6px);animation:rise .45s ease-out}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.inner p.q{animation:none}}
+.end{padding:clamp(4rem,10vh,7rem) 1.25rem clamp(4rem,10vh,7rem) clamp(1.25rem,12vw,10rem);background:linear-gradient(180deg,#FBE3AE 0,#FFF3D1 20%);color:#2E2412}
+.end blockquote{margin:0;max-width:20ch;font-size:clamp(1.9rem,6vw,3.6rem);line-height:1.15;font-weight:600}
+.end p{margin:2rem 0 0;font-size:1rem}
+.glow{position:fixed;left:50%;bottom:calc(-34vmin + var(--p)*20vmin);width:min(90vmin,40rem);aspect-ratio:1;transform:translateX(-50%);pointer-events:none;z-index:2;border-radius:50%;background:radial-gradient(circle,rgba(255,244,196,.95) 0,rgba(255,200,120,.7) 32%,rgba(255,160,90,0) 68%);mix-blend-mode:screen;opacity:calc(.1 + var(--p)*.4)}
+.dots{position:fixed;right:1rem;top:50%;transform:translateY(-50%);z-index:3;display:flex;flex-direction:column;gap:.9rem;mix-blend-mode:difference}
+.dots a{display:block;width:.6rem;height:.6rem;border-radius:50%;background:#fff;opacity:.35;transition:opacity .2s,transform .2s}
+.dots a.on{opacity:1;transform:scale(1.6)}
+@media (max-width:40rem){.dots{display:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="moon" aria-hidden="true"></div>
+  <h1>Pengingat untuk Guru yang Ingin Memanusiakan Manusia</h1>
+  <p class="sub">Dari seorang guru untuk sesama guru.</p>
+  <p class="by">Hardiansyah, S.Pd, SMP Negeri 1 Terusan Nunyai</p>
+  <p class="hint">Gulir ke bawah. Fajar akan menyingsing pelan-pelan.</p>
+  <svg class="hills" viewBox="0 0 1440 200" preserveAspectRatio="none" aria-hidden="true"><path d="M0 120 C180 60 320 150 520 100 S900 40 1100 100 S1360 130 1440 80 V200 H0Z" fill="#1B2142"/><path d="M0 160 C220 110 380 190 640 150 S1020 100 1240 150 S1400 170 1440 140 V200 H0Z" fill="#151A33"/></svg>
+</header>
+
+<section><div class="inner"><span class="n">1</span>
+<h2>Murid adalah manusia, bukan angka.</h2>
+<p>Di balik nilai yang rendah, ada anak yang mungkin belum sarapan, kurang tidur, atau sedang takut.</p>
+<details><summary>Renungkan</summary><p class="q">Hari ini, siapa yang saya lihat hanya sebagai nilainya?</p></details></div></section>
+
+<section><div class="inner"><span class="n">2</span>
+<h2>Dengarkan sebelum menilai.</h2>
+<p>Tanyakan “apa yang sedang kamu hadapi?” sebelum “kenapa kamu begini?”</p>
+<details><summary>Renungkan</summary><p class="q">Kapan terakhir kali saya benar-benar mendengar, bukan menunggu giliran bicara?</p></details></div></section>
+
+<section><div class="inner"><span class="n">3</span>
+<h2>Teladan lebih keras daripada nasihat.</h2>
+<p>Murid meniru cara kita bersikap, bukan hanya apa yang kita ucapkan.</p>
+<details><summary>Renungkan</summary><p class="q">Apakah saya sudah melakukan apa yang saya minta dari mereka?</p></details></div></section>
+
+<section><div class="inner"><span class="n">4</span>
+<h2>Hargai proses, bukan hanya hasil.</h2>
+<p>Anak yang naik dari 30 ke 55 sudah berjuang keras, walau belum tuntas.</p>
+<details><summary>Renungkan</summary><p class="q">Usaha siapa yang belum saya apresiasi minggu ini?</p></details></div></section>
+
+<section><div class="inner"><span class="n">5</span>
+<h2>Berani meminta maaf.</h2>
+<p>Satu kalimat “Maaf, tadi Bapak/Ibu keliru” mengajarkan kejujuran lebih baik daripada seribu ceramah.</p>
+<details><summary>Renungkan</summary><p class="q">Adakah murid yang berhak mendapat maaf dari saya?</p></details></div></section>
+
+<section><div class="inner"><span class="n">6</span>
+<h2>Ingat nama dan cerita mereka.</h2>
+<p>Dipanggil dengan nama membuat seorang anak merasa ada.</p>
+<details><summary>Renungkan</summary><p class="q">Berapa murid yang saya kenal lebih dari sekadar nama?</p></details></div></section>
+
+<section><div class="inner"><span class="n">7</span>
+<h2>Rawat diri sendiri.</h2>
+<p>Guru yang kelelahan sulit memberi dengan tulus. Beristirahat bukan kemalasan.</p>
+<details><summary>Renungkan</summary><p class="q">Kapan terakhir kali saya memberi diri sendiri waktu untuk pulih?</p></details></div></section>
+
+<section><div class="inner"><span class="n">8</span>
+<h2>Tetaplah belajar.</h2>
+<p>Guru yang berhenti belajar perlahan berhenti memahami muridnya.</p>
+<details><summary>Renungkan</summary><p class="q">Apa yang baru saya pelajari bulan ini, dari buku, rekan, atau murid?</p></details></div></section>
+
+<footer class="end">
+  <blockquote>Kita tidak sedang mengajar mata pelajaran. Kita sedang mendampingi manusia yang sedang tumbuh.</blockquote>
+  <p>Hardiansyah, S.Pd<br>SMP Negeri 1 Terusan Nunyai</p>
+</footer>
+<div class="glow" aria-hidden="true"></div>
+<script>
+(function(){
+  var r=document.documentElement;
+  function u(){var h=r.scrollHeight-window.innerHeight;r.style.setProperty('--p',h>0?Math.min(1,Math.max(0,window.scrollY/h)):0);}
+  var secs=document.querySelectorAll('section'),nav=document.createElement('nav'),ds=[];
+  nav.className='dots';nav.setAttribute('aria-label','Daftar pengingat');
+  secs.forEach(function(s,i){s.id='p'+(i+1);var a=document.createElement('a');a.href='#p'+(i+1);a.setAttribute('aria-label','Pengingat '+(i+1));nav.appendChild(a);ds.push(a);});
+  document.body.appendChild(nav);
+  function act(){var m=window.innerHeight*.5,k=-1;secs.forEach(function(s,i){if(s.getBoundingClientRect().top<=m)k=i;});ds.forEach(function(a,i){a.classList.toggle('on',i===k);});}
+  function t(){u();act();}
+  window.addEventListener('scroll',t,{passive:true});window.addEventListener('resize',t);t();
+})();
+</script>
+</body>
+</html>
