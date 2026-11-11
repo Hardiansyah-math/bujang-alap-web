@@ -1,122 +1,126 @@
-<!doctype html>
-<html lang="id"><head><meta charset="utf-8">
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Lembar Kerja Pola Bilangan — Pertemuan 3</title>
-<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#1f4e9c"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png">
+<title>Lembar Kerja Spreadsheet Pola – Pertemuan 3</title>
 <style>
-:root{--bg:#f5f7fb;--card:#fff;--tx:#1b2438;--mut:#5a6578;--pri:#1f4e9c;--pt:#fff;--line:#c9d2e3;--inb:#fff6b3;--ok:#0b6b2d;--okb:#d7f3df;--no:#a11a2a;--nob:#fde0e3;--giv:#e8f0fb;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1524;--card:#18203a;--tx:#e9edf8;--mut:#a3adc4;--pri:#7aa7ff;--pt:#0b1226;--line:#34406a;--inb:#4a4320;--ok:#7be0a0;--okb:#173a28;--no:#ff9aa6;--nob:#43202a;--giv:#202b4d}}
-:root[data-theme="dark"]{--bg:#0f1524;--card:#18203a;--tx:#e9edf8;--mut:#a3adc4;--pri:#7aa7ff;--pt:#0b1226;--line:#34406a;--inb:#4a4320;--ok:#7be0a0;--okb:#173a28;--no:#ff9aa6;--nob:#43202a;--giv:#202b4d}
-*{box-sizing:border-box}html{font-size:clamp(16px,1.5vw,22px)}
-body{margin:0;background:var(--bg);color:var(--tx);font-family:Arial,Helvetica,sans-serif;line-height:1.4}
-header{background:var(--pri);color:var(--pt);padding:.8rem 1rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
-header h1{margin:0;font-size:1.35rem}header small{display:block;opacity:.9}
-header .sp{flex:1}.tot{font-weight:700;font-size:1.1rem}
-button,select,input{font:inherit;color:var(--tx)}
-button{min-height:44px;border:2px solid var(--line);background:var(--card);border-radius:10px;padding:.3rem .9rem;cursor:pointer}
-header button{background:transparent;color:var(--pt);border-color:var(--pt)}
-nav{display:flex;gap:.5rem;flex-wrap:wrap;padding:.7rem 1rem}
-nav button.on{background:var(--pri);color:var(--pt);border-color:var(--pri);font-weight:700}
-main{padding:0 1rem 2rem;max-width:1100px;margin:auto}
-.pn{display:none}.pn.on{display:block}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem;margin-bottom:1rem}
-h2{margin:.2rem 0 .4rem;font-size:1.3rem}h3{margin:.2rem 0 .6rem;font-size:1.1rem;color:var(--pri)}
-.mut{color:var(--mut)}
+:root{--bg:#fff7e6;--card:#fff;--ink:#1d2b3a;--mut:#5b6b7b;--line:#cfd8e3;--hd:#e8f1ff;--ok:#12a150;--okb:#dff7e8;--no:#e03a3a;--nob:#ffe3e3;--c1:#ff7a59;--c2:#2f80ed;--c3:#f2b600;--c4:#12a150;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121a26;--card:#1c2736;--ink:#eef3fa;--mut:#a9b7c8;--line:#34465d;--hd:#243a5a;--okb:#14391f;--nob:#472020}}
+:root[data-theme="dark"]{--bg:#121a26;--card:#1c2736;--ink:#eef3fa;--mut:#a9b7c8;--line:#34465d;--hd:#243a5a;--okb:#14391f;--nob:#472020}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;font-size:clamp(16px,1.5vw,22px);padding:12px}
+header{background:linear-gradient(120deg,#ff7a59,#f2b600 55%,#12a150);color:#fff;border-radius:18px;padding:14px 18px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+header h1{margin:0;font-size:1.35em}header small{display:block;opacity:.95}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.tabs button{flex:1 1 150px;border:0;border-radius:14px;padding:12px;font-size:1em;font-weight:700;color:#fff;cursor:pointer;min-height:52px;opacity:.7}
+.tabs button.on{opacity:1;outline:4px solid var(--ink)}
+.card{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:14px;margin-bottom:12px}
+.card h2{margin:0 0 4px;font-size:1.15em}.mut{color:var(--mut)}
 .wrap{overflow-x:auto}
-table{border-collapse:collapse;width:100%}th,td{border:1px solid var(--line);padding:.35rem .5rem;text-align:center}
-th{background:var(--pri);color:var(--pt)}
-input,select{width:100%;min-height:44px;border:2px solid var(--line);border-radius:8px;background:var(--inb);padding:.2rem .5rem;text-align:center;font-weight:700}
-.giv{display:block;background:var(--giv);border-radius:6px;padding:.4rem;font-weight:700}
-.st{font-weight:700;white-space:nowrap}.st.ok{color:var(--ok);background:var(--okb)}.st.no{color:var(--no);background:var(--nob)}
-.row{display:grid;grid-template-columns:minmax(9rem,1fr) minmax(8rem,1.2fr) minmax(8rem,1fr);gap:.5rem;align-items:center;margin-bottom:.5rem}
-.row>span:first-child{font-weight:700}.row .st{padding:.45rem;border-radius:6px;text-align:center}
-.f{font-size:1.2rem;font-weight:700;background:var(--giv);border-radius:10px;padding:.6rem .8rem;margin:.5rem 0}
-.v{font-weight:700;border-radius:10px;padding:.6rem .8rem;margin-top:.6rem}.v.ok{background:var(--okb);color:var(--ok)}.v.no{background:var(--nob);color:var(--no)}
-.bar{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}.key{display:none;margin-top:.6rem;background:var(--giv);border-radius:10px;padding:.6rem .8rem}
-</style></head><body>
-<header><div><h1>Lembar Kerja Pola Bilangan</h1><small>SMP Negeri 1 Terusan Nunyai • Kelas VIII • Pertemuan 3: Isi Tabel Pola &amp; Periksa Rumus • Jawaban tersimpan otomatis di perangkat ini</small></div><span class="sp"></span><span class="tot" id="tot">Skor total: 0 / 92</span><button id="inst" hidden>Pasang aplikasi</button><button id="clr">Hapus semua jawaban</button><button id="th" aria-label="Ganti tema">Tema</button></header>
-<nav id="nav"></nav>
-<main id="main"></main>
+table{border-collapse:collapse;width:100%;min-width:560px}
+th,td{border:1px solid var(--line);padding:6px 8px;text-align:center}
+th{background:var(--hd)}.col th{background:var(--hd);font-weight:400;color:var(--mut);padding:2px}
+td.n{background:var(--hd);font-weight:700;width:12%}
+input{font:inherit;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:10px;padding:8px;min-height:46px}
+td input{width:100%;text-align:center}input:disabled{background:var(--hd);font-weight:700}
+td.ok input,td.ok{background:var(--okb)}td.no input,td.no{background:var(--nob)}
+.fx{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.fx input{flex:1 1 220px;font-size:1.1em}
+.fx b{background:var(--c2);color:#fff;border-radius:10px;padding:10px 12px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.btn{border:0;border-radius:12px;padding:12px 18px;font-size:1em;font-weight:700;color:#fff;cursor:pointer;min-height:50px}
+.msg{margin-top:10px;padding:10px 12px;border-radius:12px;background:var(--hd);min-height:44px}
+.msg.ok{background:var(--okb)}.msg.no{background:var(--nob)}
+.stars{font-size:1.5em;letter-spacing:2px;color:var(--c3)}
+footer{text-align:center;color:var(--mut);font-size:.85em;margin-top:8px}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>Lembar Kerja Spreadsheet: Aturan Umum Pola</h1><small>Matematika SMP · Pertemuan 3 · Isi tabel, temukan rumus, lalu periksa!</small></div>
+  <div style="text-align:right"><b>SMP Negeri 1 Terusan Nunyai</b><small>Guru: Hardiansyah, S.Pd</small></div>
+</header>
+<div class="tabs" id="tabs"></div>
+<div class="card"><h2 id="ttl"></h2><div class="mut" id="dsc"></div></div>
+<div class="card">
+  <div class="wrap"><table id="tb"></table></div>
+  <div class="row">
+    <button class="btn" style="background:var(--c2)" id="chk">Periksa Tabel</button>
+    <button class="btn" style="background:var(--c1)" id="rst">Ulangi</button>
+    <button class="btn" style="background:var(--c4)" id="fs">Layar Penuh</button>
+    <span class="stars" id="st"></span>
+  </div>
+</div>
+<div class="card">
+  <h2>Rumus Suku ke-n</h2>
+  <div class="fx"><b>Un =</b><input id="f" placeholder="contoh: 3n + 1" autocomplete="off" inputmode="text"></div>
+  <div class="mut" style="margin-top:6px">Tulis dengan huruf n. Boleh memakai + − × ÷ dan tanda kurung, misalnya 3n + 1 atau 2(n + 4).</div>
+  <div class="msg" id="fm"></div>
+  <div class="row"><span>Prediksi suku ke-</span><input id="pn" type="number" inputmode="numeric" min="1" value="100" style="width:110px"><b id="pr"></b></div>
+</div>
+<footer>Beda antarsuku dihitung otomatis. Tabel dan rumusmu tersimpan di perangkat ini.</footer>
 <script>
-const S=[
-{j:'A',a:5,b:3,n:20,t:'Soal 1 — Barisan 5, 8, 11, 14, …',d:'Perhatikan barisan bilangan: 5, 8, 11, 14, … Lengkapi suku berikutnya, temukan bedanya, lalu tulis rumus suku ke-n dan ujilah.'},
-{j:'G',a:2,b:3,n:10,t:'Soal 2 — Pertumbuhan Bakteri',d:'Jumlah bakteri pada jam ke-n membentuk barisan 2, 6, 18, 54, … Lengkapi tabel, temukan rasionya, lalu tulis rumus suku ke-n dan ujilah.'},
-{j:'A',a:4,b:3,n:25,t:'Soal 3 — Susunan Batang Korek Api',d:'Batang korek api disusun membentuk deretan persegi: 1 persegi = 4 batang, 2 persegi = 7 batang, 3 persegi = 10 batang, 4 persegi = 13 batang. Lengkapi tabel, lalu temukan rumus banyak batang untuk n persegi.'},
-{j:'G',a:64,b:.5,n:10,t:'Soal 4 — Tinggi Pantulan Bola (cm)',d:'Tinggi maksimum bola pada kejadian ke-n membentuk barisan 64, 32, 16, 8, … Lengkapi tabel, temukan rasionya, lalu tulis rumus suku ke-n dan ujilah.'}];
-const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-const P=v=>{v=String(v==null?'':v).trim().replace(/^=/,'').replace(',','.');if(!v)return null;const m=v.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);if(m)return +m[2]?+m[1]/+m[2]:NaN;return /^-?\d+(\.\d+)?$/.test(v)?+v:NaN};
-const ok=(x,y)=>Math.abs(x-y)<.001,F=x=>String(+(+x).toFixed(6)),ng=b=>b<0?'('+F(b)+')':F(b);
-const T=(j,a,b,n)=>j==='A'?a+(n-1)*b:(n===1?a:a*Math.pow(b,n-1));
-const ft=(j,a,b)=>j==='A'?`Un = ${F(a)} + (n − 1) × ${ng(b)}`:`Un = ${F(a)} × ${ng(b)}^(n − 1)`;
-const set=(e,t,c)=>{e.textContent=t;e.className='st '+(c||'')};
-const chk=(e,v,k)=>{if(v===null){set(e,'');return 0}if(isNaN(v)){set(e,'Isi angka','no');return 0}const r=ok(v,k);set(e,r?'✓ Benar':'✗ Periksa lagi',r?'ok':'no');return r?1:0};
-const sc=[0,0,0,0];
-const inp=(i,id)=>`<input data-s="${i}" id="${id}" inputmode="decimal" autocomplete="off" aria-label="${id}">`;
-function panel(i){const s=S[i];let r='',u='';
-for(let n=1;n<=8;n++){const g=n<=4;
-r+=`<tr><td>${n}</td><td>${g?`<span class="giv">${F(T(s.j,s.a,s.b,n))}</span>`:inp(i,`u${i}_${n}`)}</td><td>${n===1?'—':inp(i,`d${i}_${n}`)}</td><td id="cu${i}_${n}" class="st">${g?'Diketahui':''}</td><td id="cd${i}_${n}" class="st">${n===1?'—':''}</td></tr>`;
-u+=`<tr><td>${n}</td><td>${F(T(s.j,s.a,s.b,n))}</td><td id="r${i}_${n}"></td><td id="t${i}_${n}" class="st"></td></tr>`}
-const lb=s.j==='A'?'Beda (Un − U(n−1))':'Rasio (Un ÷ U(n−1))';
-return `<section class="pn" id="p${i}"><div class="card"><h2>${s.t} <span class="mut" id="sc${i}"></span></h2><p>${s.d}</p>
-<div class="bar"><button data-k="${i}">Tampilkan / sembunyikan kunci</button><button data-r="${i}">Ulangi dari awal</button></div><div class="key" id="k${i}"><b>Kunci:</b> ${s.j==='A'?'Aritmetika':'Geometri'}, a = ${F(s.a)}, ${s.j==='A'?'b':'r'} = ${F(s.b)} → ${ft(s.j,s.a,s.b)}; U${s.n} = ${F(T(s.j,s.a,s.b,s.n))}</div></div>
-<div class="card"><h3>A. Lengkapi tabel pola</h3><div class="wrap"><table><tr><th>n</th><th>Un</th><th>${lb}</th><th>Cek Un</th><th>Cek ${s.j==='A'?'beda':'rasio'}</th></tr>${r}</table></div></div>
-<div class="card"><h3>B. Tuliskan rumus suku ke-n</h3>
-<div class="row"><span>Jenis barisan</span><select data-s="${i}" id="j${i}"><option value="">— pilih —</option><option value="A">Aritmetika</option><option value="G">Geometri</option></select><span class="st" id="cj${i}"></span></div>
-<div class="row"><span>Suku pertama (a)</span>${inp(i,'a'+i)}<span class="st" id="ca${i}"></span></div>
-<div class="row"><span>Beda (b) / Rasio (r)</span>${inp(i,'b'+i)}<span class="st" id="cb${i}"></span></div>
-<div class="f" id="ft${i}">(isi jenis, a, dan beda/rasio di atas)</div></div>
-<div class="card"><h3>C. Uji rumusmu pada semua suku</h3><div class="wrap"><table><tr><th>n</th><th>Un sebenarnya</th><th>Un menurut rumusmu</th><th>Status</th></tr>${u}</table></div><div class="v" id="vv${i}"></div></div>
-<div class="card"><h3>D. Tantangan</h3><div class="row"><span>Tentukan suku ke-${s.n} (U${s.n})</span>${inp(i,'c'+i)}<span class="st" id="cc${i}"></span></div></div></section>`}
-function panelX(){let h='',t='';
-for(let n=1;n<=8;n++){h+=`<tr><td>${n}</td><td>${inp('x','x'+n)}</td><td id="dx${n}"></td><td id="rx${n}"></td><td id="gx${n}"></td><td id="sx${n}" class="st"></td></tr>`}
-return `<section class="pn" id="px"><div class="card"><h2>Periksa Pola &amp; Rumus (Bebas)</h2><p>Ketik barisan bilanganmu (minimal 3 suku berurutan mulai U1). Aplikasi mendeteksi jenis pola dan rumusnya, lalu ujilah tebakan rumusmu. Contoh bawaan boleh kamu timpa.</p></div>
-<div class="card"><div class="wrap"><table><tr><th>n</th><th>Un</th><th>Beda</th><th>Rasio</th><th>Un menurut tebakanmu</th><th>Status</th></tr>${h}</table></div>
-<div class="f" id="det"></div></div>
-<div class="card"><h3>Tebakan rumusmu</h3>
-<div class="row"><span>Jenis barisan</span><select data-s="x" id="xj"><option value="">— pilih —</option><option value="A" selected>Aritmetika</option><option value="G">Geometri</option></select><span></span></div>
-<div class="row"><span>Suku pertama (a)</span>${inp('x','xa')}<span></span></div>
-<div class="row"><span>Beda (b) / Rasio (r)</span>${inp('x','xb')}<span></span></div>
-<div class="v" id="vx"></div></div></section>`}
-function upd(i){const s=S[i];let c=0;
-for(let n=5;n<=8;n++)c+=chk($(`#cu${i}_${n}`),P($(`#u${i}_${n}`).value),T(s.j,s.a,s.b,n));
-for(let n=2;n<=8;n++)c+=chk($(`#cd${i}_${n}`),P($(`#d${i}_${n}`).value),s.b);
-const j=$(`#j${i}`).value,a=P($(`#a${i}`).value),b=P($(`#b${i}`).value);
-const cj=$(`#cj${i}`);if(!j)set(cj,'');else{const r=j===s.j;set(cj,r?'✓ Benar':'✗ Periksa lagi',r?'ok':'no');c+=r?1:0}
-c+=chk($(`#ca${i}`),a,s.a)+chk($(`#cb${i}`),b,s.b);
-const full=j&&a!==null&&b!==null&&!isNaN(a)&&!isNaN(b);let m=0;
-$(`#ft${i}`).textContent=full?ft(j,a,b):'(isi jenis, a, dan beda/rasio di atas)';
-for(let n=1;n<=8;n++){const e=$(`#r${i}_${n}`),t=$(`#t${i}_${n}`);if(!full){e.textContent='';set(t,'');continue}
-const v=T(j,a,b,n),r=ok(v,T(s.j,s.a,s.b,n));e.textContent=F(v);set(t,r?'✓ Cocok':'✗ Tidak cocok',r?'ok':'no');m+=r?1:0}
-const vv=$(`#vv${i}`);if(!full){vv.textContent='Isi jenis, a, dan beda/rasio dulu untuk menguji rumusmu.';vv.className='v'}else{vv.textContent=m===8?'✓ Rumusmu BENAR: cocok untuk semua 8 suku.':`✗ Rumusmu belum tepat: baru ${m} dari 8 suku yang cocok.`;vv.className='v '+(m===8?'ok':'no')}
-c+=m;c+=chk($(`#cc${i}`),P($(`#c${i}`).value),T(s.j,s.a,s.b,s.n));
-sc[i]=c;$(`#sc${i}`).textContent=`(skor ${c} / 23)`;$(`#tb${i}`).textContent=`${s.t.split(' — ')[0]} • ${c}`;
-$('#tot').textContent=`Skor total: ${sc.reduce((x,y)=>x+y)} / 92`}
-function updX(){const t=[];for(let n=1;n<=8;n++){const v=P($('#x'+n).value);t.push(v===null||isNaN(v)?null:v)}
-let cnt=0;while(cnt<8&&t[cnt]!==null)cnt++;const d=[],q=[];
-for(let n=2;n<=8;n++){const e=$('#dx'+n),g=$('#rx'+n);const ok2=n<=cnt;e.textContent=ok2?F(t[n-1]-t[n-2]):'';g.textContent=ok2&&t[n-2]!==0?F(t[n-1]/t[n-2]):'';if(ok2){d.push(t[n-1]-t[n-2]);q.push(t[n-2]!==0?t[n-1]/t[n-2]:NaN)}}
-const eq=z=>z.length>=2&&z.every(x=>!isNaN(x)&&Math.abs(x-z[0])<1e-6);let det='Isi minimal 3 suku berurutan mulai U1.';
-if(cnt>=3){if(eq(d)){const b=d[0],a=t[0];det=`Aritmetika (beda = ${F(b)}) → ${ft('A',a,b)}  atau  Un = ${F(b)}n ${a-b<0?'−':'+'} ${F(Math.abs(a-b))}`}
-else if(eq(q)){det=`Geometri (rasio = ${F(q[0])}) → ${ft('G',t[0],q[0])}`}else det='Bukan barisan aritmetika maupun geometri. Coba cari pola lain.'}
-$('#det').textContent=det;
-const j=$('#xj').value,a=P($('#xa').value),b=P($('#xb').value),full=j&&a!==null&&b!==null&&!isNaN(a)&&!isNaN(b);let bad=0,n0=0;
-for(let n=1;n<=8;n++){const g=$('#gx'+n),s=$('#sx'+n);if(!full){g.textContent='';set(s,'');continue}const v=T(j,a,b,n);g.textContent=F(v);
-if(t[n-1]===null){set(s,'');continue}n0++;const r=ok(v,t[n-1]);set(s,r?'✓ Cocok':'✗ Tidak cocok',r?'ok':'no');if(!r)bad++}
-const v=$('#vx');if(!n0){v.textContent='Isi barisan di tabel dulu.';v.className='v'}else if(!full){v.textContent='Isi jenis, a, dan beda/rasio untuk menguji rumus.';v.className='v'}
-else{v.textContent=bad?`✗ Ada ${bad} suku yang tidak cocok. Periksa lagi a dan beda/rasio-nya.`:'✓ Rumusmu cocok untuk semua suku yang kamu isi.';v.className='v '+(bad?'no':'ok')}}
-$('#main').innerHTML=S.map((s,i)=>panel(i)).join('')+panelX();
-$('#nav').innerHTML=S.map((s,i)=>`<button data-t="p${i}" id="tb${i}">${s.t.split(' — ')[0]} • 0</button>`).join('')+'<button data-t="px">Periksa Pola (bebas)</button>';
-const KEY='pola-p3-v1',exDef=()=>{[3,7,11,15,19,'','',''].forEach((v,n)=>$('#x'+(n+1)).value=v);$('#xj').value='A';$('#xa').value=3;$('#xb').value=4};
-const sv=()=>{try{const o={};$$('[data-s]').forEach(x=>o[x.id]=x.value);localStorage.setItem(KEY,JSON.stringify(o))}catch(e){}};
-exDef();try{const o=JSON.parse(localStorage.getItem(KEY)||'{}');Object.keys(o).forEach(k=>{const e=document.getElementById(k);if(e&&e.dataset.s!=null)e.value=o[k]})}catch(e){}
-document.addEventListener('input',e=>{const i=e.target.dataset&&e.target.dataset.s;if(i==null)return;i==='x'?updX():upd(+i);sv()});
-document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
-if(b.dataset.t){$$('.pn').forEach(p=>p.classList.toggle('on',p.id===b.dataset.t));$$('nav button').forEach(x=>x.classList.toggle('on',x===b))}
-if(b.dataset.k!=null){const k=$('#k'+b.dataset.k);k.style.display=k.style.display==='block'?'none':'block'}
-if(b.dataset.r!=null){const i=b.dataset.r;$$(`[data-s="${i}"]`).forEach(x=>x.value='');upd(+i);sv()}
-if(b.id==='th'){const r=document.documentElement,d=matchMedia('(prefers-color-scheme: dark)').matches;const cur=r.dataset.theme||(d?'dark':'light');r.dataset.theme=cur==='dark'?'light':'dark'}
-if(b.id==='clr'){if(!b.dataset.a){b.dataset.a=1;b.textContent='Yakin? Ketuk lagi';setTimeout(()=>{delete b.dataset.a;b.textContent='Hapus semua jawaban'},3000)}else{delete b.dataset.a;b.textContent='Hapus semua jawaban';$$('[data-s]').forEach(x=>x.value='');exDef();S.forEach((s,i)=>upd(i));updX();sv()}}
-if(b.id==='inst'&&dp){dp.prompt();dp=null;b.hidden=true}});
-S.forEach((s,i)=>upd(i));updX();$('nav button').click();
-let dp=null;addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;$('#inst').hidden=false});
-if('serviceWorker' in navigator&&/^https?:/.test(location.protocol))navigator.serviceWorker.register('sw.js').catch(()=>{});
-</script></body></html>
+const S={
+ stik:{t:'Persegi berderet dari stik es krim',d:'Susunan ke-n berisi n persegi yang berderet. Hitung banyak stik pada setiap susunan. Petunjuk: tiap persegi baru menambah beberapa stik.',g:3,k:n=>3*n+1,c:'#ff7a59',l:'Stik es krim'},
+ celengan:{t:'Saldo celengan Rani (Rp)',d:'Rani menabung Rp2.000 setiap hari. Isi saldo pada hari ke-n lalu cari rumusnya.',g:2,k:n=>2000*n,c:'#2f80ed',l:'Celengan'},
+ aula:{t:'Kursi pada baris ke-n di aula',d:'Baris pertama 10 kursi dan setiap baris berikutnya bertambah 2 kursi. Isi banyak kursi pada tiap baris.',g:2,k:n=>2*n+8,c:'#f2b600',l:'Kursi aula'},
+ segitiga:{t:'Stik pada segitiga berderet',d:'Segitiga disusun berderet dengan sisi bersama. Susunan ke-1 butuh 3 stik, ke-2 butuh 5 stik. Temukan pola dan rumusnya.',g:2,k:n=>2*n+1,c:'#12a150',l:'Segitiga'}
+};
+const $=id=>document.getElementById(id),N=10;
+let cur=S[location.hash.slice(1)]?location.hash.slice(1):'stik',checked=false,st={};
+try{st=JSON.parse(localStorage.getItem('lkpola')||'{}')}catch(e){}
+const get=()=>st[cur]||(st[cur]={v:Array(N).fill(''),f:''});
+const save=()=>{try{localStorage.setItem('lkpola',JSON.stringify(st))}catch(e){}};
+function parse(f){
+ let e=f.toLowerCase().replace(/\s+/g,'').replace(/[×x*]/g,'*').replace(/[÷:]/g,'/').replace(/[−–]/g,'-').replace(/,/g,'.').replace(/^(un|u\(n\))?=/,'');
+ if(!e||!/^[0-9n+\-*\/().^]+$/.test(e))return null;
+ e=e.replace(/(\d|\))(?=n|\()/g,'$1*').replace(/n(?=\d|\(|n)/g,'n*').replace(/\)(?=\d)/g,')*').replace(/\^/g,'**');
+ try{const fn=new Function('n','return '+e);const r=fn(1);return typeof r==='number'&&isFinite(r)?fn:null}catch(x){return null}
+}
+function tabs(){
+ $('tabs').innerHTML='';
+ Object.keys(S).forEach(k=>{const b=document.createElement('button');b.textContent=S[k].l;b.style.background=S[k].c;if(k===cur)b.className='on';b.onclick=()=>{cur=k;checked=false;location.hash=k;draw()};$('tabs').appendChild(b)});
+}
+function draw(){
+ const s=S[cur],a=get();tabs();$('ttl').textContent=s.t;$('dsc').textContent=s.d;$('f').value=a.f;
+ let h='<tr class="col"><th></th><th>A</th><th>B</th><th>C</th><th>D</th></tr><tr><th>n</th><th>Isi data</th><th>Beda</th><th>Hasil rumus</th><th>Cek rumus</th></tr>';
+ for(let i=0;i<N;i++){
+  const n=i+1,gv=i<s.g;if(gv)a.v[i]=String(s.k(n));
+  h+=`<tr><td class="n">${n}</td><td data-i="${i}"><input ${gv?'disabled':''} inputmode="numeric" value="${a.v[i]}" data-i="${i}"></td><td id="b${i}"></td><td id="c${i}"></td><td id="d${i}"></td></tr>`;
+ }
+ $('tb').innerHTML=h;
+ $('tb').querySelectorAll('input').forEach(inp=>inp.oninput=()=>{a.v[+inp.dataset.i]=inp.value.replace(/[^\d.\-]/g,'');save();upd()});
+ upd();
+}
+function upd(){
+ const s=S[cur],a=get(),fn=parse(a.f);let good=0;
+ for(let i=0;i<N;i++){
+  const n=i+1,v=a.v[i],has=v!==''&&!isNaN(+v),td=document.querySelector(`td[data-i="${i}"]`);
+  $('b'+i).textContent=(i>0&&has&&a.v[i-1]!==''&&!isNaN(+a.v[i-1]))?(+v-(+a.v[i-1])):'';
+  const r=fn?fn(n):null;$('c'+i).textContent=r!==null&&isFinite(r)?+r.toFixed(4):'';
+  const dc=$('d'+i);dc.className='';dc.textContent='';
+  if(fn&&has){const m=Math.abs(r-(+v))<1e-9;dc.textContent=m?'✓':'✗';dc.className=m?'ok':'no'}
+  td.className='';
+  if(has&&+v===s.k(n)){good++;if(checked)td.className='ok'}else if(has&&checked)td.className='no';
+ }
+ const fok=fn&&Array.from({length:30},(_,j)=>Math.abs(fn(j+1)-s.k(j+1))<1e-9).every(Boolean);
+ const m=$('fm');m.className='msg';
+ if(!a.f.trim())m.textContent='Isi tabel dulu, lihat kolom Beda, lalu tuliskan rumusmu.';
+ else if(!fn)m.textContent='Rumus belum bisa dibaca. Pakai huruf n, angka, dan tanda + − × ÷.';
+ else if(fok){m.className='msg ok';m.textContent='Hebat! Rumusmu tepat untuk semua susunan. Coba prediksi suku yang jauh di bawah.'}
+ else{m.className='msg no';m.textContent='Rumusmu belum cocok dengan pola. Lihat kolom Cek rumus dan kolom Beda, lalu perbaiki.'}
+ const stars=Math.min(3,Math.floor(good/(N/3)))+(fok?0:0);
+ $('st').textContent='★'.repeat(good>=N?2:good>=N/2?1:0)+(fok&&good>=N?'★':'')+'☆'.repeat(3-((good>=N?2:good>=N/2?1:0)+(fok&&good>=N?1:0)));
+ const p=+$('pn').value,pr=$('pr');
+ pr.textContent=fn&&p>0?'U'+p+' = '+(+fn(p).toFixed(4)).toLocaleString('id-ID'):'';
+}
+$('f').oninput=e=>{get().f=e.target.value;save();upd()};
+$('pn').oninput=upd;
+$('chk').onclick=()=>{checked=true;upd()};
+$('rst').onclick=()=>{st[cur]={v:Array(N).fill(''),f:''};checked=false;save();draw()};
+$('fs').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+window.addEventListener('hashchange',()=>{const k=location.hash.slice(1);if(S[k]&&k!==cur){cur=k;checked=false;draw()}});
+draw();
+</script>
+</body>
+</html>
