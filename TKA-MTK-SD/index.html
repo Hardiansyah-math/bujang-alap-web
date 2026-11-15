@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CBT TKA SD 2027 - Matematika</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f6fa;--cd:#fff;--tx:#18212f;--mu:#566174;--ln:#d3dae6;--no:#b3261e;--ok:#17703f;--ac:#2459b8;--at:#fff;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10151d;--cd:#1a222d;--tx:#e8edf5;--mu:#98a4b7;--ln:#2e3846;--no:#ff8f82;--ok:#5ed39a;--ac:#8ab4ff;--at:#0b1118;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#10151d;--cd:#1a222d;--tx:#e8edf5;--mu:#98a4b7;--ln:#2e3846;--no:#ff8f82;--ok:#5ed39a;--ac:#8ab4ff;--at:#0b1118;color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 Nunito,"Segoe UI",system-ui,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--cd);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 16px;background:var(--cd);border-bottom:1px solid var(--ln)}
+header b{display:block}header small{color:var(--mu)}
+.tm{font-weight:800;font-size:1.3rem;font-variant-numeric:tabular-nums;color:var(--ac)}.tm.lo{color:var(--no)}
+.wrap{max-width:1040px;margin:0 auto;padding:14px}.hero{max-width:680px}
+.cd{background:var(--cd);border:1px solid var(--ln);border-radius:12px;padding:16px;margin-bottom:12px}
+.g{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:14px;align-items:start}
+@media(max-width:760px){.g{grid-template-columns:minmax(0,1fr)}}
+h1{font-size:1.8rem;line-height:1.2;margin:.2em 0}h2,h3{margin:.2em 0 .5em}
+.st{border-left:5px solid var(--ac)}.st p{max-width:70ch}
+.nq{color:var(--mu);margin:0 0 4px;font-weight:600}.q{font-size:1.1rem;font-weight:600;margin:.2em 0 .4em}.hint{color:var(--mu);font-size:.9rem;margin:0 0 6px}
+button{font:inherit;color:var(--tx)}button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--ac);outline-offset:2px}button:disabled{opacity:.45;cursor:default}
+.op{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;padding:10px 12px;margin:8px 0;border:1.5px solid var(--ln);border-radius:10px;background:var(--cd);cursor:pointer}
+.op b{flex:none;width:28px;height:28px;border-radius:50%;border:1.5px solid var(--ln);display:grid;place-items:center;font-size:.9rem}.op.m b{border-radius:6px}
+.op.s{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 13%,transparent)}.op.s b{background:var(--ac);color:var(--at);border-color:var(--ac)}
+.kr{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 0;border-bottom:1px solid var(--ln)}.kt{grid-column:1/-1}
+.kb{padding:8px;border:1.5px solid var(--ln);border-radius:8px;background:var(--cd);cursor:pointer;font-weight:600}.kb.s{background:var(--ac);color:var(--at);border-color:var(--ac)}
+.ct{display:flex;gap:8px;flex-wrap:wrap}
+.pr,.sc2{padding:10px 18px;border-radius:10px;font-weight:800;cursor:pointer;border:1.5px solid var(--ac)}.pr{background:var(--ac);color:var(--at)}.sc2{background:var(--cd)}.w{width:100%;margin-top:10px}
+input{width:100%;padding:10px;margin:4px 0 14px;border:1.5px solid var(--ln);border-radius:8px;background:var(--bg);color:var(--tx);font:inherit}
+.ng{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.nb{aspect-ratio:1;border:1.5px solid var(--ln);border-radius:8px;background:var(--cd);cursor:pointer;font-weight:700;padding:0;position:relative}
+.nb.on{background:var(--ac);color:var(--at);border-color:var(--ac)}.nb.cu{outline:3px solid var(--tx);outline-offset:1px}
+.nb.fg::after{content:"?";position:absolute;top:-6px;right:-4px;background:#f2b705;color:#111;border-radius:50%;width:16px;height:16px;font-size:.7rem;line-height:16px}
+.lg{font-size:.85rem;color:var(--mu);margin:10px 0 0}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.1;font-size:.9em;margin:0 2px}.fr i{font-style:normal;padding:0 3px;border-bottom:1.5px solid currentColor}.fr u{text-decoration:none}
+.ch{display:flex;align-items:flex-end;gap:10px;height:200px;padding-top:8px;border-bottom:2px solid var(--ln);max-width:460px}
+.cb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}.cb i{width:100%;background:var(--ac);border-radius:6px 6px 0 0}.cb b{font-size:.9rem}.cl{display:flex;gap:10px;max-width:460px;font-size:.8rem;color:var(--mu)}.cl span{flex:1;text-align:center}
+table{border-collapse:collapse}th,td{border:1px solid var(--ln);padding:6px 12px;text-align:center}th{background:color-mix(in srgb,var(--ac) 14%,transparent)}
+.big{font-size:4rem;font-weight:800;color:var(--ac);line-height:1}.bd{display:flex;justify-content:space-between;margin-top:10px}.pb{height:8px;background:var(--ln);border-radius:4px}.pb i{display:block;height:100%;background:var(--ac);border-radius:4px}
+.rv summary{cursor:pointer;font-weight:700}.rv summary.ok{color:var(--ok)}.rv summary.no{color:var(--no)}
+</style></head><body><div id="app"></div><script>
+const CFG={mapel:"Matematika",dur:75,dm:["Bilangan","Geometri dan Pengukuran","Data"],info:"Hampir semua soal berbentuk soal cerita. Tulis dulu yang diketahui dan ditanyakan, lalu cek ulang jawabanmu."};
+const DATA={S:[
+{j:"Diagram batang: buku yang terjual di koperasi sekolah",x:"Gunakan diagram berikut untuk soal nomor 24 sampai 27. Angka di atas batang menunjukkan banyak buku yang terjual.",ch:[["Senin","Selasa","Rabu","Kamis","Jumat"],[20,35,25,40,30]]},
+{j:"Tabel nilai ulangan 20 siswa",x:"Gunakan tabel berikut untuk soal nomor 28 dan 29.",tb:[["Nilai","6","7","8","9","10"],[["Banyak siswa","3","5","7","4","1"]]]}],
+Q:[
+{t:"s",d:0,q:"Urutan bilangan dari yang terkecil ke yang terbesar adalah …",o:["65% &lt; 2/3 &lt; 0,7 &lt; 3/4","2/3 &lt; 65% &lt; 0,7 &lt; 3/4","0,7 &lt; 65% &lt; 2/3 &lt; 3/4","3/4 &lt; 0,7 &lt; 2/3 &lt; 65%"],a:0},
+{t:"s",d:0,q:"Bu Dewi membeli 2 1/2 kg gula. Sebanyak 3/4 kg dipakai untuk membuat kue dan 1 1/4 kg untuk membuat sirup. Sisa gula Bu Dewi adalah …",o:["1/2 kg","3/4 kg","1 kg","1 1/4 kg"],a:0},
+{t:"s",d:0,q:"Lampu merah berkedip setiap 6 detik dan lampu kuning setiap 8 detik. Pada detik ke-0 keduanya berkedip bersama. Keduanya akan berkedip bersama lagi untuk pertama kalinya pada detik ke-…",o:["12","24","36","48"],a:1},
+{t:"s",d:0,q:"Pak Dedi memiliki 36 jeruk dan 48 apel. Buah itu dimasukkan ke dalam kantong dengan isi jeruk dan apel yang sama banyak di setiap kantong. Banyak kantong paling banyak yang dapat dibuat adalah …",o:["6 kantong","8 kantong","12 kantong","24 kantong"],a:2},
+{t:"m",d:0,q:"Bentuk berikut yang nilainya sama dengan 0,6 adalah …",o:["3/5","6/100","60%","12/20","2/3"],a:[0,2,3]},
+{t:"k",d:0,q:"Perhatikan bilangan 12 dan 18. Tentukan Benar atau Salah setiap pernyataan berikut.",st:[["FPB dari 12 dan 18 adalah 6.",1],["KPK dari 12 dan 18 adalah 36.",1],["24 adalah kelipatan persekutuan dari 12 dan 18.",0],["3 adalah faktor persekutuan dari 12 dan 18.",1]]},
+{t:"s",d:0,q:"Ibu menyimpan 12,5 kg beras. Setiap hari Ibu memasak 0,5 kg beras. Beras itu akan habis dalam …",o:["20 hari","24 hari","25 hari","30 hari"],a:2},
+{t:"s",d:0,q:"Harga satu buku tulis Rp4.500. Bu Rina membeli 12 buku dan membayar dengan uang Rp100.000. Uang kembalian Bu Rina adalah …",o:["Rp44.000","Rp46.000","Rp54.000","Rp56.000"],a:1},
+{t:"s",d:0,q:"Dina menabung 1/4 dari uang sakunya setiap hari. Uang saku Dina Rp12.000 per hari. Tabungan Dina selama 5 hari adalah …",o:["Rp12.000","Rp15.000","Rp18.000","Rp20.000"],a:1},
+{t:"m",d:0,q:"Bilangan yang terletak di antara 0,25 dan 0,5 adalah …",o:["0,3","1/3","40%","3/5","0,5"],a:[0,1,2]},
+{t:"s",d:0,q:"Sebuah tangki terisi 2/3 bagian dan berisi 120 liter air. Kapasitas tangki tersebut adalah …",o:["160 liter","180 liter","200 liter","240 liter"],a:1},
+{t:"s",d:0,q:"Hasil dari 3/5 + 0,25 − 20% adalah …",o:["0,55","0,65","0,75","0,85"],a:1},
+{t:"s",d:1,q:"Kebun berbentuk persegi panjang dengan panjang 24 m dan lebar 15 m akan dipagari kawat satu kali keliling. Panjang kawat yang dibutuhkan paling sedikit …",o:["39 m","78 m","98 m","360 m"],a:1},
+{t:"s",d:1,q:"Sebuah taman terdiri atas persegi panjang berukuran 12 m × 8 m dan persegi bersisi 5 m yang menempel di salah satu sisinya tanpa tumpang tindih. Luas taman itu adalah …",o:["96 m²","101 m²","121 m²","140 m²"],a:2},
+{t:"s",d:1,q:"Roda sepeda berbentuk lingkaran dengan jari-jari 14 cm. Keliling roda tersebut (π = 22/7) adalah …",o:["44 cm","88 cm","154 cm","616 cm"],a:1},
+{t:"s",d:1,q:"Selembar kain berbentuk segitiga memiliki alas 20 cm dan tinggi 9 cm. Luas kain itu adalah …",o:["29 cm²","60 cm²","90 cm²","180 cm²"],a:2},
+{t:"s",d:1,q:"Pak Budi mengendarai motor dengan kecepatan tetap 45 km/jam. Ia berangkat pukul 07.30 dan tiba pukul 10.00. Jarak yang ditempuh Pak Budi adalah …",o:["90 km","100 km","112,5 km","135 km"],a:2},
+{t:"s",d:1,q:"Sebuah mobil menempuh jarak 90 km dalam waktu 1,5 jam. Kecepatan rata-rata mobil itu adalah …",o:["45 km/jam","60 km/jam","75 km/jam","135 km/jam"],a:1},
+{t:"s",d:1,q:"Akuarium berbentuk balok berukuran panjang 50 cm, lebar 30 cm, dan tinggi 40 cm. Akuarium diisi air sampai 3/4 bagian. Volume air dalam akuarium adalah … (1 liter = 1.000 cm³)",o:["30 liter","45 liter","48 liter","60 liter"],a:1},
+{t:"m",d:1,q:"Sebuah kubus memiliki panjang rusuk 6 cm. Pernyataan yang benar tentang kubus tersebut adalah …",o:["Volumenya 216 cm³","Luas permukaannya 216 cm²","Memiliki 12 rusuk","Memiliki 8 sisi","Jumlah panjang seluruh rusuknya 48 cm"],a:[0,1,2]},
+{t:"k",d:1,q:"Tentukan Benar atau Salah setiap perubahan satuan berikut.",st:[["2,5 m = 250 cm",1],["3 kg = 3.000 gram",1],["1,5 jam = 120 menit",0],["4 liter = 400 mL",0]]},
+{t:"s",d:1,q:"Sebuah film dimulai pukul 14.45 dan berlangsung selama 1 jam 50 menit. Film itu selesai pukul …",o:["16.25","16.35","16.45","17.05"],a:1},
+{t:"s",d:1,q:"Dua sudut sebuah segitiga besarnya 65° dan 45°. Besar sudut yang ketiga adalah …",o:["60°","70°","80°","110°"],a:1},
+{s:0,t:"s",d:2,q:"Banyak buku yang terjual selama lima hari adalah …",o:["130 buku","140 buku","150 buku","160 buku"],a:2},
+{s:0,t:"s",d:2,q:"Selisih penjualan buku pada hari tertinggi dan hari terendah adalah …",o:["10 buku","15 buku","20 buku","25 buku"],a:2},
+{s:0,t:"s",d:2,q:"Rata-rata buku yang terjual setiap hari adalah …",o:["25 buku","28 buku","30 buku","32 buku"],a:2},
+{s:0,t:"k",d:2,q:"Berdasarkan diagram, tentukan Benar atau Salah setiap pernyataan berikut.",st:[["Penjualan terbanyak terjadi pada hari Kamis.",1],["Penjualan hari Selasa dua kali lipat penjualan hari Senin.",0],["Penjualan hari Rabu kurang dari rata-rata penjualan.",1],["Penjualan hari Jumat sama dengan rata-rata penjualan.",1]]},
+{s:1,t:"s",d:2,q:"Banyak siswa yang mendapat nilai di atas 7 adalah …",o:["8 siswa","10 siswa","12 siswa","15 siswa"],a:2},
+{s:1,t:"m",d:2,q:"Pernyataan yang benar berdasarkan tabel adalah …",o:["Modus nilai ulangan adalah 8","Jumlah seluruh siswa adalah 20","Nilai 10 diperoleh paling sedikit siswa","Siswa bernilai 6 lebih banyak daripada siswa bernilai 9","Rata-rata nilai ulangan tepat 8"],a:[0,1,2]},
+{t:"s",d:2,q:"Piktogram berikut menunjukkan buku yang dibaca tiga anak selama liburan. Setiap 📖 mewakili 4 buku.\nAni: 📖📖📖📖📖\nBudi: 📖📖📖\nCici: 📖📖📖📖📖📖\nJumlah buku yang dibaca ketiga anak adalah …",o:["14 buku","48 buku","56 buku","60 buku"],a:2}
+]};
+
+const Q=DATA.Q,S=DATA.S||[],N=Q.length,L=["A","B","C","D","E"],LB=["Benar","Salah"];
+const $=i=>document.getElementById(i);
+const fx=t=>String(t).replace(/(\d+)\/(\d+)/g,'<span class="fr"><i>$1</i><u>$2</u></span>').replace(/\n/g,"<br>");
+const esc=t=>t.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let cur=0,ans={},fl={},left=CFG.dur*60,tm,nm="";
+document.title=CFG.mapel+" - Simulasi TKA SD 2027";
+const fmt=()=>String(Math.floor(left/60)).padStart(2,"0")+":"+String(left%60).padStart(2,"0");
+const has=i=>{const a=ans[i];return a!=null&&(!Array.isArray(a)||a.some(x=>x!=null))};
+const right=i=>{const q=Q[i],a=ans[i];if(!has(i))return false;if(q.t=="s")return a===q.a;if(q.t=="m")return a.length==q.a.length&&q.a.every(x=>a.includes(x));return q.st.every((x,j)=>a[j]===(x[1]?0:1))};
+const key=q=>q.t=="k"?q.st.map(x=>x[1]?0:1):q.a;
+const txt=(q,a)=>a==null||(Array.isArray(a)&&!a.some(x=>x!=null))?"Tidak dijawab":q.t=="s"?L[a]+". "+q.o[a]:q.t=="m"?[...a].sort().map(i=>L[i]+". "+q.o[i]).join("; "):q.st.map((x,j)=>(j+1)+". "+(a[j]==null?"-":(q.l||LB)[a[j]])).join(", ");
+function home(){$("app").innerHTML=`<main class="wrap hero"><div class="cd"><h1>Simulasi TKA SD 2027</h1><h2>${CFG.mapel}, Kelas 6</h2><p>${CFG.info}</p><ul><li>${N} soal dengan waktu ${CFG.dur} menit.</li><li>Pilihan ganda biasa: pilih satu jawaban.</li><li>Pilihan ganda kompleks: pilih semua jawaban yang benar.</li><li>Kategori: tentukan Benar/Salah atau Sesuai/Tidak sesuai untuk setiap pernyataan.</li><li>Soal kompleks dan kategori dinilai benar jika semua pilihannya tepat.</li></ul><label for="nm">Nama peserta</label><input id="nm" autocomplete="name"><button class="pr" onclick="go()">Mulai ujian</button></div></main>`}
+function go(){nm=$("nm").value.trim()||"Peserta";$("app").innerHTML=`<header><div><b>${CFG.mapel}</b><small>${esc(nm)}</small></div><div id="tm" class="tm">${fmt()}</div></header><main id="mn" class="wrap"></main>`;tm=setInterval(()=>{left--;$("tm").textContent=fmt();$("tm").className="tm"+(left<300?" lo":"");if(left<=0)finish()},1000);show()}
+const chart=c=>{const m=Math.max(...c[1]);return`<div class="ch">${c[1].map(v=>`<div class="cb"><b>${v}</b><i style="height:${v/m*150}px"></i></div>`).join("")}</div><div class="cl">${c[0].map(l=>`<span>${l}</span>`).join("")}</div>`};
+const tbl=t=>`<table><tr>${t[0].map(h=>`<th>${h}</th>`).join("")}</tr>${t[1].map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</table>`;
+const stim=s=>`<div class="cd st">${s.j?`<h3>${s.j}</h3>`:""}${s.x?`<p>${fx(s.x)}</p>`:""}${s.ch?chart(s.ch):""}${s.tb?tbl(s.tb):""}</div>`;
+const nav=()=>`<div class="ng">${Q.map((_,i)=>`<button class="nb${i==cur?" cu":""}${has(i)?" on":""}${fl[i]?" fg":""}" onclick="jump(${i})" aria-label="Soal ${i+1}">${i+1}</button>`).join("")}</div><p class="lg">Warna penuh: sudah dijawab. Tanda ?: ragu-ragu.</p><button class="pr w" onclick="ask()">Selesai ujian</button>`;
+function show(){const q=Q[cur],s=q.s!=null?S[q.s]:null,lb=q.l||LB;
+const hint={s:"Pilih satu jawaban.",m:"Pilih semua jawaban yang benar.",k:"Tentukan pilihan untuk setiap pernyataan."}[q.t];let o="";
+if(q.t=="s")o=q.o.map((x,i)=>`<button class="op${ans[cur]===i?" s":""}" onclick="pick(${i})"><b>${L[i]}</b><span>${fx(x)}</span></button>`).join("");
+else if(q.t=="m")o=q.o.map((x,i)=>`<button class="op m${has(cur)&&ans[cur].includes(i)?" s":""}" onclick="pick(${i})"><b>${L[i]}</b><span>${fx(x)}</span></button>`).join("");
+else o=q.st.map((x,j)=>`<div class="kr"><div class="kt">${j+1}. ${fx(x[0])}</div>${lb.map((b,v)=>`<button class="kb${ans[cur]&&ans[cur][j]===v?" s":""}" onclick="pick(${j},${v})">${b}</button>`).join("")}</div>`).join("");
+$("mn").innerHTML=`<div class="g"><div>${s?stim(s):""}<div class="cd"><p class="nq">Soal ${cur+1} dari ${N}</p><p class="q">${fx(q.q)}</p><p class="hint">${hint}</p>${o}</div><div class="ct"><button class="sc2" onclick="mv(-1)" ${cur?"":"disabled"}>Sebelumnya</button><button class="sc2" onclick="flag()">${fl[cur]?"Batalkan ragu-ragu":"Ragu-ragu"}</button>${cur<N-1?`<button class="pr" onclick="mv(1)">Berikutnya</button>`:`<button class="pr" onclick="ask()">Selesai</button>`}</div></div><aside class="cd">${nav()}</aside></div>`}
+function pick(a,b){const q=Q[cur];if(q.t=="s")ans[cur]=a;else{const r=ans[cur]||[];if(q.t=="m"){const k=r.indexOf(a);k<0?r.push(a):r.splice(k,1)}else r[a]=b;ans[cur]=r}show()}
+const jump=i=>{cur=i;show();scrollTo(0,0)},mv=d=>jump(Math.min(N-1,Math.max(0,cur+d))),flag=()=>{fl[cur]=!fl[cur];show()};
+function ask(){const a=Q.filter((_,i)=>has(i)).length,f=Object.values(fl).filter(Boolean).length;scrollTo(0,0);$("mn").innerHTML=`<div class="cd hero"><h2>Kumpulkan jawaban?</h2><p>Terjawab ${a} dari ${N} soal. Ragu-ragu: ${f} soal. Belum dijawab: ${N-a} soal.</p><div class="ct"><button class="pr" onclick="finish()">Kumpulkan sekarang</button><button class="sc2" onclick="show()">Kembali ke soal</button></div></div>`}
+function finish(){clearInterval(tm);const r=Q.map((_,i)=>right(i)),n=r.filter(Boolean).length;$("tm").textContent="Selesai";scrollTo(0,0);
+const bd=CFG.dm.map((d,k)=>{const ix=Q.map((_,i)=>i).filter(i=>Q[i].d==k);return`<div class="bd"><span>${d}</span><span>${ix.filter(i=>r[i]).length} dari ${ix.length} benar</span></div><div class="pb"><i style="width:${ix.filter(i=>r[i]).length/ix.length*100}%"></i></div>`}).join("");
+$("mn").innerHTML=`<div class="cd hero"><p>${esc(nm)}</p><div class="big">${Math.round(n/N*100)}</div><p>Nilai dari 100. Benar ${n} dari ${N} soal.</p>${bd}<div class="ct" style="margin-top:14px"><button class="pr" onclick="location.reload()">Ulangi ujian</button></div></div><h2>Kunci dan jawabanmu</h2>`+Q.map((q,i)=>`<details class="cd rv"><summary class="${r[i]?"ok":"no"}">Soal ${i+1}: ${r[i]?"benar":"salah"}</summary>${q.s!=null&&S[q.s].j?`<p><small>${S[q.s].j}</small></p>`:""}<p>${fx(q.q)}</p><p><b>Jawabanmu:</b> ${fx(txt(q,ans[i]))}</p><p><b>Kunci:</b> ${fx(txt(q,key(q)))}</p></details>`).join("")}
+home();
+</script></body></html>
