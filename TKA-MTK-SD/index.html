@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="id"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>CBT TKA SD 2027 - Matematika</title>
+<title>CBT Tryout TKA Matematika SD</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#f3f6fa;--cd:#fff;--tx:#18212f;--mu:#566174;--ln:#d3dae6;--no:#b3261e;--ok:#17703f;--ac:#2459b8;--at:#fff;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -84,14 +84,14 @@ const $=i=>document.getElementById(i);
 const fx=t=>String(t).replace(/(\d+)\/(\d+)/g,'<span class="fr"><i>$1</i><u>$2</u></span>').replace(/\n/g,"<br>");
 const esc=t=>t.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 let cur=0,ans={},fl={},left=CFG.dur*60,tm,nm="";
-document.title=CFG.mapel+" - Simulasi TKA SD 2027";
+document.title="CBT Tryout TKA Matematika SD";
 const fmt=()=>String(Math.floor(left/60)).padStart(2,"0")+":"+String(left%60).padStart(2,"0");
 const has=i=>{const a=ans[i];return a!=null&&(!Array.isArray(a)||a.some(x=>x!=null))};
 const right=i=>{const q=Q[i],a=ans[i];if(!has(i))return false;if(q.t=="s")return a===q.a;if(q.t=="m")return a.length==q.a.length&&q.a.every(x=>a.includes(x));return q.st.every((x,j)=>a[j]===(x[1]?0:1))};
 const key=q=>q.t=="k"?q.st.map(x=>x[1]?0:1):q.a;
 const txt=(q,a)=>a==null||(Array.isArray(a)&&!a.some(x=>x!=null))?"Tidak dijawab":q.t=="s"?L[a]+". "+q.o[a]:q.t=="m"?[...a].sort().map(i=>L[i]+". "+q.o[i]).join("; "):q.st.map((x,j)=>(j+1)+". "+(a[j]==null?"-":(q.l||LB)[a[j]])).join(", ");
-function home(){$("app").innerHTML=`<main class="wrap hero"><div class="cd"><h1>Simulasi TKA SD 2027</h1><h2>${CFG.mapel}, Kelas 6</h2><p>${CFG.info}</p><ul><li>${N} soal dengan waktu ${CFG.dur} menit.</li><li>Pilihan ganda biasa: pilih satu jawaban.</li><li>Pilihan ganda kompleks: pilih semua jawaban yang benar.</li><li>Kategori: tentukan Benar/Salah atau Sesuai/Tidak sesuai untuk setiap pernyataan.</li><li>Soal kompleks dan kategori dinilai benar jika semua pilihannya tepat.</li></ul><label for="nm">Nama peserta</label><input id="nm" autocomplete="name"><button class="pr" onclick="go()">Mulai ujian</button></div></main>`}
-function go(){nm=$("nm").value.trim()||"Peserta";$("app").innerHTML=`<header><div><b>${CFG.mapel}</b><small>${esc(nm)}</small></div><div id="tm" class="tm">${fmt()}</div></header><main id="mn" class="wrap"></main>`;tm=setInterval(()=>{left--;$("tm").textContent=fmt();$("tm").className="tm"+(left<300?" lo":"");if(left<=0)finish()},1000);show()}
+function home(){$("app").innerHTML=`<main class="wrap hero"><div class="cd"><h1>CBT Tryout TKA Matematika SD</h1><h2>Simulasi TKA SD 2027, Kelas 6</h2><p>${CFG.info}</p><ul><li>${N} soal dengan waktu ${CFG.dur} menit.</li><li>Pilihan ganda biasa: pilih satu jawaban.</li><li>Pilihan ganda kompleks: pilih semua jawaban yang benar.</li><li>Kategori: tentukan Benar/Salah atau Sesuai/Tidak sesuai untuk setiap pernyataan.</li><li>Soal kompleks dan kategori dinilai benar jika semua pilihannya tepat.</li></ul><label for="nm">Nama peserta</label><input id="nm" autocomplete="name"><button class="pr" onclick="go()">Mulai ujian</button><p style="margin:16px 0 0;color:var(--mu);font-size:.9rem">Pengembang: Hardiansyah</p></div></main>`}
+function go(){nm=$("nm").value.trim()||"Peserta";$("app").innerHTML=`<header><div><b>CBT Tryout TKA Matematika SD</b><small>${esc(nm)}</small></div><div id="tm" class="tm">${fmt()}</div></header><main id="mn" class="wrap"></main>`;tm=setInterval(()=>{left--;$("tm").textContent=fmt();$("tm").className="tm"+(left<300?" lo":"");if(left<=0)finish()},1000);show()}
 const chart=c=>{const m=Math.max(...c[1]);return`<div class="ch">${c[1].map(v=>`<div class="cb"><b>${v}</b><i style="height:${v/m*150}px"></i></div>`).join("")}</div><div class="cl">${c[0].map(l=>`<span>${l}</span>`).join("")}</div>`};
 const tbl=t=>`<table><tr>${t[0].map(h=>`<th>${h}</th>`).join("")}</tr>${t[1].map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</table>`;
 const stim=s=>`<div class="cd st">${s.j?`<h3>${s.j}</h3>`:""}${s.x?`<p>${fx(s.x)}</p>`:""}${s.ch?chart(s.ch):""}${s.tb?tbl(s.tb):""}</div>`;
@@ -107,6 +107,6 @@ const jump=i=>{cur=i;show();scrollTo(0,0)},mv=d=>jump(Math.min(N-1,Math.max(0,cu
 function ask(){const a=Q.filter((_,i)=>has(i)).length,f=Object.values(fl).filter(Boolean).length;scrollTo(0,0);$("mn").innerHTML=`<div class="cd hero"><h2>Kumpulkan jawaban?</h2><p>Terjawab ${a} dari ${N} soal. Ragu-ragu: ${f} soal. Belum dijawab: ${N-a} soal.</p><div class="ct"><button class="pr" onclick="finish()">Kumpulkan sekarang</button><button class="sc2" onclick="show()">Kembali ke soal</button></div></div>`}
 function finish(){clearInterval(tm);const r=Q.map((_,i)=>right(i)),n=r.filter(Boolean).length;$("tm").textContent="Selesai";scrollTo(0,0);
 const bd=CFG.dm.map((d,k)=>{const ix=Q.map((_,i)=>i).filter(i=>Q[i].d==k);return`<div class="bd"><span>${d}</span><span>${ix.filter(i=>r[i]).length} dari ${ix.length} benar</span></div><div class="pb"><i style="width:${ix.filter(i=>r[i]).length/ix.length*100}%"></i></div>`}).join("");
-$("mn").innerHTML=`<div class="cd hero"><p>${esc(nm)}</p><div class="big">${Math.round(n/N*100)}</div><p>Nilai dari 100. Benar ${n} dari ${N} soal.</p>${bd}<div class="ct" style="margin-top:14px"><button class="pr" onclick="location.reload()">Ulangi ujian</button></div></div><h2>Kunci dan jawabanmu</h2>`+Q.map((q,i)=>`<details class="cd rv"><summary class="${r[i]?"ok":"no"}">Soal ${i+1}: ${r[i]?"benar":"salah"}</summary>${q.s!=null&&S[q.s].j?`<p><small>${S[q.s].j}</small></p>`:""}<p>${fx(q.q)}</p><p><b>Jawabanmu:</b> ${fx(txt(q,ans[i]))}</p><p><b>Kunci:</b> ${fx(txt(q,key(q)))}</p></details>`).join("")}
+$("mn").innerHTML=`<div class="cd hero"><p>${esc(nm)}</p><div class="big">${Math.round(n/N*100)}</div><p>Nilai dari 100. Benar ${n} dari ${N} soal.</p>${bd}<div class="ct" style="margin-top:14px"><button class="pr" onclick="location.reload()">Ulangi ujian</button></div><p style="margin:14px 0 0;color:var(--mu);font-size:.9rem">Pengembang: Hardiansyah</p></div><h2>Kunci dan jawabanmu</h2>`+Q.map((q,i)=>`<details class="cd rv"><summary class="${r[i]?"ok":"no"}">Soal ${i+1}: ${r[i]?"benar":"salah"}</summary>${q.s!=null&&S[q.s].j?`<p><small>${S[q.s].j}</small></p>`:""}<p>${fx(q.q)}</p><p><b>Jawabanmu:</b> ${fx(txt(q,ans[i]))}</p><p><b>Kunci:</b> ${fx(txt(q,key(q)))}</p></details>`).join("")}
 home();
 </script></body></html>
