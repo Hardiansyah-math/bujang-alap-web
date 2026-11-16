@@ -1,0 +1,781 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>Misteri Rafaksi di Timbangan Pabrik Tapioka</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3efe3; --bg2:#ece7d6; --card:#fffdf6; --card2:#f8f4e7;
+  --ink:#1c2a1e; --muted:#5a6b5c; --line:#ddd5bd;
+  --green:#2e6b34; --green-d:#1f4d24; --green-soft:#e2efdb;
+  --amber:#c47a12; --amber-soft:#fbeecd; --brown:#7a4a21;
+  --red:#b3372a; --red-soft:#fbe7e2; --blue:#256d85; --blue-soft:#e0eff3;
+  --shadow:0 10px 30px rgba(46,64,32,.12);
+  --r:18px;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#10160f; --bg2:#151d14; --card:#1b261a; --card2:#222f20;
+    --ink:#eef3e6; --muted:#a9bba4; --line:#33402f;
+    --green:#7fc96f; --green-d:#a5dd97; --green-soft:#24381f;
+    --amber:#e8a33d; --amber-soft:#3a2c12; --brown:#d9a05f;
+    --red:#f08a7d; --red-soft:#3d201b; --blue:#7cc3d8; --blue-soft:#1d3038;
+    --shadow:0 10px 30px rgba(0,0,0,.4);
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Plus Jakarta Sans",system-ui,sans-serif;line-height:1.55}
+h1,h2,h3,.disp{font-family:"Bricolage Grotesque","Plus Jakarta Sans",sans-serif;line-height:1.08;letter-spacing:-.01em}
+.mono{font-family:"JetBrains Mono",monospace}
+button,[role="button"],select,input:not([type="checkbox"]){min-height:2.25rem}
+button{font-family:inherit;cursor:pointer}
+a{color:var(--green)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 18px}
+section{padding:34px 0 8px}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.sec-head h2{font-size:clamp(24px,4vw,34px);margin:0}
+.sec-head p{margin:6px 0 0;color:var(--muted);max-width:640px}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--green-d);background:var(--green-soft);border:1px solid var(--line);padding:6px 10px;border-radius:999px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.btn{border:0;border-radius:12px;padding:11px 18px;font-weight:800;font-size:15px;background:var(--green);color:#fff;transition:transform .15s,opacity .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn.ghost{background:transparent;color:var(--green-d);border:2px solid var(--green)}
+.btn.amber{background:var(--amber);color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+input[type=range]{width:100%;accent-color:var(--green);min-height:2rem}
+input[type=number],select{width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-weight:600}
+label.flabel{display:block;font-size:13px;font-weight:800;letter-spacing:.02em;margin-bottom:6px}
+label.flabel span{color:var(--green-d)}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;background:linear-gradient(160deg,#234d27 0%,#2e6b34 55%,#3d7a35 100%);color:#f4f8ec;padding:44px 0 0}
+.hero::after{content:"";position:absolute;inset:auto -10% -120px -10%;height:220px;background:radial-gradient(ellipse at center,rgba(255,214,120,.25),transparent 65%)}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:center;position:relative;z-index:1}
+.hero h1{font-size:clamp(34px,6vw,58px);margin:12px 0 12px;font-weight:800}
+.hero h1 em{font-style:normal;color:#ffd873}
+.hero p.lead{font-size:clamp(16px,2.4vw,19px);color:#dcebd2;max-width:560px;margin:0 0 20px}
+.hero .cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:26px}
+.btn.light{background:#ffd873;color:#3a2a05}
+.btn.outline-l{background:rgba(255,255,255,.12);color:#fff;border:1.5px solid rgba(255,255,255,.5)}
+.chiprow{display:flex;gap:8px;flex-wrap:wrap;padding-bottom:34px}
+.chip{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:7px 13px;font-size:13px;font-weight:700}
+/* scale illustration */
+.scalebox{background:rgba(10,25,12,.35);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:18px;backdrop-filter:blur(4px)}
+.scalebox .dial{text-align:center}
+.dialnum{font-family:"JetBrains Mono",monospace;font-size:44px;font-weight:700;color:#ffd873}
+.diallbl{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#cfe3c2}
+.sacks{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin:14px 0 6px}
+.sack{width:34px;height:42px;border-radius:9px 9px 12px 12px;background:linear-gradient(180deg,#e8d9ae,#cdb276);border:2px solid #a8874a;position:relative;display:flex;align-items:flex-end;justify-content:center;font-size:9px;font-weight:800;color:#6b4d15;padding-bottom:4px}
+.sack::before{content:"";position:absolute;top:5px;left:6px;right:6px;height:5px;border-radius:3px;background:#a8874a;opacity:.55}
+.scale-note{font-size:13px;color:#dcebd2;text-align:center;margin:8px 0 0}
+
+/* nav */
+nav.toc{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav.toc .wrap{display:flex;gap:6px;overflow-x:auto;padding-top:10px;padding-bottom:10px;scrollbar-width:none}
+nav.toc::-webkit-scrollbar{display:none}
+nav.toc a{white-space:nowrap;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;padding:9px 14px;border-radius:999px;border:1px solid transparent}
+nav.toc a:hover{border-color:var(--line);background:var(--card)}
+
+/* concept cards */
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.concept{padding:20px}
+.concept .ic{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;font-size:22px;margin-bottom:12px}
+.concept h3{margin:0 0 6px;font-size:19px}
+.concept p{margin:0;color:var(--muted);font-size:14.5px}
+.formula{margin-top:14px;padding:20px 22px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;background:var(--green-d);color:#eef6e6;border-radius:var(--r)}
+@media (prefers-color-scheme: dark){.formula{background:#24381f}}
+.formula .big{font-family:"JetBrains Mono",monospace;font-size:clamp(16px,3vw,22px);font-weight:700}
+.formula p{margin:0;color:#cfe0c2;font-size:14px;max-width:420px}
+
+/* simulator */
+.sim{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.panel{padding:22px}
+.panel h3{margin:0 0 4px;font-size:21px}
+.panel .sub{color:var(--muted);font-size:14px;margin:0 0 18px}
+.ctl{margin-bottom:18px}
+.ctl .row{display:flex;justify-content:space-between;align-items:baseline}
+.ctl .val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:17px;color:var(--green-d)}
+input[type=number].inline-num{width:110px;text-align:right}
+.results{display:grid;gap:10px}
+.res{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--card2);border:1px solid var(--line);border-radius:13px;padding:13px 16px}
+.res .k{font-size:13.5px;font-weight:700;color:var(--muted)}
+.res .v{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:19px;text-align:right}
+.res.total{background:var(--green);border-color:var(--green)}
+.res.total .k{color:#dcebd2}.res.total .v{color:#fff;font-size:22px}
+.bar-wrap{margin:6px 0 2px}
+.bar-track{height:16px;border-radius:99px;background:var(--bg2);overflow:hidden;display:flex;border:1px solid var(--line)}
+.bar-netto{background:var(--green);transition:width .35s}
+.bar-raf{background:repeating-linear-gradient(45deg,var(--amber),var(--amber) 7px,#a86408 7px,#a86408 14px);transition:width .35s}
+.bar-legend{display:flex;gap:16px;font-size:12.5px;color:var(--muted);flex-wrap:wrap}
+.dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.money{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.bill{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:13px;padding:8px 11px;border-radius:9px;border:1.5px dashed var(--brown);background:var(--amber-soft);color:var(--brown)}
+.verdict{border-radius:13px;padding:13px 16px;font-size:14.5px;font-weight:600;display:none}
+.verdict.show{display:block}
+.verdict.ok{background:var(--green-soft);border:1px solid var(--green)}
+.verdict.warn{background:var(--red-soft);border:1px solid var(--red)}
+
+/* truck mission */
+.truck-stage{padding:22px}
+.road{position:relative;margin:8px 0 4px}
+.gauge-track{height:26px;border-radius:99px;background:var(--bg2);border:1px solid var(--line);overflow:hidden;position:relative}
+.gauge-fill{height:100%;background:linear-gradient(90deg,var(--green),#57a047);transition:width .3s,background .3s;width:0%}
+.gauge-fill.over{background:linear-gradient(90deg,#c9502e,var(--red))}
+.gauge-marks{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:5px;font-family:"JetBrains Mono",monospace}
+.truck-visual{display:flex;align-items:flex-end;gap:0;margin:16px 0 6px;min-height:86px}
+.truck-cab{flex:0 0 auto}
+.loadzone{flex:1;border-bottom:6px solid var(--muted);display:flex;flex-wrap:wrap-reverse;gap:3px;align-content:flex-start;padding:0 6px;min-height:80px}
+.mini-sack{width:22px;height:26px;border-radius:5px 5px 7px 7px;background:linear-gradient(180deg,#e8d9ae,#cdb276);border:1.5px solid #a8874a}
+.mini-sack.extra{background:linear-gradient(180deg,#f0b1a4,#dd7f6c);border-color:var(--red)}
+.truck-ctl{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.stepbtn{width:46px;height:46px;border-radius:12px;border:2px solid var(--green);background:var(--card);color:var(--green-d);font-size:22px;font-weight:800;line-height:1}
+.stepbtn:active{transform:scale(.95)}
+.bigcount{font-family:"JetBrains Mono",monospace;font-size:26px;font-weight:700;min-width:130px;text-align:center}
+.model-box{background:var(--card2);border:1px dashed var(--line);border-radius:13px;padding:14px 16px;font-family:"JetBrains Mono",monospace;font-size:15px;line-height:1.9;overflow-x:auto;white-space:nowrap}
+.steps{display:grid;gap:8px;margin-top:12px}
+.step{display:flex;gap:10px;align-items:flex-start;font-size:14.5px}
+.step .n{flex:0 0 26px;width:26px;height:26px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px;margin-top:1px}
+
+/* number line */
+.nl-svg{width:100%;height:auto;display:block}
+.nl-controls{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.sol-box{margin-top:14px;background:var(--blue-soft);border:1px solid var(--line);border-radius:13px;padding:14px 16px;font-size:15px}
+.sol-box .mono{font-weight:700;font-size:17px}
+
+/* missions / LKPD */
+.missions{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mission{padding:20px;display:flex;flex-direction:column;gap:10px}
+.mission .mhead{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.mission h3{margin:0;font-size:18px}
+.badge{font-size:12px;font-weight:800;padding:5px 10px;border-radius:999px;background:var(--amber-soft);color:var(--brown);border:1px solid var(--line);white-space:nowrap}
+.badge.done{background:var(--green-soft);color:var(--green-d)}
+.mission p{margin:0;font-size:14.5px;color:var(--muted)}
+.mission .q{color:var(--ink);font-weight:600}
+.ansrow{display:flex;gap:8px;margin-top:auto}
+.ansrow input{flex:1}
+.fb{font-size:14px;font-weight:700;display:none}
+.fb.show{display:block}
+.fb.ok{color:var(--green-d)}.fb.no{color:var(--red)}
+details.hint{font-size:14px;color:var(--muted)}
+details.hint summary{cursor:pointer;font-weight:700;color:var(--green-d);padding:6px 0}
+
+/* quiz */
+.quiz-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.prog{flex:1;min-width:160px;height:12px;border-radius:99px;background:var(--bg2);border:1px solid var(--line);overflow:hidden}
+.prog>div{height:100%;background:var(--green);width:0%;transition:width .3s}
+.qcard{padding:24px}
+.qcard .qnum{font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--amber)}
+.qcard h3{font-size:clamp(18px,3vw,22px);margin:8px 0 16px}
+.opts{display:grid;gap:10px}
+.opt{display:flex;gap:12px;align-items:center;text-align:left;width:100%;padding:14px 16px;border-radius:13px;border:2px solid var(--line);background:var(--card);color:var(--ink);font-size:15.5px;font-weight:600}
+.opt .letter{flex:0 0 30px;width:30px;height:30px;border-radius:9px;background:var(--card2);border:1px solid var(--line);display:grid;place-items:center;font-weight:800;font-size:14px}
+.opt:hover{border-color:var(--green)}
+.opt.right{border-color:var(--green);background:var(--green-soft)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt:disabled{cursor:default;opacity:.92}
+.explain{display:none;margin-top:14px;background:var(--card2);border:1px solid var(--line);border-radius:13px;padding:14px 16px;font-size:14.5px}
+.explain.show{display:block}
+.quiz-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:16px;flex-wrap:wrap}
+.score-final{text-align:center;padding:28px 20px}
+.score-final .big{font-family:"JetBrains Mono",monospace;font-size:56px;font-weight:700;color:var(--green-d)}
+.stars{font-size:30px;letter-spacing:4px;color:var(--amber)}
+
+/* teacher strip */
+.teacher{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.tcard{padding:20px}
+.tcard h3{margin:0 0 8px;font-size:17px}
+.tcard ul{margin:0;padding-left:18px;color:var(--muted);font-size:14.5px}
+.tcard li{margin-bottom:5px}
+footer{margin-top:44px;border-top:1px solid var(--line);padding:24px 0 40px;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+
+@media (max-width:900px){
+  .truck-cols{grid-template-columns:1fr !important}
+  .grid4{grid-template-columns:1fr 1fr}
+  .sim,.missions,.teacher{grid-template-columns:1fr}
+  .hero-grid{grid-template-columns:1fr}
+  .nl-controls{grid-template-columns:1fr 1fr}
+}
+@media (max-width:520px){
+  .grid4{grid-template-columns:1fr}
+  .ansrow{flex-direction:column}
+  .bigcount{min-width:0}
+}
+@media (prefers-reduced-motion: reduce){
+  *{transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="tag" style="background:rgba(255,255,255,.14);color:#ffd873;border-color:rgba(255,255,255,.3)">Matematika · Pertidaksamaan Linear Satu Variabel</span>
+      <h1>Misteri <em>Rafaksi</em> di Timbangan Pabrik Tapioka</h1>
+      <p class="lead">Singkong Pak Darto ditimbang 2.000 kg, tetapi uang yang diterima tidak dihitung dari 2.000 kg. Ada potongan bernama <strong>rafaksi</strong>. Pecahkan misterinya, kuasai timbangan, dan jaga truk agar tidak melebihi batas muatan jembatan timbang!</p>
+      <div class="cta-row">
+        <a href="#simulator" style="text-decoration:none"><button class="btn light">Mulai Simulasi Timbangan</button></a>
+        <a href="#kuis" style="text-decoration:none"><button class="btn outline-l">Langsung ke Kuis</button></a>
+      </div>
+      <div class="chiprow">
+        <span class="chip">⚖️ Bruto · Tara · Netto</span>
+        <span class="chip">🌾 Rafaksi = potongan kotoran &amp; kadar air</span>
+        <span class="chip">🚛 Batas muatan = pertidaksamaan</span>
+        <span class="chip">📏 Himpunan penyelesaian di garis bilangan</span>
+      </div>
+    </div>
+    <div class="scalebox" aria-hidden="true">
+      <div class="dial">
+        <div class="diallbl">Jembatan Timbang · Pabrik Tapioka</div>
+        <div class="dialnum" id="heroDial">2.000</div>
+        <div class="diallbl">kilogram bruto</div>
+      </div>
+      <div class="sacks" id="heroSacks"></div>
+      <p class="scale-note">40 karung × 50 kg singkong segar siap ditimbang. Berapa yang benar-benar dibayar pabrik? Itu misterinya.</p>
+    </div>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Daftar isi">
+  <div class="wrap">
+    <a href="#konsep">Konsep</a>
+    <a href="#simulator">Simulator Timbangan</a>
+    <a href="#misi-truk">Misi Jembatan Timbang</a>
+    <a href="#garis-bilangan">Garis Bilangan</a>
+    <a href="#lkpd">Misi Detektif (LKPD)</a>
+    <a href="#kuis">Kuis</a>
+    <a href="#guru">Untuk Guru</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- KONSEP -->
+  <section id="konsep">
+    <div class="sec-head">
+      <div>
+        <span class="tag">Bab 1 · Kenali Istilahnya</span>
+        <h2>Apa yang Terjadi di Timbangan?</h2>
+        <p>Saat petani menjual singkong ke pabrik tapioka, berat yang ditimbang bukanlah berat yang dibayar. Kenali empat istilah kunci ini.</p>
+      </div>
+    </div>
+    <div class="grid4">
+      <div class="card concept">
+        <div class="ic" style="background:var(--blue-soft)">⚖️</div>
+        <h3>Bruto</h3>
+        <p>Berat kotor: singkong beserta tanah, akar, dan kotoran yang menempel, ditambah berat kendaraan saat di jembatan timbang.</p>
+      </div>
+      <div class="card concept">
+        <div class="ic" style="background:var(--amber-soft)">🎒</div>
+        <h3>Tara</h3>
+        <p>Berat wadah saja: karung, keranjang, atau berat truk kosong. Tara dikurangkan agar yang dihitung murni isi muatannya.</p>
+      </div>
+      <div class="card concept">
+        <div class="ic" style="background:var(--red-soft)">✂️</div>
+        <h3>Rafaksi</h3>
+        <p>Potongan berat (dalam %) karena kotoran dan kadar air singkong. Singkong yang kotor atau terlalu basah mendapat rafaksi lebih besar.</p>
+      </div>
+      <div class="card concept">
+        <div class="ic" style="background:var(--green-soft)">💰</div>
+        <h3>Netto</h3>
+        <p>Berat bersih yang benar-benar dibayar pabrik. Uang petani = netto × harga per kg. Inilah angka yang dicari dalam misteri ini.</p>
+      </div>
+    </div>
+    <div class="formula">
+      <div class="big">Netto = Bruto − Tara − (Rafaksi% × Bruto)</div>
+      <p>Contoh: bruto 2.000 kg, tara karung 40 kg, rafaksi 10% → potongan 200 kg → netto = 2.000 − 40 − 200 = <strong>1.760 kg</strong>.</p>
+    </div>
+  </section>
+
+  <!-- SIMULATOR -->
+  <section id="simulator">
+    <div class="sec-head">
+      <div>
+        <span class="tag">Bab 2 · Praktik Langsung</span>
+        <h2>Simulator Timbangan Pabrik</h2>
+        <p>Geser timbangan, atur rafaksi, dan lihat bagaimana uang petani berubah. Coba buat rafaksi naik — apa yang terjadi pada penghasilan petani?</p>
+      </div>
+    </div>
+    <div class="sim">
+      <div class="card panel">
+        <h3>Atur Muatan Singkong</h3>
+        <p class="sub">Setiap karung berisi 50 kg singkong (sesuai kartu muatan di kelas).</p>
+        <div class="ctl">
+          <div class="row"><label class="flabel" for="inKarung">Jumlah karung <span>(× 50 kg)</span></label><span class="val" id="vKarung">40 karung</span></div>
+          <input type="range" id="inKarung" min="1" max="100" value="40" step="1">
+        </div>
+        <div class="ctl">
+          <div class="row"><label class="flabel" for="inRafaksi">Rafaksi <span>(potongan %)</span></label><span class="val" id="vRafaksi">10%</span></div>
+          <input type="range" id="inRafaksi" min="0" max="35" value="10" step="1">
+        </div>
+        <div class="ctl">
+          <div class="row"><label class="flabel" for="inTara">Tara karung <span>(1 kg per karung)</span></label><span class="val" id="vTara">40 kg</span></div>
+          <input type="range" id="inTara" min="0" max="2" value="1" step="0.5">
+        </div>
+        <div class="ctl" style="margin-bottom:4px">
+          <label class="flabel" for="inHarga">Harga singkong per kg (Rp)</label>
+          <input type="number" id="inHarga" class="inline-num" style="width:100%;text-align:left" min="0" step="50" value="1200">
+        </div>
+        <div class="bar-wrap">
+          <div class="bar-track"><div class="bar-netto" id="barNetto"></div><div class="bar-raf" id="barRaf"></div></div>
+          <div class="bar-legend">
+            <span><span class="dot" style="background:var(--green)"></span>Netto (dibayar)</span>
+            <span><span class="dot" style="background:var(--amber)"></span>Potongan rafaksi</span>
+            <span><span class="dot" style="background:var(--bg2);border:1px solid var(--line)"></span>Tara</span>
+          </div>
+        </div>
+      </div>
+      <div class="card panel">
+        <h3>Nota Timbangan</h3>
+        <p class="sub">Hasil perhitungan seperti struk di pos timbang pabrik.</p>
+        <div class="results">
+          <div class="res"><span class="k">Berat bruto</span><span class="v" id="rBruto">2.000 kg</span></div>
+          <div class="res"><span class="k">Potongan rafaksi</span><span class="v" id="rRaf" style="color:var(--amber)">− 200 kg</span></div>
+          <div class="res"><span class="k">Tara karung</span><span class="v" id="rTara">− 40 kg</span></div>
+          <div class="res"><span class="k">Berat netto</span><span class="v" id="rNetto">1.760 kg</span></div>
+          <div class="res total"><span class="k">Uang diterima petani</span><span class="v" id="rUang">Rp2.112.000</span></div>
+        </div>
+        <p style="font-size:13px;color:var(--muted);margin:14px 0 6px;font-weight:700">Uang mainan — rincian pecahan terdekat:</p>
+        <div class="money" id="moneyRow"></div>
+        <div class="verdict" id="simVerdict" style="margin-top:14px"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MISI TRUK -->
+  <section id="misi-truk">
+    <div class="sec-head">
+      <div>
+        <span class="tag">Bab 3 · Pertidaksamaan Beraksi</span>
+        <h2>Misi Jembatan Timbang: Jangan Kelebihan Muatan!</h2>
+        <p>Rambu di jembatan timbang membatasi berat total kendaraan maksimal <strong>8.000 kg</strong>. Truk kosong berbobot 3.200 kg. Setiap karung singkong 50 kg. Tambahkan karung dan temukan batas amannya — inilah pertidaksamaan dalam kehidupan nyata.</p>
+      </div>
+    </div>
+    <div class="card truck-stage">
+      <div class="gauge-track"><div class="gauge-fill" id="gaugeFill"></div></div>
+      <div class="gauge-marks"><span>0 kg</span><span>Batas: 8.000 kg</span><span id="gaugeNow">3.200 kg</span></div>
+      <div class="truck-visual">
+        <svg class="truck-cab" width="118" height="82" viewBox="0 0 118 82" aria-hidden="true">
+          <rect x="6" y="34" width="52" height="30" rx="4" fill="#2e6b34"/>
+          <path d="M58 40 L84 40 L100 56 L100 64 L58 64 Z" fill="#3d7a35"/>
+          <rect x="84" y="44" width="13" height="11" rx="2" fill="#bfe0f2"/>
+          <rect x="6" y="58" width="94" height="6" fill="#5a6b5c"/>
+          <circle cx="28" cy="68" r="10" fill="#26302a"/><circle cx="28" cy="68" r="4.5" fill="#9fb3a0"/>
+          <circle cx="82" cy="68" r="10" fill="#26302a"/><circle cx="82" cy="68" r="4.5" fill="#9fb3a0"/>
+        </svg>
+        <div class="loadzone" id="loadZone" aria-label="Karung di bak truk"></div>
+      </div>
+      <div class="truck-ctl">
+        <button class="stepbtn" id="btnMinus10" aria-label="Kurangi 10 karung">−</button>
+        <button class="stepbtn" id="btnMinus1" style="width:40px;height:40px;font-size:18px" aria-label="Kurangi 1 karung">−1</button>
+        <div class="bigcount"><span id="sackCount">0</span> karung</div>
+        <button class="stepbtn" id="btnPlus1" style="width:40px;height:40px;font-size:18px" aria-label="Tambah 1 karung">+1</button>
+        <button class="stepbtn" id="btnPlus10" aria-label="Tambah 10 karung">+</button>
+        <button class="btn ghost" id="btnMax">Isi Maksimal Aman</button>
+        <button class="btn ghost" id="btnResetTruck">Kosongkan</button>
+      </div>
+      <div class="verdict" id="truckVerdict" style="margin-top:14px"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px" class="truck-cols">
+        <div>
+          <p style="font-weight:800;margin:0 0 8px">Model matematikanya</p>
+          <div class="model-box">
+            Misal x = banyak karung<br>
+            3.200 + 50x ≤ 8.000<br>
+            50x ≤ 8.000 − 3.200<br>
+            50x ≤ 4.800<br>
+            <strong>x ≤ 96</strong>
+          </div>
+        </div>
+        <div>
+          <p style="font-weight:800;margin:0 0 8px">Cara membaca hasilnya</p>
+          <div class="steps">
+            <div class="step"><span class="n">1</span><span>Tanda <span class="mono">≤</span> berarti “paling banyak” — boleh sama dengan batas, tidak boleh lebih.</span></div>
+            <div class="step"><span class="n">2</span><span>Jadi truk boleh memuat <strong>paling banyak 96 karung</strong>. Karung ke-97 membuat total 8.050 kg — melebihi batas!</span></div>
+            <div class="step"><span class="n">3</span><span>Coba buktikan sendiri: tekan <strong>+</strong> sampai 96 karung, lalu tambah 1 lagi dan amati peringatannya.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GARIS BILANGAN -->
+  <section id="garis-bilangan">
+    <div class="sec-head">
+      <div>
+        <span class="tag">Bab 4 · Himpunan Penyelesaian</span>
+        <h2>Periksa di Garis Bilangan</h2>
+        <p>Selesaikan pertidaksamaan <span class="mono">ax + b ≤ c</span> (dan kawan-kawannya), lalu lihat daerah penyelesaiannya tergambar otomatis. Alat ini pengganti praktis GeoGebra/Desmos saat sinyal terbatas.</p>
+      </div>
+    </div>
+    <div class="card panel">
+      <div class="nl-controls">
+        <div><label class="flabel" for="nlA">Koefisien a (pengali x)</label><input type="number" id="nlA" value="50"></div>
+        <div><label class="flabel" for="nlB">Konstanta b</label><input type="number" id="nlB" value="3200"></div>
+        <div><label class="flabel" for="nlSign">Tanda pertidaksamaan</label>
+          <select id="nlSign">
+            <option value="<=">≤ (kurang dari atau sama dengan)</option>
+            <option value="<">&lt; (kurang dari)</option>
+            <option value=">=">≥ (lebih dari atau sama dengan)</option>
+            <option value=">">&gt; (lebih dari)</option>
+          </select>
+        </div>
+        <div><label class="flabel" for="nlC">Nilai c (ruas kanan)</label><input type="number" id="nlC" value="8000"></div>
+      </div>
+      <div style="margin-top:18px" id="nlSvgWrap"></div>
+      <div class="sol-box" id="nlSolution"></div>
+      <p style="font-size:13.5px;color:var(--muted);margin:12px 0 0">Ingat: lingkaran <strong>penuh</strong> berarti nilai ujung ikut termasuk (tanda ≤ atau ≥), lingkaran <strong>kosong</strong> berarti tidak termasuk (tanda &lt; atau &gt;). Jika a negatif, arah tanda berbalik saat kedua ruas dibagi a!</p>
+    </div>
+  </section>
+
+  <!-- LKPD MISI -->
+  <section id="lkpd">
+    <div class="sec-head">
+      <div>
+        <span class="tag">Bab 5 · LKPD — Lampiran 1</span>
+        <h2>Misi Detektif Timbangan</h2>
+        <p>Empat kasus dari pos timbang. Kerjakan di kertas plano kelompokmu, lalu periksa jawaban di sini. Skor misimu: <strong><span id="missionScore">0</span>/4 selesai</strong>.</p>
+      </div>
+    </div>
+    <div class="missions">
+      <div class="card mission" data-answer="250" data-tol="0">
+        <div class="mhead"><h3>Kasus 1 · Potongan Misterius</h3><span class="badge">Belum selesai</span></div>
+        <p>Bu Sari menjual singkong dengan bruto 2.500 kg. Pabrik menetapkan rafaksi 10%.</p>
+        <p class="q">Berapa kg potongan rafaksi yang dikenakan pada singkong Bu Sari?</p>
+        <details class="hint"><summary>Petunjuk</summary>Potongan = rafaksi% × bruto = 10/100 × 2.500.</details>
+        <div class="ansrow"><input type="number" placeholder="Jawaban (kg)" aria-label="Jawaban kasus 1"><button class="btn check-btn">Periksa</button></div>
+        <p class="fb"></p>
+      </div>
+      <div class="card mission" data-answer="1530" data-tol="0">
+        <div class="mhead"><h3>Kasus 2 · Nota yang Hilang</h3><span class="badge">Belum selesai</span></div>
+        <p>Sebuah nota hanya terbaca: bruto 1.800 kg, tara karung 18 kg, rafaksi 14%.</p>
+        <p class="q">Berapa berat netto yang seharusnya tertulis di nota itu?</p>
+        <details class="hint"><summary>Petunjuk</summary>Netto = bruto − tara − (14% × bruto). Hitung potongannya dulu: 252 kg.</details>
+        <div class="ansrow"><input type="number" placeholder="Jawaban (kg)" aria-label="Jawaban kasus 2"><button class="btn check-btn">Periksa</button></div>
+        <p class="fb"></p>
+      </div>
+      <div class="card mission" data-answer="64" data-tol="0">
+        <div class="mhead"><h3>Kasus 3 · Rambu Jembatan</h3><span class="badge">Belum selesai</span></div>
+        <p>Truk kosong 2.800 kg. Batas muatan jembatan 6.000 kg. Tiap karung 50 kg.</p>
+        <p class="q">Paling banyak berapa karung yang boleh dimuat? (Modelkan: 2.800 + 50x ≤ 6.000)</p>
+        <details class="hint"><summary>Petunjuk</summary>50x ≤ 3.200, lalu bagi kedua ruas dengan 50.</details>
+        <div class="ansrow"><input type="number" placeholder="Jawaban (karung)" aria-label="Jawaban kasus 3"><button class="btn check-btn">Periksa</button></div>
+        <p class="fb"></p>
+      </div>
+      <div class="card mission" data-answer="2112000" data-tol="0">
+        <div class="mhead"><h3>Kasus 4 · Uang Pak Darto</h3><span class="badge">Belum selesai</span></div>
+        <p>Pak Darto: bruto 2.000 kg, tara 40 kg, rafaksi 10%, harga Rp1.200/kg.</p>
+        <p class="q">Berapa rupiah uang yang diterima Pak Darto? (Tulis angka saja, tanpa titik)</p>
+        <details class="hint"><summary>Petunjuk</summary>Netto = 2.000 − 40 − 200 = 1.760 kg. Kalikan dengan harga: 1.760 × 1.200. Kamu juga bisa membuktikannya dengan simulator di atas.</details>
+        <div class="ansrow"><input type="number" placeholder="Jawaban (Rp)" aria-label="Jawaban kasus 4"><button class="btn check-btn">Periksa</button></div>
+        <p class="fb"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- KUIS -->
+  <section id="kuis">
+    <div class="sec-head">
+      <div>
+        <span class="tag">Bab 6 · Uji Pemahaman</span>
+        <h2>Kuis Pos Timbang</h2>
+        <p>8 soal tentang rafaksi dan pertidaksamaan linear satu variabel. Jawab, baca pembahasannya, dan kumpulkan bintangmu.</p>
+      </div>
+    </div>
+    <div class="card qcard" id="quizCard">
+      <div class="quiz-head">
+        <span class="mono" style="font-weight:700" id="quizProgressLabel">Soal 1 dari 8</span>
+        <div class="prog"><div id="quizProg"></div></div>
+        <span class="mono" style="font-weight:700">Skor: <span id="quizScore">0</span></span>
+      </div>
+      <div id="quizBody"></div>
+    </div>
+  </section>
+
+  <!-- GURU -->
+  <section id="guru">
+    <div class="sec-head">
+      <div>
+        <span class="tag">Lampiran · Sarana &amp; Media</span>
+        <h2>Catatan untuk Guru</h2>
+        <p>Aplikasi ini dirancang mengikuti sarana dan media pada bahan ajar “Misteri Rafaksi di Timbangan Pabrik Tapioka”.</p>
+      </div>
+    </div>
+    <div class="teacher">
+      <div class="card tcard">
+        <h3>Di Kelas</h3>
+        <ul>
+          <li>Proyektor/layar: tampilkan simulator dan misi jembatan timbang sebagai pemantik diskusi.</li>
+          <li>Amati rambu batas muatan, jembatan timbang, dan rambu batas kecepatan di jalan terdekat sebagai konteks awal.</li>
+          <li>Kartu muatan (karung 50 kg), pita/garis bilangan di papan, uang mainan, kalkulator, kertas plano dan spidol untuk kerja kelompok.</li>
+        </ul>
+      </div>
+      <div class="card tcard">
+        <h3>Digital</h3>
+        <ul>
+          <li>Ponsel siswa: akses aplikasi ini dan kuisnya langsung dari peramban.</li>
+          <li>Periksa himpunan penyelesaian juga di <a href="https://www.geogebra.org" target="_blank" rel="noopener">GeoGebra</a> atau <a href="https://www.desmos.com/calculator" target="_blank" rel="noopener">Desmos</a> (opsional).</li>
+          <li>Kuis lanjutan dapat dibuat di Quizizz atau Google Formulir mengikuti 8 soal di aplikasi ini.</li>
+        </ul>
+      </div>
+      <div class="card tcard">
+        <h3>Alternatif Luring</h3>
+        <ul>
+          <li>Jika sinyal terbatas, gunakan kartu soal dan LKPD kertas (Lampiran 1) — empat Kasus Detektif di atas dapat dicetak dari halaman ini.</li>
+          <li>Simulator dapat digantikan peragaan kartu karung 50 kg dan garis bilangan dari pita kertas di papan tulis.</li>
+          <li>Semua perhitungan di aplikasi ini berjalan di perangkat, tanpa perlu koneksi setelah halaman terbuka.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span><strong>Misteri Rafaksi di Timbangan Pabrik Tapioka</strong> — Bahan ajar interaktif Matematika: Pertidaksamaan Linear Satu Variabel.</span>
+    <span>Bruto − Tara − Rafaksi = Netto ⚖️</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var fmt = function(n){ return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,"."); };
+var fmtRp = function(n){ return "Rp" + fmt(n); };
+
+/* ---------- HERO sacks ---------- */
+var heroSacks = document.getElementById('heroSacks');
+var hs = '';
+for(var i=0;i<14;i++){ hs += '<div class="sack">50</div>'; }
+heroSacks.innerHTML = hs;
+
+/* ---------- SIMULATOR ---------- */
+var inKarung=document.getElementById('inKarung'), inRafaksi=document.getElementById('inRafaksi'),
+    inTara=document.getElementById('inTara'), inHarga=document.getElementById('inHarga');
+function moneyBreakdown(amount){
+  var denoms=[100000,50000,20000,10000,5000,2000,1000,500,200,100];
+  var left=amount, parts=[];
+  for(var i=0;i<denoms.length;i++){
+    var c=Math.floor(left/denoms[i]);
+    if(c>0){ parts.push(c+" × Rp"+fmt(denoms[i])); left-=c*denoms[i]; }
+  }
+  return parts.length? parts : ["—"];
+}
+function updateSim(){
+  var karung=parseInt(inKarung.value,10)||0;
+  var raf=parseFloat(inRafaksi.value)||0;
+  var taraPer=parseFloat(inTara.value)||0;
+  var harga=parseFloat(inHarga.value)||0;
+  var bruto=karung*50;
+  var tara=karung*taraPer;
+  var potRaf=bruto*raf/100;
+  var netto=bruto-tara-potRaf;
+  if(netto<0) netto=0;
+  var uang=netto*harga;
+  document.getElementById('vKarung').textContent=karung+" karung";
+  document.getElementById('vRafaksi').textContent=raf+"%";
+  document.getElementById('vTara').textContent=fmt(tara)+" kg";
+  document.getElementById('rBruto').textContent=fmt(bruto)+" kg";
+  document.getElementById('rRaf').textContent="− "+fmt(potRaf)+" kg";
+  document.getElementById('rTara').textContent="− "+fmt(tara)+" kg";
+  document.getElementById('rNetto').textContent=fmt(netto)+" kg";
+  document.getElementById('rUang').textContent=fmtRp(uang);
+  var pctN=bruto>0? netto/bruto*100:0, pctR=bruto>0? potRaf/bruto*100:0;
+  document.getElementById('barNetto').style.width=pctN+"%";
+  document.getElementById('barRaf').style.width=pctR+"%";
+  var mr=document.getElementById('moneyRow');
+  mr.innerHTML=moneyBreakdown(uang).map(function(p){return '<span class="bill">'+p+'</span>';}).join('');
+  var v=document.getElementById('simVerdict');
+  v.className="verdict show "+(raf>=25?"warn":"ok");
+  if(raf>=25){
+    v.innerHTML="⚠️ Rafaksi "+raf+"% tergolong <strong>besar</strong> — petani kehilangan "+fmt(potRaf)+" kg ("+fmtRp(uang)+ " tetap diterima, tetapi potongannya setara "+fmtRp(potRaf*harga)+"). Singkong mungkin terlalu kotor atau kadar airnya tinggi.";
+  } else if(raf>0){
+    v.innerHTML="✅ Rafaksi "+raf+"% masih wajar. Dari bruto "+fmt(bruto)+" kg, yang dibayar adalah netto "+fmt(netto)+" kg. Selisihnya "+fmt(bruto-netto)+" kg hilang sebagai tara dan rafaksi — itulah misteri yang terpecahkan!";
+  } else {
+    v.innerHTML="Rafaksi 0% — singkong sangat bersih. Coba naikkan rafaksinya dan amati uang petani menyusut.";
+  }
+  document.getElementById('heroDial').textContent=fmt(bruto);
+}
+[inKarung,inRafaksi,inTara,inHarga].forEach(function(el){ el.addEventListener('input',updateSim); });
+updateSim();
+
+/* ---------- TRUCK MISSION ---------- */
+var TRUCK_EMPTY=3200, LIMIT=8000, SACK=50;
+var sacks=0;
+var loadZone=document.getElementById('loadZone');
+function renderTruck(){
+  var total=TRUCK_EMPTY+sacks*SACK;
+  document.getElementById('sackCount').textContent=sacks;
+  document.getElementById('gaugeNow').textContent=fmt(total)+" kg";
+  var fill=document.getElementById('gaugeFill');
+  fill.style.width=Math.min(100,total/LIMIT*100)+"%";
+  fill.classList.toggle('over',total>LIMIT);
+  var html='';
+  var shown=Math.min(sacks,120);
+  for(var i=0;i<shown;i++){ html+='<div class="mini-sack'+(i>=96?' extra':'')+'"></div>'; }
+  if(sacks>120){ html+='<span style="font-weight:800;font-size:13px;align-self:center">+'+(sacks-120)+' lagi</span>'; }
+  loadZone.innerHTML=html || '<span style="color:var(--muted);font-size:13.5px;align-self:center">Bak truk masih kosong — tambahkan karung!</span>';
+  var v=document.getElementById('truckVerdict');
+  v.className="verdict show "+(total>LIMIT?"warn":"ok");
+  if(total>LIMIT){
+    v.innerHTML="🚨 <strong>KELEBIHAN MUATAN!</strong> Total "+fmt(total)+" kg melebihi batas 8.000 kg sebesar "+fmt(total-LIMIT)+" kg. Kurangi minimal "+Math.ceil((total-LIMIT)/SACK)+" karung agar lolos jembatan timbang.";
+  } else if(sacks===96){
+    v.innerHTML="🎯 <strong>Tepat di batas maksimal!</strong> 96 karung × 50 kg + truk 3.200 kg = 8.000 kg. Inilah penyelesaian x ≤ 96 — nilai terbesarnya pas di batas.";
+  } else if(sacks===0){
+    v.innerHTML="Truk kosong berbobot 3.200 kg. Masih ada ruang muatan "+fmt(LIMIT-TRUCK_EMPTY)+" kg. Berapa karung yang muat?";
+  } else {
+    v.innerHTML="✅ Aman. Total "+fmt(total)+" kg dari batas 8.000 kg — masih bisa menambah "+Math.floor((LIMIT-total)/SACK)+" karung lagi.";
+  }
+}
+function addSacks(d){ sacks=Math.max(0,Math.min(160,sacks+d)); renderTruck(); }
+document.getElementById('btnPlus10').addEventListener('click',function(){addSacks(10);});
+document.getElementById('btnMinus10').addEventListener('click',function(){addSacks(-10);});
+document.getElementById('btnPlus1').addEventListener('click',function(){addSacks(1);});
+document.getElementById('btnMinus1').addEventListener('click',function(){addSacks(-1);});
+document.getElementById('btnMax').addEventListener('click',function(){sacks=96;renderTruck();});
+document.getElementById('btnResetTruck').addEventListener('click',function(){sacks=0;renderTruck();});
+renderTruck();
+
+/* ---------- NUMBER LINE ---------- */
+var nlA=document.getElementById('nlA'), nlB=document.getElementById('nlB'), nlC=document.getElementById('nlC'), nlSign=document.getElementById('nlSign');
+function flipSign(s){ return {"<":">","<=":">=",">":"<",">=":"<="}[s]; }
+function signText(s){ return {"<":"&lt;","<=":"≤",">":"&gt;",">=":"≥"}[s]; }
+function drawNL(){
+  var a=parseFloat(nlA.value), b=parseFloat(nlB.value), c=parseFloat(nlC.value), sign=nlSign.value;
+  var wrap=document.getElementById('nlSvgWrap'), sol=document.getElementById('nlSolution');
+  if(isNaN(a)||isNaN(b)||isNaN(c)||a===0){
+    wrap.innerHTML=""; sol.innerHTML="Masukkan angka yang valid dan pastikan <strong>a ≠ 0</strong> agar tetap merupakan pertidaksamaan linear.";
+    return;
+  }
+  var rhs=c-b, bound=rhs/a, effSign=sign;
+  if(a<0) effSign=flipSign(sign);
+  var closed=(effSign==="<="||effSign===">=");
+  var toRight=(effSign===">"||effSign===">=");
+  /* range */
+  var span=Math.max(10,Math.abs(bound)*0.6);
+  var min=bound-span, max=bound+span;
+  /* nice ticks: 5 intervals each side */
+  var step=span/5;
+  var W=760,H=110,pad=36, y=58;
+  var X=function(v){ return pad+(v-min)/(max-min)*(W-2*pad); };
+  var bx=X(bound);
+  var shadeX1=toRight? bx : pad, shadeX2=toRight? W-pad : bx;
+  var s='';
+  s+='<svg class="nl-svg" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Garis bilangan himpunan penyelesaian">';
+  s+='<defs><marker id="arrR" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--green)"/></marker>';
+  s+='<marker id="arrL" markerWidth="8" markerHeight="8" refX="1" refY="3" orient="auto"><path d="M7,0 L0,3 L7,6 Z" fill="var(--green)"/></marker></defs>';
+  /* shading */
+  s+='<rect x="'+shadeX1+'" y="'+(y-13)+'" width="'+Math.max(0,shadeX2-shadeX1)+'" height="26" rx="6" fill="var(--green)" opacity="0.22"/>';
+  /* axis */
+  s+='<line x1="'+(pad-14)+'" y1="'+y+'" x2="'+(W-pad+14)+'" y2="'+y+'" stroke="var(--muted)" stroke-width="2"/>';
+  s+='<path d="M'+(W-pad+14)+' '+y+' l-8 -4 v8 Z" fill="var(--muted)"/><path d="M'+(pad-14)+' '+y+' l8 -4 v8 Z" fill="var(--muted)"/>';
+  /* ticks */
+  for(var i=-5;i<=5;i++){
+    var v=bound+i*step, x=X(v);
+    if(x<pad-10||x>W-pad+10) continue;
+    s+='<line x1="'+x+'" y1="'+(y-6)+'" x2="'+x+'" y2="'+(y+6)+'" stroke="var(--muted)" stroke-width="1.5"/>';
+    var lbl=Math.abs(v)<1e-9?0:v;
+    var txt=(Math.round(lbl*100)/100).toString().replace(".",",");
+    s+='<text x="'+x+'" y="'+(y+26)+'" text-anchor="middle" font-size="12.5" fill="var(--muted)" font-family="JetBrains Mono,monospace">'+txt+'</text>';
+  }
+  /* direction arrow on shading */
+  if(toRight){ s+='<line x1="'+bx+'" y1="'+y+'" x2="'+(W-pad+8)+'" y2="'+y+'" stroke="var(--green)" stroke-width="3.5" marker-end="url(#arrR)"/>'; }
+  else { s+='<line x1="'+bx+'" y1="'+y+'" x2="'+(pad-8)+'" y2="'+y+'" stroke="var(--green)" stroke-width="3.5" marker-end="url(#arrL)"/>'; }
+  /* boundary point */
+  s+='<circle cx="'+bx+'" cy="'+y+'" r="8" fill="'+(closed?'var(--green)':'var(--card)')+'" stroke="var(--green)" stroke-width="3"/>';
+  var blbl=(Math.round(bound*100)/100).toString().replace(".",",");
+  s+='<text x="'+bx+'" y="'+(y-22)+'" text-anchor="middle" font-size="15" font-weight="700" fill="var(--green-d)" font-family="JetBrains Mono,monospace">'+blbl+'</text>';
+  s+='</svg>';
+  wrap.innerHTML=s;
+  var stepsTxt = a+"x + ("+b+") "+signText(sign)+" "+c+" &nbsp;→&nbsp; "+a+"x "+signText(sign)+" "+rhs+(a<0?" &nbsp;→&nbsp; (dibagi bilangan negatif, tanda berbalik)":"")+" &nbsp;→&nbsp; ";
+  sol.innerHTML="Penyelesaian: <span class='mono'>x "+signText(effSign)+" "+blbl+"</span><br><span style='color:var(--muted);font-size:14px'>Langkah: "+stepsTxt.replace(/--/g,"−")+" x "+signText(effSign)+" "+blbl+". Daerah hijau pada garis bilangan adalah himpunan penyelesaiannya.</span>";
+}
+[nlA,nlB,nlC,nlSign].forEach(function(el){ el.addEventListener('input',drawNL); el.addEventListener('change',drawNL); });
+drawNL();
+
+/* ---------- MISSIONS ---------- */
+var doneCount=0;
+document.querySelectorAll('.mission').forEach(function(m){
+  var btn=m.querySelector('.check-btn'), input=m.querySelector('input'), fb=m.querySelector('.fb'), badge=m.querySelector('.badge');
+  var answer=parseFloat(m.getAttribute('data-answer'));
+  function check(){
+    var val=parseFloat(input.value);
+    if(isNaN(val)){ fb.className="fb show no"; fb.textContent="Tulis jawaban angkamu dulu, Detektif!"; return; }
+    if(Math.abs(val-answer)<0.001){
+      fb.className="fb show ok"; fb.textContent="🎉 Benar! Kasus ini terpecahkan.";
+      if(!m.classList.contains('solved')){ m.classList.add('solved'); doneCount++; document.getElementById('missionScore').textContent=doneCount; }
+      badge.textContent="✔ Selesai"; badge.classList.add('done'); btn.disabled=true; input.disabled=true;
+    } else {
+      fb.className="fb show no"; fb.textContent="Belum tepat. Coba hitung ulang, atau buka petunjuknya.";
+    }
+  }
+  btn.addEventListener('click',check);
+  input.addEventListener('keydown',function(e){ if(e.key==='Enter') check(); });
+});
+
+/* ---------- QUIZ ---------- */
+var QUIZ=[
+ {q:"Rafaksi 12% dikenakan pada singkong bruto 3.000 kg. Berapa kg potongan rafaksinya?",opts:["120 kg","240 kg","360 kg","480 kg"],ans:2,exp:"Potongan = 12% × 3.000 = 0,12 × 3.000 = 360 kg."},
+ {q:"Bruto 1.500 kg, tara 30 kg, rafaksi 10%. Berat nettonya adalah …",opts:["1.320 kg","1.350 kg","1.470 kg","1.500 kg"],ans:0,exp:"Potongan rafaksi = 10% × 1.500 = 150 kg. Netto = 1.500 − 30 − 150 = 1.320 kg."},
+ {q:"Bentuk pertidaksamaan untuk “berat total truk paling banyak 8.000 kg” dengan truk kosong 3.200 kg dan x karung @50 kg adalah …",opts:["3.200 + 50x < 8.000","3.200 + 50x ≤ 8.000","50x − 3.200 ≤ 8.000","3.200 + 50x ≥ 8.000"],ans:1,exp:"“Paling banyak” berarti boleh sama dengan batas, jadi tandanya ≤. Modelnya: 3.200 + 50x ≤ 8.000."},
+ {q:"Penyelesaian dari 50x ≤ 4.800 adalah …",opts:["x ≤ 96","x ≤ 106","x < 96","x ≥ 96"],ans:0,exp:"Bagi kedua ruas dengan 50: x ≤ 4.800 ÷ 50 = 96."},
+ {q:"Penyelesaian dari 2x + 6 > 14 adalah …",opts:["x > 3","x > 4","x < 4","x > 10"],ans:1,exp:"2x + 6 > 14 → 2x > 8 → x > 4."},
+ {q:"Pada garis bilangan, penyelesaian x ≤ 5 digambarkan dengan …",opts:["Lingkaran kosong di 5, arsir ke kanan","Lingkaran penuh di 5, arsir ke kiri","Lingkaran penuh di 5, arsir ke kanan","Lingkaran kosong di 5, arsir ke kiri"],ans:1,exp:"Tanda ≤ memakai lingkaran penuh (5 ikut termasuk) dan daerahnya ke kiri karena nilainya lebih kecil dari 5."},
+ {q:"Penyelesaian dari −3x ≥ 12 adalah … (hati-hati!)",opts:["x ≥ −4","x ≤ −4","x ≥ 4","x ≤ 4"],ans:1,exp:"Membagi dengan bilangan negatif membalik tanda: −3x ≥ 12 → x ≤ −4."},
+ {q:"Petani ingin uang minimal Rp1.800.000. Harga Rp1.200/kg. Netto minimal yang dibutuhkan adalah …",opts:["1.200 kg","1.400 kg","1.500 kg","1.800 kg"],ans:2,exp:"Netto × 1.200 ≥ 1.800.000 → netto ≥ 1.800.000 ÷ 1.200 = 1.500 kg."}
+];
+var qi=0, score=0, answered=false;
+var quizBody=document.getElementById('quizBody');
+function renderQuiz(){
+  answered=false;
+  document.getElementById('quizProgressLabel').textContent="Soal "+(qi+1)+" dari "+QUIZ.length;
+  document.getElementById('quizProg').style.width=(qi/QUIZ.length*100)+"%";
+  document.getElementById('quizScore').textContent=score;
+  var item=QUIZ[qi];
+  var letters=["A","B","C","D"];
+  var html='<p class="qnum">Soal '+(qi+1)+'</p><h3>'+item.q+'</h3><div class="opts">';
+  item.opts.forEach(function(o,idx){ html+='<button class="opt" data-idx="'+idx+'"><span class="letter">'+letters[idx]+'</span><span>'+o+'</span></button>'; });
+  html+='</div><div class="explain" id="qExplain"></div>';
+  html+='<div class="quiz-foot"><span style="font-size:14px;color:var(--muted)">Pilih satu jawaban untuk melihat pembahasan.</span><button class="btn" id="qNext" style="display:none">'+(qi===QUIZ.length-1?"Lihat Hasil Akhir":"Soal Berikutnya →")+'</button></div>';
+  quizBody.innerHTML=html;
+  quizBody.querySelectorAll('.opt').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      if(answered) return; answered=true;
+      var idx=parseInt(btn.getAttribute('data-idx'),10);
+      var correct=idx===item.ans;
+      if(correct) score++;
+      quizBody.querySelectorAll('.opt').forEach(function(b,j){
+        b.disabled=true;
+        if(j===item.ans) b.classList.add('right');
+        else if(j===idx) b.classList.add('wrong');
+      });
+      var ex=document.getElementById('qExplain');
+      ex.className="explain show";
+      ex.innerHTML=(correct?"✅ <strong>Benar!</strong> ":"❌ <strong>Belum tepat.</strong> ")+item.exp;
+      document.getElementById('quizScore').textContent=score;
+      document.getElementById('quizProg').style.width=((qi+1)/QUIZ.length*100)+"%";
+      var nx=document.getElementById('qNext'); nx.style.display="inline-block";
+      nx.addEventListener('click',function(){ qi++; if(qi<QUIZ.length) renderQuiz(); else renderFinal(); });
+    });
+  });
+}
+function renderFinal(){
+  document.getElementById('quizProgressLabel').textContent="Kuis selesai";
+  var stars=score>=7?"★★★":score>=5?"★★☆":score>=3?"★☆☆":"☆☆☆";
+  var msg=score>=7?"Luar biasa! Kamu layak jadi Kepala Pos Timbang. 🏆":score>=5?"Bagus! Sedikit lagi menuju sempurna — coba ulangi soal yang tadi salah.":score>=3?"Awal yang baik. Kembali ke simulator dan misi truk, lalu coba lagi!":"Jangan menyerah, Detektif. Pelajari lagi konsep rafaksi dan pertidaksamaannya, lalu coba lagi!";
+  quizBody.innerHTML='<div class="score-final"><div class="stars">'+stars+'</div><div class="big">'+score+" / "+QUIZ.length+'</div><p style="max-width:440px;margin:10px auto 20px">'+msg+'</p><button class="btn amber" id="qRestart">Ulangi Kuis</button></div>';
+  document.getElementById('qRestart').addEventListener('click',function(){ qi=0; score=0; renderQuiz(); });
+}
+renderQuiz();
+})();
+</script>
+</body>
+</html>
