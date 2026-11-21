@@ -719,14 +719,14 @@
       lkpd: {
         nama: "LKPD Prompter",
         bonus: true,
-        judulPrompt: "LEMBAR KERJA PESERTA DIDIK (LKPD)",
+        judulPrompt: "LKPD",
         ikon: ikon('<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4.5V3h6v1.5"/><path d="M9 10h6M9 13.5h6M9 17h4"/>'),
-        desc: "Susun prompt LKPD yang fase aktivitasnya mengikuti model pembelajaran pilihan — lengkap dengan petunjuk, ruang jawab, dan kunci terpisah untuk pegangan guru.",
+        desc: "Susun prompt LKPD dengan model ringkas: konfigurasi, jangkar kurikulum, kepala LKPD, aktivitas inti dengan panduan khas per fase sesuai model pilihan, kunci guru terpisah, refleksi, aturan, dan larangan.",
         poin: [
           "6 model: PBL, Discovery, Inkuiri, PjBL, Saintifik 5M, PM",
-          "Fase aktivitas otomatis mengikuti sintaks model",
-          "Pertanyaan panduan berjenjang di tiap fase",
-          "Kunci & pedoman skor terpisah, siap cetak A4"
+          "Panduan khas per fase — bukan butir generik yang diulang",
+          "Pertanyaan panduan berjenjang + ruang temuan murid di tiap fase",
+          "Kunci & pedoman guru terpisah + antisipasi kesulitan, siap cetak"
         ],
         pertemuanDefault: 1,
         jenis: {
@@ -1305,6 +1305,249 @@
       return L.join("\n");
     }
 
+    /* ================= PEMBANGUN PROMPT KHUSUS LKPD ================= */
+    /* Panduan KHAS per fase untuk keenam model — bukan butir generik yang diulang. */
+    var LKPD_FASE = {
+      saintifik: [
+        { nama: "MENGAMATI", khas: [
+          "Sertakan STIMULUS konkret: gambar, teks singkat, data, atau kasus nyata dari kehidupan murid yang memantik rasa ingin tahu (deskripsikan gambarnya bila gambar tidak dapat dicetak).",
+          "Sertakan TABEL PENGAMATAN / ruang pencatatan data yang siap diisi murid selama mengamati."
+        ]},
+        { nama: "MENANYA", khas: [
+          "Sediakan ruang bagi murid menuliskan pertanyaan MEREKA SENDIRI tentang stimulus, ditambah 1\u20132 pertanyaan pemancing bila murid kesulitan memulai.",
+          "Murid memilih dan mengelompokkan pertanyaan yang akan dijawab pada fase Mencoba."
+        ]},
+        { nama: "MENCOBA (MENGUMPULKAN INFORMASI)", khas: [
+          "Tulis langkah percobaan / pengumpulan data secara berurutan dan bernomor \u2014 satu langkah untuk satu tindakan.",
+          "Sertakan TABEL HASIL untuk mencatat data atau hasil percobaan yang diperoleh."
+        ]},
+        { nama: "MENALAR (MENGASOSIASI)", khas: [
+          "Arahkan murid mengolah data: membandingkan, mencari pola, dan menghubungkan antar hasil pengamatan.",
+          "Sediakan kerangka kalimat penalaran yang boleh dilengkapi murid, mis. \u201CDari data terlihat bahwa \u2026 karena \u2026\u201D."
+        ]},
+        { nama: "MENGOMUNIKASIKAN", khas: [
+          "Murid menyajikan hasil (lisan, tulisan, atau poster sederhana); kelompok/pasangan lain menanggapi dengan 1 pertanyaan atau masukan.",
+          "Tutup dengan kesimpulan akhir yang ditulis murid dengan kalimatnya sendiri."
+        ]}
+      ],
+      pbl: [
+        { nama: "ORIENTASI PADA MASALAH", khas: [
+          "Sajikan KASUS NYATA dari kehidupan murid (teks singkat, data, atau gambar) yang memuat masalah terbuka terkait TP.",
+          "Akhiri dengan pertanyaan pemantik: masalah apa yang harus dipecahkan, dan mengapa masalah itu penting dipecahkan."
+        ]},
+        { nama: "MENGORGANISASI MURID UNTUK BELAJAR", khas: [
+          "Tetapkan rencana kerja tertulis: langkah-langkah penyelidikan, penanggung jawab tiap langkah (bila berkelompok/berpasangan), dan target waktu tiap langkah."
+        ]},
+        { nama: "PENYELIDIKAN (MANDIRI/KELOMPOK)", khas: [
+          "Murid mengumpulkan data/bukti lewat pengamatan, percobaan, atau bacaan yang disediakan; sertakan TABEL BUKTI/DATA yang siap diisi.",
+          "Pertanyaan panduan menuntun murid memeriksa apakah bukti yang terkumpul sudah cukup untuk menjawab masalah."
+        ]},
+        { nama: "MENGEMBANGKAN & MENYAJIKAN HASIL", khas: [
+          "Murid menyusun solusi/produk (jawaban tertulis, poster, atau model sederhana) beserta alasannya, lalu menyajikannya; sediakan ruang menuliskan solusi dan alasan itu."
+        ]},
+        { nama: "ANALISIS & EVALUASI PROSES", khas: [
+          "Murid menilai strategi yang dipakai: apa yang berhasil, di mana letak kesalahan, dan apa perbaikan bila mengulang pemecahan masalah ini.",
+          "Konsep kunci yang seharusnya ditemukan ditegaskan guru di dokumen guru (Bagian E), BUKAN dituliskan di lembar murid."
+        ]}
+      ],
+      discovery: [
+        { nama: "STIMULATION (PEMBERIAN RANGSANGAN)", khas: [
+          "Sajikan fenomena, data, atau contoh yang menimbulkan kejanggalan dan rasa ingin tahu terkait TP.",
+          "Murid menuliskan hal yang menarik perhatian dan hal yang belum dipahami dari rangsangan itu."
+        ]},
+        { nama: "PROBLEM STATEMENT (PERNYATAAN MASALAH)", khas: [
+          "Murid merumuskan masalah dan dugaan awal dengan kalimat sendiri; sediakan ruang: \u201CMasalah yang kami selidiki: \u2026\u201D dan \u201CDugaan awal kami: \u2026 karena \u2026\u201D."
+        ]},
+        { nama: "DATA COLLECTION (PENGUMPULAN DATA)", khas: [
+          "Tulis langkah pengumpulan data/percobaan secara berurutan dan bernomor; sertakan TABEL DATA yang siap diisi."
+        ]},
+        { nama: "DATA PROCESSING (PENGOLAHAN DATA)", khas: [
+          "Murid mengolah data: menghitung, membandingkan, dan mencari pola; sediakan ruang olah data yang terstruktur (tabel lanjutan / ruang hitung)."
+        ]},
+        { nama: "VERIFICATION (PEMBUKTIAN)", khas: [
+          "Murid memeriksa apakah dugaan awal terbukti oleh data; sediakan ruang: \u201CDugaan kami terbukti / tidak terbukti, karena data menunjukkan \u2026\u201D."
+        ]},
+        { nama: "GENERALIZATION (PENARIKAN KESIMPULAN)", khas: [
+          "Murid menuliskan kesimpulan umum (pola/rumus/prinsip) dengan kalimat sendiri.",
+          "Terapkan kesimpulan itu pada 1 contoh atau situasi baru sebagai bukti pemahaman."
+        ]}
+      ],
+      inkuiri: [
+        { nama: "MERUMUSKAN MASALAH", khas: [
+          "Sajikan fenomena pemicu, lalu bimbing murid menuliskan rumusan masalah dalam bentuk pertanyaan yang dapat diselidiki."
+        ]},
+        { nama: "MENYUSUN HIPOTESIS", khas: [
+          "Sediakan ruang dugaan sementara beserta alasannya: \u201CKami menduga \u2026 karena \u2026\u201D."
+        ]},
+        { nama: "MENGUMPULKAN DATA/BUKTI", khas: [
+          "Tulis langkah penyelidikan/percobaan secara berurutan dan bernomor; sertakan TABEL PENGAMATAN yang siap diisi."
+        ]},
+        { nama: "MENGUJI HIPOTESIS", khas: [
+          "Murid membandingkan data yang terkumpul dengan hipotesis, dan menandai bukti yang mendukung atau menolak dugaan awal."
+        ]},
+        { nama: "MENARIK KESIMPULAN", khas: [
+          "Kesimpulan harus menjawab rumusan masalah dan menyebutkan bukti pendukungnya, lalu dikaitkan kembali ke TP."
+        ]}
+      ],
+      pjbl: [
+        { nama: "PERTANYAAN MENDASAR", khas: [
+          "Sajikan pertanyaan/tantangan proyek yang terbuka dan dekat dengan kehidupan murid.",
+          "Murid menuliskan pemahaman awalnya serta gagasan produk yang mungkin dibuat."
+        ]},
+        { nama: "MENDESAIN PERENCANAAN PRODUK", khas: [
+          "Sediakan ruang sketsa/rancangan produk beserta langkah pembuatannya.",
+          "Daftar alat dan bahan harus realistis dan mudah diperoleh di lingkungan murid."
+        ]},
+        { nama: "MENYUSUN JADWAL", khas: [
+          "Sertakan TABEL JADWAL: tahap pekerjaan, penanggung jawab, dan target waktu selesai."
+        ]},
+        { nama: "MONITORING KEMAJUAN", khas: [
+          "Sediakan daftar cek kemajuan per tahap pekerjaan.",
+          "Sediakan ruang mencatat kendala yang muncul dan cara mengatasinya."
+        ]},
+        { nama: "MENGUJI HASIL PRODUK", khas: [
+          "Murid menguji dan menyajikan produk; kelompok/pasangan lain memberi tanggapan.",
+          "Sediakan ruang catatan tanggapan dan perbaikan produk berdasarkan tanggapan itu."
+        ]},
+        { nama: "EVALUASI PENGALAMAN", khas: [
+          "Murid menilai proses berkarya: apa yang berhasil, apa yang paling sulit, dan pelajaran untuk proyek berikutnya."
+        ]}
+      ],
+      pm: [
+        { nama: "MEMAHAMI", khas: [
+          "Mulai dari konteks nyata kehidupan murid, lalu eksplorasi konsep lewat pengamatan dan contoh terbimbing; pertanyaan panduan menggali makna (mengapa/bagaimana), bukan hafalan.",
+          "Sediakan ruang bagi murid menuliskan pemahaman awal dan hal yang masih membingungkan."
+        ]},
+        { nama: "MENGAPLIKASI", khas: [
+          "Murid menerapkan konsep pada masalah nyata yang BARU, dengan konteks berbeda dari fase Memahami.",
+          "Sertakan ruang langkah penyelesaian yang terstruktur (diketahui \u2192 ditanya \u2192 cara \u2192 jawaban)."
+        ]},
+        { nama: "MEREFLEKSI", khas: [
+          "Murid menilai pemahamannya sendiri terhadap tujuan secara jujur (cek diri) dan menuliskan bukti kemampuannya.",
+          "Tutup dengan rencana perbaikan konkret: bagian yang belum dikuasai dan cara memperbaikinya."
+        ]}
+      ]
+    };
+    function lkpdFaseKey(jenis){
+      if (!jenis) return "saintifik";
+      if (jenis.indexOf("Saintifik") >= 0) return "saintifik";
+      if (jenis.indexOf("Problem Based") >= 0) return "pbl";
+      if (jenis.indexOf("Discovery") >= 0) return "discovery";
+      if (jenis.indexOf("Inkuiri") >= 0) return "inkuiri";
+      if (jenis.indexOf("Project Based") >= 0) return "pjbl";
+      if (jenis.indexOf("Pembelajaran Mendalam") >= 0) return "pm";
+      return "saintifik";
+    }
+
+    function buildPromptLKPD(v){
+      var u = varsUmum(v);
+      var jenis = (v.jenis || "").trim();
+      var modelNama = jenis || "Saintifik 5M";
+      var modelDisplay = modelNama.indexOf("Pembelajaran Mendalam") >= 0 ? "Pembelajaran Mendalam" : modelNama;
+      var faseKey = lkpdFaseKey(jenis);
+      var format = (v.format || "").trim() || "Kelompok (3\u20134 murid)";
+      var isKelompok = format.indexOf("Kelompok") >= 0;
+      var isPasangan = !isKelompok && format.indexOf("Berpasangan") >= 0;
+      var dikerjakan = format;
+      if (isKelompok) dikerjakan += " \u2014 dengan pembagian peran: ketua, pencatat, penyaji, penjaga waktu";
+      else if (isPasangan) dikerjakan += " \u2014 peran bergantian antar pasangan (membaca, mencoba, dan mencatat bergantian)";
+      else dikerjakan += " \u2014 mandiri, dengan cek diri di akhir kegiatan";
+      var kertas = (v.kertas || "").trim() || "A4";
+      var n = u.nForm;
+      var temuanLabel = (isKelompok || isPasangan) ? "Temuan/kesimpulan sementara kami" : "Temuan/kesimpulan sementara saya";
+      var L = [];
+
+      /* Judul */
+      L.push("\uD83C\uDFAF BUAT LKPD");
+      L.push(u.materi + " \u2022 " + (v.mapel || "-") + " \u2022 " + (v.jenjang || "-") + " Kelas " + (v.kelas || "-") + " \u2022 " + modelDisplay);
+
+      /* A. KONFIGURASI */
+      L.push(seksiContoh("A", "KONFIGURASI"));
+      L.push(padLabel("Model pembelajaran") + modelNama);
+      L.push(padLabel("Dikerjakan") + dikerjakan);
+      L.push(padLabel("Bentuk luaran") + "Teks siap cetak (MS Word), dicetak " + kertas);
+      L.push(padLabel("Alokasi waktu") + u.jp + " \u00D7 " + u.menit + " menit");
+      if (n > 1) L.push(padLabel("Jumlah LKPD") + n + " \u2014 satu LKPD per pertemuan, berurutan dan berkesinambungan (mudah \u2192 menantang)");
+      L.push(padLabel("Bahasa") + "Indonesia sederhana, kalimat perintah langsung ke murid (\u201CAmati\u2026\u201D, \u201CDiskusikan\u2026\u201D)");
+      L.push(padLabel("Satuan pendidikan") + (v.sekolah || "-"));
+      L.push(padLabel("Disusun oleh") + (v.guru || "-"));
+      L.push(padLabel("Jenjang/Kelas/Fase") + (v.jenjang || "-") + " / " + (v.kelas || "-") + " / " + (v.fase || "-"));
+      L.push(padLabel("Mata pelajaran") + (v.mapel || "-"));
+      L.push(padLabel("Materi pokok") + u.materi);
+
+      /* B. JANGKAR KURIKULUM */
+      L.push(seksiContoh("B", "JANGKAR KURIKULUM"));
+      L.push("TP (dari CP/ATP atau Panduan Mapel \u2014 JANGAN diubah maknanya; seluruh aktivitas harus menuntun ke TP ini):");
+      if (v.tps.length) v.tps.forEach(function(t){ L.push("  - " + t); });
+      else L.push("  - [TP belum saya isi \u2014 turunkan 1\u20134 TP dari CP mata pelajaran ini sesuai Panduan Mata Pelajaran BSKAP, dan tandai dengan jelas sebagai hasil turunan agar dapat saya periksa.]");
+      L.push("Kompetensi awal murid: " + u.karMurid);
+      L.push("Pengetahuan bermakna yang dibangun: " + u.bermaknaTeks);
+      if (v.dimensi && v.dimensi.length) L.push("Dimensi Profil Lulusan yang dilatih: " + v.dimensi.join(", ") + " \u2014 wujudkan lewat aktivitas nyata, bukan tempelan label.");
+      L.push("Selaraskan LKPD ini dengan Permendikdasmen Nomor 1 Tahun 2026 tentang Standar Proses dan semangat Pembelajaran Mendalam sejauh relevan dengan model " + modelDisplay + ".");
+
+      /* C. KEPALA LKPD */
+      L.push(seksiContoh("C", "KEPALA LKPD"));
+      L.push("Susun kepala LKPD berisi:");
+      L.push("- Judul aktivitas yang menarik, dirumuskan dari materi & TP (bukan sekadar nama bab), diikuti identitas dokumen: " + (v.sekolah || "-") + " \u2022 " + (v.mapel || "-") + " \u2022 Kelas " + (v.kelas || "-") + " / " + (v.fase || "-") + " \u2022 Alokasi " + u.jp + " \u00D7 " + u.menit + " menit.");
+      var identitasMurid = "- Identitas murid: nama dan kelas";
+      if (isKelompok) identitasMurid += ", nama kelompok, serta daftar anggota beserta perannya";
+      else if (isPasangan) identitasMurid += " dan nama pasangan";
+      identitasMurid += " \u2014 sediakan garis/titik-titik untuk diisi murid.";
+      L.push(identitasMurid);
+      L.push("- Tujuan LKPD: salin TP terkait persis, lalu terjemahkan menjadi kalimat tujuan berbahasa murid (\u201CSetelah kegiatan ini, saya mampu \u2026\u201D).");
+      L.push("- Petunjuk pengerjaan bernomor yang jelas: urutan langkah, cara mengisi ruang kerja, dan apa yang dikumpulkan di akhir.");
+      if (v.media && v.media.trim()) L.push("- Alat & bahan yang dibutuhkan: " + v.media.trim() + " \u2014 hanya ini yang tersedia di kelas, jangan menambahkan alat lain.");
+      else L.push("- Alat & bahan yang dibutuhkan: rumuskan alat/bahan sederhana yang realistis dan mudah diperoleh di kelas negeri.");
+
+      /* D. AKTIVITAS INTI \u2014 fase PERSIS mengikuti sintaks model terpilih */
+      L.push(seksiContoh("D", "AKTIVITAS INTI (" + modelDisplay.toUpperCase() + ")"));
+      L.push("Susun aktivitas mengikuti fase model " + modelDisplay + " berikut secara BERURUTAN dan PERSIS \u2014 tanpa fase tambahan di luar sintaks ini. Setiap fase WAJIB memuat: judul fase, stimulus/tugas konkret, ruang kerja murid (tabel isian dan/atau ruang tulis yang cukup), dan 2\u20134 pertanyaan panduan berjenjang (mudah \u2192 menantang) yang menuntun murid menemukan kesimpulan SENDIRI \u2014 jangan membocorkan jawabannya. Panduan khas tiap fase:");
+      LKPD_FASE[faseKey].forEach(function(f, i){
+        L.push((i + 1) + ". " + f.nama);
+        f.khas.forEach(function(k){ L.push("   - " + k); });
+        L.push("   - Tutup fase dengan ruang isian: \u201C" + temuanLabel + ": \u2026\u2026\u2026\u2026\u2026\u2026\u201D");
+      });
+
+      /* E. KUNCI & PEDOMAN PENSKORAN */
+      L.push(seksiContoh("E", "KUNCI & PEDOMAN PENSKORAN (untuk guru, halaman terpisah)"));
+      L.push("Susun dokumen guru yang TERPISAH dari lembar murid, berisi:");
+      L.push("- Jawaban ideal / contoh jawaban yang diharapkan untuk setiap pertanyaan panduan dan aktivitas, disusun per fase.");
+      L.push("- Pedoman penskoran per fase: skor untuk jawaban benar lengkap / benar sebagian / salah atau kosong, ditutup rumus nilai akhir skala 0\u2013100.");
+      L.push("- Antisipasi kesulitan murid per fase: kesulitan atau miskonsepsi yang mungkin muncul beserta cara guru menanganinya saat kegiatan berlangsung.");
+      if (isKelompok || isPasangan) L.push("- Rubrik proses kerja sama singkat (skala 1\u20134): pembagian peran berjalan, kontribusi tiap anggota/pasangan, dan kualitas diskusi.");
+      L.push("Kunci dan pedoman ini TIDAK BOLEH tercampur di lembar murid.");
+
+      /* F. REFLEKSI */
+      L.push(seksiContoh("F", "REFLEKSI"));
+      L.push("Tutup LKPD dengan 2\u20133 pertanyaan refleksi untuk murid: apa yang dipelajari hari ini, bagian mana yang paling sulit dan mengapa, serta tindak lanjut yang akan dilakukan.");
+      L.push("Tambahkan cek diri terhadap tujuan: murid menandai dan melengkapi kalimat \u201CSaya sudah mampu \u2026\u201D dan \u201CSaya masih perlu berlatih \u2026\u201D.");
+
+      /* G. ATURAN */
+      L.push(seksiContoh("G", "ATURAN"));
+      var aturan5 = "Satu perintah untuk satu tindakan, bahasa langsung ke murid; alat/bahan realistis untuk kelas negeri";
+      if (v.media && v.media.trim()) aturan5 += " \u2014 dan hanya memakai media/alat yang tersedia di kelas: " + v.media.trim();
+      aturan5 += ".";
+      var aturan = [
+        "Satu LKPD = satu rangkaian tujuan utuh yang tercapai dalam " + u.jp + " \u00D7 " + u.menit + " menit.",
+        "Murid BEKERJA aktif (mengamati, mencoba, menulis) \u2014 minimal 70% isi LKPD adalah aktivitas, bukan bacaan.",
+        "Pertanyaan panduan menuntun penemuan, bukan menguji hafalan.",
+        "Siap cetak " + kertas + ": rapi, font terbaca, ruang jawab cukup dan realistis.",
+        aturan5
+      ];
+      FITUR.filter(function(f){ return (v.fitur || []).indexOf(f.id) >= 0; }).forEach(function(f){
+        aturan.push("Fitur wajib \u2014 " + (RPP_FITUR_TEKS[f.id] || (f.label + " \u2014 " + f.desc + ".")));
+      });
+      aturan.forEach(function(a, i){ L.push((i + 1) + ". " + a); });
+
+      /* LARANGAN */
+      L.push("\n\u2500\u2500\u2500 LARANGAN \u2500\u2500\u2500");
+      L.push("1. Dilarang ceramah terselubung \u2014 jangan menjelaskan materi panjang lebar di LKPD.");
+      L.push("2. Dilarang aktivitas di luar TP.");
+      L.push("3. Dilarang jawaban dibocorkan di pertanyaan panduan.");
+      L.push("4. Dilarang aktivitas yang hanya bisa dikerjakan di layar atau membutuhkan alat mahal yang tidak tersedia di kelas.");
+      return L.join("\n");
+    }
+
     function buildPromptAsesmen(v){
       var u = varsUmum(v);
       var jenisFull = v.jenis || "";
@@ -1413,6 +1656,7 @@
       if (catId === "modul") return buildPromptModul(v);
       if (catId === "bahanajar") return buildPromptBahan(v);
       if (catId === "asesmen") return buildPromptAsesmen(v);
+      if (catId === "lkpd") return buildPromptLKPD(v);
       var cat = CATS[catId];
       var L = [];
       L.push("🎯 BUAT " + cat.judulPrompt);
