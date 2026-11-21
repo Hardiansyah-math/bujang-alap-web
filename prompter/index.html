@@ -677,14 +677,14 @@
 
       asesmen: {
         nama: "Asesmen Prompter",
-        judulPrompt: "PAKET ASESMEN (KISI-KISI, SOAL, KUNCI, RUBRIK)",
+        judulPrompt: "ASESMEN",
         ikon: ikon('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/>'),
-        desc: "Susun prompt paket asesmen lengkap: dari kisi-kisi sampai remedial dan pengayaan, dengan komposisi bentuk soal dan level kognitif yang Bapak/Ibu tentukan sendiri.",
+        desc: "Susun prompt asesmen dengan model ringkas per jenis: konfigurasi, jangkar kurikulum, kisi-kisi per TP, naskah dengan aturan khas per bentuk soal, kunci + pembahasan, penskoran & rubrik, remedial–pengayaan, dan larangan anti pola-tebakan.",
         poin: [
-          "5 jenis: Kuis, Ulangan Harian, STS, SAS/ASAS, Diagnostik",
-          "Komposisi PG, PGK, isian, jodoh, benar–salah, uraian",
-          "Level kognitif C1–C6 terpetakan di kisi-kisi",
-          "Kunci + pembahasan, pedoman penskoran, rubrik uraian"
+          "Judul & struktur mengikuti jenis: Kuis, Ulangan Harian, STS, SAS/ASAS, Diagnostik",
+          "Kisi-kisi per TP — satu soal satu indikator, level C1–C6 tertanda",
+          "Aturan khas per bentuk soal: pengecoh dari miskonsepsi, kunci teracak seimbang",
+          "Kunci + pembahasan, rubrik uraian, remedial 5 soal setara + pengayaan HOTS"
         ],
         pertemuanDefault: 1,
         jenis: {
@@ -1551,106 +1551,178 @@
     function buildPromptAsesmen(v){
       var u = varsUmum(v);
       var jenisFull = v.jenis || "";
-      var jenisShort = jenisFull.split(" (")[0].split(" — ")[0].trim() || "Asesmen";
-      var judulKapital = ("PAKET ASESMEN " + jenisShort).toUpperCase();
-      var num = function(x){ var n = parseInt(x, 10); return isNaN(n) || n < 0 ? 0 : n; };
-      var komp = [
-        { nama: "Pilihan Ganda (PG)", n: num(v.pg), ket: "4 opsi (A–D) yang homogen, pengecoh masuk akal dari miskonsepsi umum murid" },
-        { nama: "Pilihan Ganda Kompleks (PGK)", n: num(v.pgk), ket: "pernyataan majemuk, murid memilih lebih dari satu jawaban benar / kategori Benar–Salah per pernyataan" },
-        { nama: "Isian Singkat", n: num(v.isian), ket: "jawaban singkat satu kata/angka/frasa, kunci tegas" },
-        { nama: "Menjodohkan", n: num(v.jodoh), ket: "pasangan premis–respons yang setara jumlahnya, urutan respons diacak" },
-        { nama: "Benar – Salah", n: num(v.bs), ket: "pernyataan diuji kebenarannya, seimbang jumlah Benar dan Salah" },
-        { nama: "Uraian", n: num(v.uraian), ket: "perintah jelas, batas ruang jawab, mengukur penalaran bukan hafalan" }
-      ];
-      var total = komp.reduce(function(a, b){ return a + b.n; }, 0);
-      var komposisiStr = "PG " + num(v.pg) + " · PGK " + num(v.pgk) + " · Isian " + num(v.isian) + " · Menjodohkan " + num(v.jodoh) + " · Benar–Salah " + num(v.bs) + " · Uraian " + num(v.uraian) + " (total " + total + " soal)";
-      var levelStr = (v.level && v.level.length) ? v.level.join(", ") : "C2 Memahami, C3 Mengaplikasikan, C4 Menganalisis";
       var isDiag = jenisFull.indexOf("Diagnostik") >= 0;
-
-      var cfg = [];
-      cfg.push(padLabel("Jenis dokumen") + "Paket Asesmen — " + jenisShort);
-      cfg.push(padLabel("Satuan pendidikan") + (v.sekolah || "-"));
-      cfg.push(padLabel("Disusun oleh") + (v.guru || "-"));
-      cfg.push(padLabel("Jenjang/Kelas/Fase") + (v.jenjang || "-") + " / " + (v.kelas || "-") + " / " + (v.fase || "-"));
-      cfg.push(padLabel("Mata pelajaran") + (v.mapel || "-"));
-      cfg.push(padLabel("Materi pokok") + u.materi);
-      cfg.push(padLabel("Komposisi soal") + komposisiStr);
-      cfg.push(padLabel("Level kognitif") + levelStr);
-      cfg.push(padLabel("KKTP") + (v.kktp || "75"));
-      cfg.push(padLabel("Durasi") + (v.durasi || "-"));
-      cfg.push(padLabel("Format keluaran") + "Teks rapi siap salin ke Word");
-      var L = buatKepala(v, u, judulKapital, cfg, null);
-
-      var parts = [];
-      var idLines = [
-        "Satuan pendidikan: " + (v.sekolah || "-") + " | Jenis asesmen: " + jenisShort + " | Kelas/Fase: " + (v.kelas || "-") + " / " + u.faseSingkat + " | Mata pelajaran: " + (v.mapel || "-") + " | Materi: " + u.materi,
-        "Jumlah soal: " + total + " soal — " + komposisiStr + " | Durasi: " + (v.durasi || "-") + " | KKTP: " + (v.kktp || "75") + " | Level kognitif: " + levelStr,
-        "- Cakupan kesiapan yang dipetakan dari kompetensi awal murid: " + u.karMurid,
-        "- Penguasaan bermakna yang diukur: " + u.bermaknaTeks
+      var jenisDisplay, judulKapital;
+      if (isDiag) { jenisDisplay = "Asesmen Diagnostik"; judulKapital = "ASESMEN DIAGNOSTIK"; }
+      else if (jenisFull.indexOf("Kuis") >= 0) { jenisDisplay = "Kuis"; judulKapital = "KUIS"; }
+      else if (jenisFull.indexOf("Ulangan Harian") >= 0) { jenisDisplay = "Ulangan Harian"; judulKapital = "ULANGAN HARIAN"; }
+      else if (jenisFull.indexOf("STS") >= 0) { jenisDisplay = "STS"; judulKapital = "STS"; }
+      else if (jenisFull.indexOf("SAS") >= 0) { jenisDisplay = "SAS/ASAS"; judulKapital = "SAS/ASAS"; }
+      else { jenisDisplay = "Asesmen"; judulKapital = "ASESMEN"; }
+      var num = function(x){ var n = parseInt(x, 10); return isNaN(n) || n < 0 ? 0 : n; };
+      var bentuk = [
+        { kunci: "pg", pendek: "PG", n: num(v.pg), maks: 1 },
+        { kunci: "pgk", pendek: "PGK", n: num(v.pgk), maks: 1 },
+        { kunci: "isian", pendek: "Isian singkat", n: num(v.isian), maks: 1 },
+        { kunci: "jodoh", pendek: "Menjodohkan", n: num(v.jodoh), maks: 1 },
+        { kunci: "bs", pendek: "Benar–Salah", n: num(v.bs), maks: 1 },
+        { kunci: "uraian", pendek: "Uraian", n: num(v.uraian), maks: 4 }
       ];
-      if (isDiag) idLines.push("- Khusus diagnostik: hasil dipakai untuk memetakan kesiapan murid dan merancang tindak lanjut, BUKAN untuk nilai rapor.");
-      parts.push({ judul: "IDENTITAS ASESMEN", lines: idLines });
-      if (v.kelKisi) parts.push({ judul: "KISI-KISI SOAL", lines: [
-        "Susun kisi-kisi dalam tabel dengan kolom: No | Tujuan Pembelajaran (salin persis dari Bagian C) | Indikator Soal | Bentuk Soal | Level Kognitif (C1–C6) | Kunci Jawaban.",
-        "Jumlah baris kisi-kisi TEPAT " + total + " (satu baris per soal) dan distribusi level kognitif mengikuti fokus: " + levelStr + "."
-      ]});
-      if (v.kelNaskah) {
-        var nl = ["Tulis naskah soal lengkap, diberi nomor urut 1 sampai " + total + ", dikelompokkan per bentuk soal berikut (hanya bentuk dengan jumlah > 0):"];
-        komp.forEach(function(k){ if (k.n > 0) nl.push("- " + k.nama + ": " + k.n + " soal — " + k.ket + "."); });
-        nl.push("Setiap soal berbasis konteks yang wajar bagi murid " + (v.jenjang || "SMP") + " dan HANYA mengukur TP pada Bagian C, dengan fokus level kognitif: " + levelStr + ".");
-        parts.push({ judul: "NASKAH SOAL", lines: nl });
+      var bentukAktif = bentuk.filter(function(b){ return b.n > 0; });
+      var total = bentuk.reduce(function(a, b){ return a + b.n; }, 0);
+      var skorMaks = bentuk.reduce(function(a, b){ return a + (b.n * b.maks); }, 0);
+      var komposisiStr = bentukAktif.length
+        ? bentukAktif.map(function(b){ return b.pendek + ": " + b.n; }).join(", ")
+        : "belum diisi (semua bentuk soal 0)";
+      var levelPilih = v.level || [];
+      var semuaLevel = ["C1","C2","C3","C4","C5","C6"].every(function(c){
+        return levelPilih.some(function(l){ return l.indexOf(c) === 0; });
+      });
+      var fokusStr = semuaLevel ? "Berimbang (C1–C6 merata)"
+        : (levelPilih.length ? levelPilih.join(", ") : "C2 Memahami, C3 Mengaplikasikan, C4 Menganalisis");
+      var kktp = v.kktp || "75";
+      var nUraian = num(v.uraian);
+      var L = [];
+
+      /* Judul */
+      L.push("🎯 BUAT " + judulKapital);
+      L.push(jenisDisplay + " " + u.materi + " • " + (v.mapel || "-") + " • " + (v.jenjang || "-") + " Kelas " + (v.kelas || "-") + " • " + total + " soal");
+
+      /* A. KONFIGURASI */
+      L.push(seksiContoh("A", "KONFIGURASI"));
+      L.push(padLabel("Jenis asesmen") + (jenisFull || "-"));
+      L.push(padLabel("Jumlah soal") + total + " — " + komposisiStr);
+      L.push(padLabel("Fokus level") + fokusStr + "; TANDAI level (C1–C6) pada tiap soal di kisi-kisi dan sebagai label kecil di naskah guru (label level dihilangkan pada lembar yang dicetak untuk murid).");
+      L.push(padLabel("Konteks soal") + "Kontekstual — soal berakar pada kehidupan sehari-hari murid " + (v.jenjang || "SMP") + " (lingkungan Terusan Nunyai / Lampung Tengah bila relevan), bukan soal abstrak.");
+      L.push(padLabel("Satuan pendidikan") + (v.sekolah || "-"));
+      L.push(padLabel("Disusun oleh") + (v.guru || "-"));
+      L.push(padLabel("Jenjang/Kelas/Fase") + (v.jenjang || "-") + " / " + (v.kelas || "-") + " / " + (v.fase || "-"));
+      L.push(padLabel("Mata pelajaran") + (v.mapel || "-"));
+      L.push(padLabel("Materi pokok") + u.materi);
+      L.push(padLabel("KKTP") + kktp);
+      L.push(padLabel("Durasi") + (v.durasi || "-"));
+      L.push(padLabel("Format keluaran") + "Teks rapi siap salin ke Word");
+
+      /* B. JANGKAR KURIKULUM */
+      L.push(seksiContoh("B", "JANGKAR KURIKULUM"));
+      L.push("Tujuan Pembelajaran (dari CP/ATP atau Panduan Mapel — JANGAN diubah maknanya, JANGAN menambah materi di luar TP):");
+      if (v.tps.length) v.tps.forEach(function(t){ L.push("  - " + t); });
+      else L.push("  - [TP belum saya isi — turunkan 1–4 TP dari CP mata pelajaran ini sesuai Panduan Mata Pelajaran BSKAP, dan tandai dengan jelas sebagai hasil turunan agar dapat saya periksa.]");
+      L.push("Kompetensi awal murid: " + u.karMurid);
+      L.push("Pengetahuan bermakna yang diukur: " + u.bermaknaTeks);
+      if (v.dimensi && v.dimensi.length) L.push("Dimensi Profil Lulusan yang dilatih: " + v.dimensi.join(", ") + " — wujudkan lewat konteks soal, bukan tempelan label.");
+      L.push("Selaraskan asesmen ini dengan Permendikdasmen Nomor 1 Tahun 2026 tentang Standar Proses dan semangat Pembelajaran Mendalam sejauh relevan dengan asesmen.");
+      if (isDiag) L.push("Khusus diagnostik: hasil dipakai untuk memetakan kesiapan murid dan merancang tindak lanjut, BUKAN untuk nilai rapor.");
+
+      /* Seksi dinamis — huruf berurutan mulai C, mengikuti centang keluaran */
+      var adaKeluaran = v.kelKisi || v.kelNaskah || v.kelKunci || v.kelSkor || v.kelRubrik || v.kelRemedial;
+      var mauKisi = !!v.kelKisi, mauNaskah = !!v.kelNaskah, mauKunci = !!v.kelKunci,
+          mauSkor = !!v.kelSkor, mauRubrik = !!v.kelRubrik, mauRemedial = !!v.kelRemedial;
+      if (!adaKeluaran) { mauNaskah = true; mauKunci = true; }
+
+      function linesKisi(){
+        return [
+          "Buat tabel kisi-kisi dengan kolom: No | Tujuan Pembelajaran (salin persis dari Bagian B) | Indikator Soal | Bentuk Soal | Level (C1–C6) | Kunci Jawaban.",
+          "Jumlah baris TEPAT " + total + " — satu baris untuk setiap soal, mengikuti urutan nomor pada naskah.",
+          "Indikator soal diturunkan dari TP dengan kata kerja operasional yang terukur (mis. menentukan, menghitung, membandingkan, menganalisis) — bukan sekadar menyalin bunyi TP.",
+          "Setiap TP terwakili minimal 1 soal bila jumlah soal mencukupi. Bila jumlah soal lebih sedikit daripada jumlah TP, satu soal tetap hanya mengukur satu TP dan TP yang belum terwakili ditandai dengan jelas di bawah tabel.",
+          "Sebar level kognitif sesuai fokus level pada Bagian A: " + fokusStr + "."
+        ];
       }
-      if (v.kelKunci) parts.push({ judul: "KUNCI JAWABAN & PEMBAHASAN", lines: [
-        "Kunci jawaban untuk SEMUA " + total + " soal, mengikuti urutan nomor naskah.",
-        "Pembahasan tiap soal menjelaskan alasan/cara memperoleh jawaban (langkah hitung atau penalaran), BUKAN sekadar menyebut huruf/kata jawaban."
-      ]});
-      if (v.kelSkor || v.kelRubrik) {
+      function linesNaskah(){
+        var nl = [];
+        nl.push("Awali naskah dengan KEPALA NASKAH: identitas asesmen (" + jenisDisplay + " • " + (v.mapel || "-") + " • Kelas " + (v.kelas || "-") + " / " + (v.fase || "-") + " • " + (v.sekolah || "-") + "), kolom Nama / Kelas / No. Absen untuk murid, durasi " + (v.durasi || "-") + ", petunjuk umum pengerjaan, dan petunjuk khusus per bentuk soal yang ditulis sebelum kelompok soal bentuk itu.");
+        nl.push("Tulis soal bernomor 1–" + total + " mengikuti kisi-kisi, dikelompokkan per bentuk soal berikut (hanya bentuk dengan jumlah > 0). Tandai level kognitif (C1–C6) sebagai label kecil pada naskah guru; label level DIHILANGKAN pada lembar yang dicetak untuk murid.");
+        var aturanBentuk = {
+          pg: "PILIHAN GANDA (" + num(v.pg) + " soal): 4 opsi (A–D) yang homogen dan sejajar, tepat 1 kunci. Pengecoh harus MASUK AKAL — ambil dari miskonsepsi umum murid, bukan asal tulis. Posisi kunci diacak dan tersebar seimbang antara A–D (jangan selalu B); hindari opsi \"semua jawaban benar/salah\" dan opsi yang jauh lebih panjang dari opsi lainnya.",
+          pgk: "PILIHAN GANDA KOMPLEKS (" + num(v.pgk) + " soal): sajikan beberapa pernyataan dengan perintah yang TEGAS — sebutkan dengan jelas berapa jawaban benar yang harus dipilih, atau minta murid menilai Benar–Salah untuk tiap pernyataan. Kunci harus tegas dan tidak multitafsir.",
+          isian: "ISIAN SINGKAT (" + num(v.isian) + " soal): jawaban pasti berupa angka/frasa pendek; sebutkan satuan bila jawaban berupa besaran; hindari soal yang jawabannya ambigu atau memiliki lebih dari satu versi benar.",
+          jodoh: "MENJODOHKAN (" + num(v.jodoh) + " soal): susun pasangan premis–respons; jumlah respons sama dengan atau 1 lebih banyak dari jumlah premis agar pasangan terakhir tidak bisa ditebak dari sisa; urutan respons diacak.",
+          bs: "BENAR–SALAH (" + num(v.bs) + " soal): pernyataan tegas dan satu makna; jumlah kunci Benar dan Salah seimbang; hindari kata mutlak (selalu, tidak pernah, semua) yang membuat jawaban mudah ditebak.",
+          uraian: "URAIAN (" + num(v.uraian) + " soal): perintah jelas dan tunjukkan apa yang dinilai (langkah penyelesaian, alasan, atau kesimpulan); sediakan ruang jawab yang cukup; soal mengukur penalaran, bukan hafalan."
+        };
+        bentukAktif.forEach(function(b){ nl.push("• " + aturanBentuk[b.kunci]); });
+        nl.push("Ketentuan umum naskah:");
+        nl.push("- Bahasa Indonesia sederhana sesuai jenjang " + (v.jenjang || "SMP") + "; setiap soal mengukur TEPAT SATU indikator.");
+        nl.push("- Semua angka dapat dihitung tuntas dan menghasilkan jawaban yang wajar untuk murid jenjang ini; periksa kembali setiap hitungan.");
+        if (v.media && v.media.trim()) nl.push("- Konteks soal hanya memakai media/alat yang tersedia di kelas: " + v.media.trim() + ".");
+        FITUR.filter(function(f){ return (v.fitur || []).indexOf(f.id) >= 0; }).forEach(function(f){
+          nl.push("- Ketentuan tambahan — " + (RPP_FITUR_TEKS[f.id] || (f.label + " — " + f.desc + ".")));
+        });
+        return nl;
+      }
+      function linesKunci(){
+        var kl = [];
+        kl.push("Tulis kunci jawaban untuk SEMUA " + total + " soal mengikuti urutan nomor naskah. Setiap soal disertai pembahasan SINGKAT (1–3 kalimat) yang menunjukkan cara memperoleh jawaban (langkah hitung / penalaran) — bukan sekadar huruf kunci.");
+        if (num(v.pg) > 0) kl.push("- Pilihan Ganda: tambahkan alasan singkat mengapa pengecoh utama (opsi salah yang paling mengecoh) tidak tepat.");
+        if (num(v.pgk) > 0) kl.push("- Pilihan Ganda Kompleks: sebutkan SEMUA jawaban benar / nilai Benar–Salah tiap pernyataan.");
+        if (num(v.jodoh) > 0) kl.push("- Menjodohkan: sebutkan pasangan lengkap premis–responsnya.");
+        if (num(v.bs) > 0) kl.push("- Benar–Salah: sertakan alasan singkat untuk tiap pernyataan.");
+        if (nUraian > 0) kl.push("- Uraian: tulis jawaban ideal / langkah penyelesaian lengkap sebagai acuan rubrik.");
+        return kl;
+      }
+      function linesSkor(){
         var sl = [];
-        if (v.kelSkor) sl.push("Pedoman penskoran: bobot tiap bentuk soal, rumus nilai akhir skala 0–100, dan KKTP " + (v.kktp || "75") + " sebagai batas ketuntasan.");
-        if (v.kelRubrik) sl.push("Rubrik penilaian soal uraian skala 1–4 per soal, dengan deskriptor yang dapat diamati untuk tiap level.");
-        parts.push({ judul: "PEDOMAN PENSKORAN & RUBRIK URAIAN", lines: sl });
+        sl.push("Skor per soal: Pilihan Ganda, Isian Singkat, Menjodohkan, dan Benar–Salah — skor 1 bila benar, 0 bila salah. Pilihan Ganda Kompleks — skor proporsional per pernyataan yang dijawab benar. Uraian — skor mengikuti rubrik (maksimum 4 per soal).");
+        var bobot = bentukAktif.map(function(b){ return b.pendek + ": " + b.n + " soal × " + b.maks + " = " + (b.n * b.maks); }).join("; ");
+        sl.push("Sertakan tabel bobot & skor maksimum tiap bentuk soal — " + bobot + " — dengan skor maksimum total " + skorMaks + ".");
+        sl.push("Rumus nilai akhir: (skor diperoleh ÷ skor maksimum) × 100, dibulatkan ke bilangan bulat.");
+        sl.push("KKTP " + kktp + " adalah batas ketuntasan. Tindak lanjut: murid di bawah KKTP mengikuti pembelajaran ulang pada indikator yang belum dikuasai, lalu remedial; murid yang tuntas mengikuti pengayaan.");
+        if (mauRubrik && nUraian === 0) sl.push("Catatan: rubrik soal uraian tidak diperlukan karena paket ini tidak memuat soal uraian.");
+        return sl;
       }
-      if (v.kelRemedial) parts.push({ judul: "REMEDIAL & PENGAYAAN", lines: [
-        "Soal remedial untuk murid di bawah KKTP " + (v.kktp || "75") + ": tingkat kesulitan SETARA dengan naskah utama, konteks berbeda, disertai kunci.",
-        "Soal pengayaan untuk murid yang tuntas: lebih menantang, level kognitif lebih tinggi dari naskah utama, disertai kunci.",
-        "Petunjuk tindak lanjut: cara guru mengelompokkan murid dan menjadwalkan remedial/pengayaan berdasarkan hasil."
-      ]});
-      if (parts.length === 1) parts.push({ judul: "NASKAH SOAL", lines: ["Tulis naskah soal lengkap sesuai komposisi pada Bagian A, disertai kunci jawaban."] });
-      if (isDiag && !v.kelRemedial) parts[parts.length - 1].lines.push("Tabel pemetaan hasil diagnostik: kategori Siap dan Belum Siap per TP beserta rekomendasi tindak lanjut pembelajaran untuk masing-masing kelompok.");
+      function linesRubrik(){
+        return [
+          "Untuk TIAP soal uraian (" + nUraian + " soal), buat tabel rubrik penskoran. Deskriptor tiap skor WAJIB disesuaikan dengan indikator soal itu dan dapat diamati pada jawaban murid:",
+          "Skor 4 = jawaban lengkap & tepat, langkah dan alasan benar serta runtut.",
+          "Skor 3 = jawaban tepat, tetapi alasan/langkah kurang lengkap.",
+          "Skor 2 = jawaban sebagian benar (ada langkah yang benar tetapi hasil akhir salah — atau sebaliknya).",
+          "Skor 1 = ada upaya yang relevan, tetapi konsepnya keliru.",
+          "Skor 0 = kosong atau salah total."
+        ];
+      }
+      function linesRemedial(){
+        return [
+          "REMEDIAL (untuk murid di bawah KKTP " + kktp + "): buat 5 soal SETARA — indikator sama dengan naskah utama, tetapi angka dan konteks berbeda; sertakan kunci jawaban untuk kelima soal.",
+          "Tambahkan 1 paragraf saran pembelajaran ulang: bagian materi mana yang perlu diulang dan dengan cara apa, sebelum murid mengerjakan soal remedial.",
+          "Sertakan petunjuk pengelompokan & penjadwalan remedial: cara mengelompokkan murid berdasarkan indikator yang belum dikuasai dan kapan remedial dilaksanakan.",
+          "PENGAYAAN (untuk murid yang tuntas): buat 1 tugas eksplorasi HOTS yang MEMPERLUAS materi — mengaitkan konsep ke situasi atau bidang baru — BUKAN sekadar soal yang lebih sulit; sertakan panduan penilaian singkat (apa saja yang dinilai)."
+        ];
+      }
+      function linesPemetaan(){
+        return [
+          "Susun tabel pemetaan hasil: untuk setiap TP pada Bagian B, tentukan kategori Siap dan Belum Siap beserta ciri jawaban murid yang menunjukkan masing-masing kategori.",
+          "Berikan rekomendasi tindak lanjut pembelajaran untuk masing-masing kelompok — kelompok Siap: penguatan / pengayaan; kelompok Belum Siap: pembelajaran ulang dengan pendekatan yang berbeda — termasuk cara mengelompokkan murid pada pembelajaran berikutnya.",
+          "Hasil pemetaan ini dipakai untuk merancang pembelajaran dan tindak lanjut, BUKAN untuk nilai rapor."
+        ];
+      }
 
-      L.push(seksiContoh("D", "STRUKTUR DOKUMEN"));
-      L.push("Jenis dokumen: Paket Asesmen — " + jenisShort + ".");
-      L.push("Total soal: " + total + " soal — " + komposisiStr + ".");
-      L.push("");
-      L.push("Susun dokumen dengan TEPAT " + parts.length + " bagian berikut (jangan ditambah/dikurangi):");
-      parts.forEach(function(p, idx){
-        L.push("");
-        L.push("BAGIAN " + (idx + 1) + " — " + p.judul);
-        p.lines.forEach(function(x){ L.push(x); });
+      var seksiList = [];
+      if (mauKisi) seksiList.push({ judul: "KISI-KISI", lines: linesKisi() });
+      if (mauNaskah) seksiList.push({ judul: "NASKAH SOAL", lines: linesNaskah() });
+      if (mauKunci) seksiList.push({ judul: "KUNCI JAWABAN + PEMBAHASAN", lines: linesKunci() });
+      if (mauSkor) seksiList.push({ judul: "PEDOMAN PENSKORAN", lines: linesSkor() });
+      if (mauRubrik && nUraian > 0) seksiList.push({ judul: "RUBRIK SOAL URAIAN", lines: linesRubrik() });
+      if (isDiag) seksiList.push({ judul: "PEMETAAN & TINDAK LANJUT", lines: linesPemetaan() });
+      else if (mauRemedial) seksiList.push({ judul: "REMEDIAL & PENGAYAAN", lines: linesRemedial() });
+
+      var hurufList = "CDEFGHIJ";
+      seksiList.forEach(function(s, i){
+        L.push(seksiContoh(hurufList[i], s.judul));
+        s.lines.forEach(function(x){ L.push(x); });
       });
-      L.push("");
-      L.push("ATURAN PENOMORAN: setiap daftar bernomor di seluruh dokumen SELALU mulai dari angka 1 di tiap bagian (jangan melanjutkan nomor dari bagian sebelumnya). Nomor soal pada naskah berjalan 1 sampai " + total + " tanpa terputus antar bentuk soal.");
-      return tutupFiturCeklis(L, v, u, {
-        fiturTetap: [
-          "Bahasa Indonesia baku, kalimat operasional (jelas siapa melakukan apa).",
-          "Semua angka pada soal harus dapat dihitung tuntas dan menghasilkan jawaban yang wajar untuk murid " + (v.jenjang || "SMP") + ".",
-          "Setiap soal HANYA mengukur TP pada Bagian C — tidak ada soal di luar materi & TP tersebut."
-        ],
-        ceklis: [
-          "Struktur dokumen TEPAT mengikuti Bagian D (tidak ada bagian yang hilang/tertukar)",
-          "TP 1–4 butir, maknanya tidak diubah dari sumber",
-          "Jumlah soal per bentuk soal PERSIS komposisi isian: " + komposisiStr,
-          "Level kognitif tiap soal sesuai fokus (" + levelStr + ") dan terpetakan di kisi-kisi",
-          "Semua soal memiliki kunci jawaban" + (v.kelKunci ? " + pembahasan yang menjelaskan cara, bukan jawaban akhir saja" : ""),
-          "Kompetensi awal murid & pengetahuan bermakna tercermin pada cakupan soal (memakai isian saya bila kolomnya terisi, atau rumusan AI bila saya kosongkan)",
-          "Istilah sesuai jenjang/mapel (asesmen standar)",
-          "Penomoran dimulai dari 1 di setiap bagian; nomor soal berjalan 1–" + total,
-          "Tidak ada konten di luar materi & tujuan di atas"
-        ],
-        hasilAkhir: "Saya bisa langsung mencetak dan memakai paket ini, menilainya dengan pedoman yang jelas, dan tahu persis tindak lanjut remedial & pengayaannya."
-      });
+
+      /* LARANGAN — huruf berikutnya yang berurutan */
+      L.push(seksiContoh(hurufList[seksiList.length], "LARANGAN"));
+      L.push("1. Dilarang membuat soal di luar TP di atas.");
+      L.push("2. Dilarang kunci ganda, kunci salah, atau kunci yang tidak cocok dengan pembahasan — HITUNG ULANG setiap jawaban sebelum selesai.");
+      L.push("3. Dilarang pengecoh yang konyol atau asal tulis.");
+      L.push("4. Dilarang soal hafalan yang sebenarnya bisa dibuat kontekstual.");
+      L.push("5. Dilarang bahasa berbelit — satu soal, satu makna.");
+      L.push("6. Dilarang pola yang bisa ditebak: kunci selalu di posisi yang sama, opsi terpanjang selalu benar, atau jawaban benar selalu yang paling masuk akal bunyinya.");
+      L.push("7. Dilarang konteks/data yang tidak dikenal murid " + (v.jenjang || "SMP") + " atau angka karangan tanpa sumber yang jelas.");
+      return L.join("\n");
     }
-
     function buildPrompt(catId, v){
       if (catId === "rpp") return buildPromptRPP(v);
       if (catId === "modul") return buildPromptModul(v);
