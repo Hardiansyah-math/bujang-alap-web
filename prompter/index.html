@@ -640,14 +640,14 @@
 
       bahanajar: {
         nama: "Bahan Ajar Prompter",
-        judulPrompt: "BAHAN AJAR PER PERTEMUAN",
+        judulPrompt: "BAHAN AJAR",
         ikon: ikon('<path d="M2 5.5A2.5 2.5 0 0 1 4.5 3H11v18H4.5A2.5 2.5 0 0 0 2 20.5z"/><path d="M22 5.5A2.5 2.5 0 0 0 19.5 3H13v18h6.5a2.5 2.5 0 0 0 2.5-2.5z"/>'),
-        desc: "Susun prompt bahan ajar per pertemuan dengan alur tetap: pemantik, peta pikiran, konteks, materi berjenjang SOLO, dua eksplorasi, tantangan kreatif, dan refleksi karakter.",
+        desc: "Susun prompt bahan ajar dengan model ringkas: konfigurasi, jangkar kurikulum berisi TP yang disebar ke semua pertemuan, template 8 komponen per pertemuan, aturan, dan larangan anti salin-tempel.",
         poin: [
-          "Template tetap: Pemantik → Peta Pikiran → Konteks → SOLO",
-          "Materi berjenjang: Dasar → Relasional → Extended Abstract",
-          "Eksplorasi 1 & 2 plus Tantangan Kreatif di tiap bahan ajar",
-          "Digenerate sebanyak jumlah pertemuan yang diisi"
+          "TP disebar ke N pertemuan — tiap pertemuan fokus 1 TP utama",
+          "Template 8 komponen: Pemantik → Peta Pikiran → Konteks → SOLO → Eksplorasi → Tantangan → Refleksi → Kunci",
+          "Kunci & Pedoman guru selalu disertakan, terpisah dari lembar murid",
+          "Aturan & larangan: tiap pertemuan mandiri, tanpa salin-tempel antar pertemuan"
         ],
         pertemuanDefault: 1,
         jenis: {
@@ -1239,71 +1239,70 @@
 
     function buildPromptBahan(v){
       var u = varsUmum(v);
-      var nBahan = u.nForm;
-      if (nBahan < 1) nBahan = 1;
-      if (nBahan > 20) nBahan = 20;
-      var jenisLabel = "Bahan Ajar per Pertemuan";
-      var judulKapital = "BAHAN AJAR PER PERTEMUAN";
-      var alokasi = nBahan + " pertemuan × " + u.jp + " × " + u.menit + " menit";
-      var L = buatKepala(v, u, judulKapital, configDasar(v, u, jenisLabel, alokasi, null), null);
-      var fiturSet = v.fitur || [];
-      var adaKunci = fiturSet.indexOf("rubrik") >= 0 || fiturSet.indexOf("lkpd") >= 0;
+      var n = u.nForm;
+      if (n < 1) n = 1;
+      if (n > 20) n = 20;
+      var L = [];
 
-      L.push(seksiContoh("D", "STRUKTUR DOKUMEN"));
-      L.push("Jenis dokumen: " + jenisLabel + ".");
-      L.push("");
-      L.push("Susun dokumen dengan TEPAT 4 bagian berikut (jangan ditambah/dikurangi):");
-      L.push("");
-      L.push("BAGIAN 1 — IDENTITAS");
-      L.push(identitasLineUmum(v, u, alokasi));
-      L.push("");
-      L.push("BAGIAN 2 — PETA MATERI & TUJUAN");
-      L.push("- Tujuan Pembelajaran (1–4 butir, dari CP/ATP/Panduan Mapel — jangan diubah maknanya).");
-      L.push("- Kompetensi awal murid: " + u.karMurid);
-      L.push("- Pengetahuan bermakna yang dibangun: " + u.bermaknaTeks);
-      L.push("- Peta materi: urutan sub-materi dari yang paling dasar ke yang paling kompleks beserta kaitan antarpertemuan.");
-      if (v.media && v.media.trim()) L.push("- Media / alat yang tersedia di kelas: " + v.media.trim() + " — contoh dan eksplorasi hanya memakai media ini.");
-      L.push("");
-      L.push("BAGIAN 3 — BAHAN AJAR PER PERTEMUAN (per pertemuan, " + nBahan + " pertemuan)");
-      L.push("Setiap bahan ajar mengikuti template TETAP berikut secara persis dan berurutan:");
-      for (var i = 1; i <= nBahan; i++) {
-        L.push("");
-        L.push("Pertemuan " + i + " (" + u.jp + " × " + u.menit + " menit) — judul & sub-materi mengikuti urutan peta materi pada Bagian 2");
-        L.push("  1. Judul Pemantik: judul yang memancing rasa ingin tahu murid, terkait langsung dengan sub-materi pertemuan ini (bukan sekadar nama bab).");
-        L.push("  2. Peta Pikiran: uraian teks terstruktur (bukan gambar) — konsep inti di tengah, cabang-cabang subkonsep, dan hubungan antar konsep.");
-        L.push("  3. Paparan Konteks: situasi nyata dari kehidupan murid (lingkungan Terusan Nunyai / Lampung Tengah bila relevan) yang menjembatani masuk ke materi, 2–3 paragraf.");
-        L.push("  4. Materi Berjenjang (tiga tingkat SOLO): (a) Dasar — definisi, fakta, contoh sederhana; (b) Relasional — hubungan antar konsep, pola, contoh lebih kompleks; (c) Extended Abstract — generalisasi dan penerapan pada situasi baru. Tiap tingkat WAJIB ada contoh terproses langkah demi langkah.");
-        L.push("  5. Eksplorasi 1: aktivitas penemuan terbimbing dengan pertanyaan berjenjang dari mudah ke sulit.");
-        L.push("  6. Eksplorasi 2: aktivitas penerapan/pemecahan masalah kontekstual, dengan konteks BERBEDA dari Eksplorasi 1.");
-        L.push("  7. Tantangan Kreatif: tugas terbuka yang memberi ruang murid membuat, memodifikasi, atau menciptakan sesuatu dari konsep yang dipelajari.");
-        L.push("  8. Refleksi Karakter: pertanyaan refleksi singkat yang mengaitkan materi dengan nilai dan sikap (kejujuran, ketekunan, kepedulian), ditutup kalimat penguat untuk murid.");
-        if (adaKunci) L.push("  9. Kunci & Pedoman Singkat (KHUSUS GURU, pisahkan dari lembar murid): kunci jawaban Eksplorasi 1, Eksplorasi 2, dan Tantangan Kreatif pertemuan ini + pedoman penskoran singkatnya.");
-      }
-      L.push("");
-      L.push("BAGIAN 4 — PENUTUP, RUBRIK & RUJUKAN");
-      L.push("- Rangkuman lintas pertemuan: peta jalan belajar murid dari pertemuan pertama sampai terakhir dalam satu halaman.");
-      if (fiturSet.indexOf("rubrik") >= 0) L.push("- Rubrik penilaian (skor 1–4 dengan deskriptor jelas) untuk Eksplorasi dan Tantangan Kreatif.");
-      if (adaKunci) L.push("- Kunci jawaban & pedoman penilaian lengkap khusus guru (terpisah dari lembar murid).");
-      L.push("- Glosarium singkat istilah penting + daftar rujukan yang benar-benar dipakai.");
-      L.push("");
-      L.push("ATURAN PENOMORAN: setiap daftar bernomor di seluruh dokumen SELALU mulai dari angka 1 di tiap bagian (jangan melanjutkan nomor dari bagian sebelumnya).");
-      return tutupFiturCeklis(L, v, u, {
-        fiturTetap: [
-          "Bahasa Indonesia baku dan ramah murid " + (v.jenjang || "SMP") + ", kalimat tidak terlalu panjang, istilah baru selalu dijelaskan saat pertama muncul.",
-          "Setiap contoh soal WAJIB disertai penyelesaian langkah demi langkah, bukan jawaban akhir saja."
-        ],
-        ceklis: [
-          "Struktur dokumen TEPAT mengikuti Bagian D (tidak ada bagian yang hilang/tertukar)",
-          "TP 1–4 butir, maknanya tidak diubah dari sumber",
-          "Jumlah bahan ajar TEPAT " + nBahan + " pertemuan, sesuai isian formulir",
-          "Kedelapan komponen template (Pemantik → Refleksi Karakter) muncul lengkap dan berurutan di SETIAP bahan ajar",
-          "Kompetensi awal murid & pengetahuan bermakna terumuskan di dalam dokumen (memakai isian saya bila kolomnya terisi, atau rumusan AI bila saya kosongkan)",
-          "Istilah sesuai jenjang/mapel dan bahasa ramah murid",
-          "Penomoran dimulai dari 1 di setiap bagian",
-          "Tidak ada konten di luar materi & tujuan di atas"
-        ],
-        hasilAkhir: "Murid bisa langsung belajar dari bahan ini pertemuan demi pertemuan, dan saya pegang kunci serta cara menilainya — tanpa menebak-nebak."
+      /* Judul */
+      L.push("🎯 BUAT BAHAN AJAR");
+      L.push(u.materi + " \u2022 " + (v.mapel || "-") + " \u2022 " + (v.jenjang || "-") + " Kelas " + (v.kelas || "-") + " \u2022 " + n + " pertemuan");
+
+      /* A. KONFIGURASI */
+      L.push(seksiContoh("A", "KONFIGURASI"));
+      L.push(padLabel("Materi pokok") + u.materi);
+      L.push(padLabel("Jumlah pertemuan") + n + " \u2014 bagi materi menjadi " + n + " pertemuan yang berurutan dan berkesinambungan (mudah \u2192 menantang)");
+      L.push(padLabel("Bahasa") + "Indonesia sederhana sesuai jenjang " + (v.jenjang || "SMP") + ", hangat dan memotivasi");
+      L.push(padLabel("Satuan pendidikan") + (v.sekolah || "-"));
+      L.push(padLabel("Disusun oleh") + (v.guru || "-"));
+      L.push(padLabel("Jenjang/Kelas/Fase") + (v.jenjang || "-") + " / " + (v.kelas || "-") + " / " + (v.fase || "-"));
+      L.push(padLabel("Mata pelajaran") + (v.mapel || "-"));
+      L.push(padLabel("Alokasi/pertemuan") + u.jp + " \u00D7 " + u.menit + " menit");
+      if (v.semester) L.push(padLabel("Semester") + v.semester + (v.tahun ? " \u2014 Tahun Pelajaran " + v.tahun : ""));
+      L.push(padLabel("Format keluaran") + "Teks rapi siap salin ke Word");
+
+      /* B. JANGKAR KURIKULUM */
+      L.push(seksiContoh("B", "JANGKAR KURIKULUM"));
+      L.push("TP (dari CP/ATP atau Panduan Mapel \u2014 JANGAN diubah maknanya):");
+      if (v.tps.length) v.tps.forEach(function(t){ L.push("  - " + t); });
+      else L.push("  - [TP belum saya isi \u2014 turunkan 1\u20134 TP dari CP mata pelajaran ini sesuai Panduan Mata Pelajaran BSKAP, dan tandai dengan jelas sebagai hasil turunan agar dapat saya periksa.]");
+      L.push("Sebar TP ke " + n + " pertemuan; tiap pertemuan fokus pada 1 TP utama.");
+      L.push("Kompetensi awal murid: " + u.karMurid);
+      L.push("Pengetahuan bermakna yang dibangun: " + u.bermaknaTeks);
+      L.push("Selaraskan penyusunan bahan ajar ini dengan Permendikdasmen Nomor 1 Tahun 2026 tentang Standar Proses dan semangat Pembelajaran Mendalam (Memahami\u2013Mengaplikasi\u2013Merefleksi) sejauh relevan dengan bahan ajar.");
+
+      /* C. TEMPLATE TIAP PERTEMUAN \u2014 ditulis satu kali, diterapkan ke semua pertemuan */
+      L.push(seksiContoh("C", "TEMPLATE TIAP PERTEMUAN (WAJIB diikuti berurutan)"));
+      L.push("Terapkan template 8 komponen berikut pada SETIAP pertemuan \u2014 Pertemuan 1 sampai Pertemuan " + n + " \u2014 dengan judul & sub-materi mengikuti sebaran TP pada Bagian B, berurutan dari yang mudah ke yang menantang:");
+      L.push("1. JUDUL PEMANTIK \u2014 judul yang menarik + 1 pertanyaan pembuka yang memantik rasa ingin tahu murid (bukan sekadar nama bab).");
+      L.push("2. PETA PIKIRAN \u2014 uraian teks terstruktur peta konsep pertemuan ini: konsep inti di pusat, cabang-cabang subkonsep, kata kunci, dan hubungan antar konsep (uraian teks, bukan gambar).");
+      L.push("3. PAPARAN KONTEKS \u2014 cerita/konteks nyata dari kehidupan murid sebagai jembatan ke materi (lingkungan Terusan Nunyai / Lampung Tengah bila relevan), 2\u20133 paragraf.");
+      L.push("4. MATERI BERJENJANG \u2014 tiga lapis: DASAR (konsep + contoh sederhana) \u2192 RELASIONAL (keterkaitan antar konsep) \u2192 EXTENDED ABSTRACT (generalisasi & penerapan baru); tiap lapis WAJIB ada contoh terproses langkah demi langkah.");
+      L.push("5. EKSPLORASI 1 & 2 \u2014 dua aktivitas eksplorasi berjenjang: Eksplorasi 1 terbimbing (pertanyaan berjenjang dari mudah ke sulit), Eksplorasi 2 mandiri/menantang dengan konteks BERBEDA dari Eksplorasi 1.");
+      L.push("6. TANTANGAN KREATIF \u2014 tugas kreasi terbuka: murid membuat/menemukan sesuatu dari konsep yang dipelajari, bukan sekadar menjawab soal.");
+      L.push("7. REFLEKSI KARAKTER \u2014 2\u20133 pertanyaan refleksi sikap/nilai (mis. kejujuran, ketekunan, tanggung jawab) yang terkait materi, ditutup kalimat penguat untuk murid.");
+      L.push("8. KUNCI & PEDOMAN \u2014 kunci Eksplorasi 1, Eksplorasi 2, dan Tantangan Kreatif + pedoman penskoran singkat; KHUSUS GURU dan terpisah dari lembar murid.");
+
+      /* D. ATURAN */
+      L.push(seksiContoh("D", "ATURAN"));
+      var aturan = [
+        "Tiap pertemuan utuh dan mandiri: bisa dibaca dan dipakai tanpa harus membuka pertemuan lain.",
+        "Contoh selalu dari dunia murid " + (v.jenjang || "SMP") + " \u2014 bukan contoh abstrak.",
+        "Data/fakta (bila ada) harus benar dan sebutkan sumbernya; jangan mengarang angka.",
+        "Setiap contoh soal disertai penyelesaian langkah demi langkah, bukan jawaban akhir saja."
+      ];
+      if (v.media && v.media.trim()) aturan.push("Contoh dan eksplorasi hanya memakai media/alat yang tersedia di kelas: " + v.media.trim() + ".");
+      FITUR.filter(function(f){ return (v.fitur || []).indexOf(f.id) >= 0; }).forEach(function(f){
+        aturan.push("Fitur wajib \u2014 " + (RPP_FITUR_TEKS[f.id] || (f.label + " \u2014 " + f.desc + ".")));
       });
+      aturan.forEach(function(a, i){ L.push((i + 1) + ". " + a); });
+
+      /* LARANGAN */
+      L.push("\n\u2500\u2500\u2500 LARANGAN \u2500\u2500\u2500");
+      L.push("1. Dilarang materi di luar TP.");
+      L.push("2. Dilarang copy-paste antar pertemuan \u2014 tiap pertemuan punya pemantik, konteks, dan tantangan yang segar.");
+      L.push("3. Dilarang bahasa kaku seperti buku teks kering \u2014 tulis seperti guru yang sedang bercerita.");
+      return L.join("\n");
     }
 
     function buildPromptAsesmen(v){
