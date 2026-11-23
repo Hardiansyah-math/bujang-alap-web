@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CBT Matematika Kelas 6 — Bab 1-4</title>
+<style>
+:root{--biru:#1565c0;--biru2:#0d47a1;--hijau:#2e7d32;--kuning:#fff8e1;--teks:#1a2733;--abu:#5b6b7a;--garis:#cfd8dc}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;background:#e8f1fb;color:var(--teks);font-size:18px;line-height:1.55}
+.wrap{max-width:860px;margin:0 auto;padding:16px 14px 40px}
+.card{background:#fff;border-radius:18px;box-shadow:0 4px 18px rgba(13,71,161,.12);padding:22px 20px;margin:16px 0}
+.hero{background:linear-gradient(135deg,#1565c0,#42a5f5);color:#fff;border-radius:18px;padding:26px 22px;text-align:center;box-shadow:0 4px 18px rgba(13,71,161,.25)}
+.hero h1{margin:0 0 6px;font-size:30px;line-height:1.25}
+.hero p{margin:4px 0;font-size:17px}
+.badge{display:inline-block;background:#fff;color:var(--biru2);border-radius:999px;padding:4px 14px;font-weight:700;font-size:14px;margin-bottom:10px}
+h2{color:var(--biru2);margin:0 0 10px;font-size:24px}
+label{display:block;font-weight:700;margin:14px 0 6px;font-size:18px}
+input[type=text]{width:100%;padding:14px;font-size:19px;border:2px solid var(--garis);border-radius:12px;background:#fff}
+input[type=text]:focus{outline:3px solid #90caf9;border-color:var(--biru)}
+.check{display:flex;gap:12px;align-items:flex-start;background:var(--kuning);border:2px solid #ffe082;border-radius:12px;padding:14px;margin-top:16px}
+.check input{width:26px;height:26px;margin-top:2px;flex:none}
+.info{background:#e3f2fd;border:2px solid #90caf9;border-radius:12px;padding:14px 16px;margin-top:16px}
+.info ul{margin:6px 0 0;padding-left:22px}
+.btn{display:block;width:100%;padding:16px;font-size:20px;font-weight:800;border:0;border-radius:14px;background:var(--biru);color:#fff;cursor:pointer;margin-top:16px}
+.btn.hijau{background:var(--hijau)}
+.btn.abu{background:#eceff1;color:var(--teks)}
+.btn:disabled{background:#b0bec5;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row .btn{flex:1;min-width:140px}
+.err{color:#b71c1c;font-weight:700;margin-top:8px;min-height:24px}
+.hidden{display:none!important}
+.timerbar{position:sticky;top:0;z-index:20;background:var(--biru2);color:#fff;border-radius:0 0 14px 14px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;box-shadow:0 3px 10px rgba(0,0,0,.2)}
+.timerbar .waktu{font-size:26px;font-weight:800;font-variant-numeric:tabular-nums}
+.timerbar .waktu.merah{color:#ffcdd2}
+.soalhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.babtag{background:#e8f5e9;color:var(--hijau);font-weight:800;border-radius:999px;padding:3px 12px;font-size:15px}
+.soaltext{font-size:21px;margin:12px 0}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 3px;line-height:1.15;font-size:.92em}
+.frac .num{border-bottom:2px solid currentColor;padding:0 5px}
+.frac .den{padding:0 5px}
+.opsi{display:block;width:100%;text-align:left;padding:15px 16px;margin:10px 0;font-size:19px;border:2px solid var(--garis);border-radius:14px;background:#fff;cursor:pointer}
+.opsi b{color:var(--biru2)}
+.opsi.pilih{border-color:var(--biru);background:#e3f2fd;box-shadow:inset 0 0 0 2px var(--biru)}
+.navgrid{display:grid;grid-template-columns:repeat(8,1fr);gap:8px;margin-top:10px}
+.navgrid button{padding:12px 0;font-size:17px;font-weight:700;border:2px solid var(--garis);border-radius:10px;background:#fff;cursor:pointer}
+.navgrid button.jawab{background:#c8e6c9;border-color:var(--hijau)}
+.navgrid button.ragu{background:#fff9c4;border-color:#f9a825}
+.navgrid button.aktif{outline:3px solid var(--biru)}
+.legenda{display:flex;gap:16px;flex-wrap:wrap;font-size:15px;margin-top:8px;color:var(--abu)}
+.skorbesar{font-size:64px;font-weight:900;color:var(--biru2);text-align:center;line-height:1}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:17px}
+th,td{border:1.5px solid var(--garis);padding:9px 10px;text-align:left}
+th{background:#e3f2fd}
+.pembahasan{border-left:6px solid #43a047;background:#f1f8e9;border-radius:0 12px 12px 0;padding:12px 14px;margin:12px 0}
+.pembahasan.salah{border-left-color:#e53935;background:#fff3e0}
+.gambar{text-align:center;margin:12px 0}
+.gambar svg{max-width:100%;height:auto}
+.denah{border-collapse:collapse;margin:0 auto;width:auto}
+.denah td{border:2px solid #37474f;padding:12px 16px;text-align:center;font-size:17px;min-width:110px}
+.denah .sumbu{border:0;font-weight:800;color:var(--biru2);min-width:30px}
+footer{text-align:center;color:var(--abu);font-size:15px;padding:18px 8px}
+.modalbg{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:50}
+.modal{background:#fff;border-radius:18px;padding:22px;max-width:560px;width:100%;max-height:85vh;overflow:auto}
+.arsip{background:#f1f8e9;border:2px solid #a5d6a7;border-radius:12px;padding:12px 16px;margin-top:14px}
+@media(max-width:560px){.navgrid{grid-template-columns:repeat(5,1fr)}.hero h1{font-size:25px}.soaltext{font-size:19px}.denah td{min-width:82px;padding:9px 6px;font-size:15px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<section id="layarLogin">
+  <div class="hero">
+    <div class="badge">CBT Matematika Kelas 6 — Tanpa Cloud v1</div>
+    <h1>CBT Matematika Kelas 6 — Bab 1-4</h1>
+    <p>Pecahan dan Desimal &bull; Rasio &bull; Kubus dan Balok &bull; Peluang</p>
+    <p>Latihan/ujian dari Bahan Ajar Matematika Kelas 6. Ini <b>bukan</b> soal resmi Pusmendik/Kemendikdasmen.</p>
+  </div>
+  <div class="card">
+    <h2>Login Peserta</h2>
+    <label for="nama">Nama Lengkap</label>
+    <input type="text" id="nama" placeholder="Tulis namamu" autocomplete="off">
+    <label for="kelas">Kelas</label>
+    <input type="text" id="kelas" placeholder="Contoh: 6A" autocomplete="off">
+    <div class="check">
+      <input type="checkbox" id="jujur">
+      <label for="jujur" style="margin:0;font-weight:600">Saya akan mengerjakan dengan jujur.</label>
+    </div>
+    <div class="info">
+      <b>Informasi Ujian</b>
+      <ul>
+        <li>Jumlah soal: <b>40 soal</b> (30 pilihan ganda + 10 isian singkat)</li>
+        <li>Waktu: <b>90 menit</b>, terhitung setelah kamu menekan &ldquo;Data Benar &mdash; Mulai&rdquo;</li>
+        <li>Skor total: <b>100</b> (pilihan ganda 2 poin, isian 4 poin)</li>
+        <li>Jawabanmu tersimpan otomatis di alat ini selama ujian.</li>
+      </ul>
+    </div>
+    <div id="arsipBox"></div>
+    <div class="err" id="errLogin"></div>
+    <button class="btn" id="btnLanjut">Lanjut ke Konfirmasi Data</button>
+  </div>
+</section>
+<section id="layarKonfirmasi" class="hidden">
+  <div class="card">
+    <h2>Konfirmasi Data Peserta</h2>
+    <table>
+      <tr><th style="width:38%">Nama Lengkap</th><td id="kNama"></td></tr>
+      <tr><th>Kelas</th><td id="kKelas"></td></tr>
+      <tr><th>Ujian</th><td>CBT Matematika Kelas 6 — Bab 1-4</td></tr>
+      <tr><th>Jumlah Soal</th><td>40 soal (30 pilihan ganda + 10 isian singkat)</td></tr>
+      <tr><th>Waktu</th><td>90 menit</td></tr>
+    </table>
+    <p>Periksa datamu baik-baik. Waktu ujian mulai berjalan setelah kamu menekan tombol di bawah ini.</p>
+    <button class="btn hijau" id="btnMulai">Data Benar — Mulai</button>
+    <button class="btn abu" id="btnKembali">Kembali, Perbaiki Data</button>
+  </div>
+</section>
+<section id="layarUjian" class="hidden">
+  <div class="timerbar">
+    <div><b id="uNama"></b><br><span id="uKelas"></span></div>
+    <div class="waktu" id="timer">90:00</div>
+  </div>
+  <div class="card">
+    <div class="soalhead">
+      <h2 id="noSoal" style="margin:0">Soal 1 dari 40</h2>
+      <span class="babtag" id="babSoal"></span>
+    </div>
+    <div class="soaltext" id="teksSoal"></div>
+    <div class="gambar" id="gambarSoal"></div>
+    <div id="areaJawab"></div>
+    <div class="row">
+      <button class="btn abu" id="btnPrev">&larr; Sebelumnya</button>
+      <button class="btn" id="btnNext">Berikutnya &rarr;</button>
+    </div>
+    <div class="row">
+      <button class="btn abu" id="btnRagu">Tandai Ragu</button>
+      <button class="btn hijau" id="btnKumpul">Kumpulkan Jawaban</button>
+    </div>
+  </div>
+  <div class="card">
+    <h2 style="font-size:20px">Nomor Soal</h2>
+    <div class="navgrid" id="navGrid"></div>
+    <div class="legenda"><span>Hijau = sudah dijawab</span><span>Kuning = ragu-ragu</span><span>Putih = belum dijawab</span></div>
+  </div>
+</section>
+<section id="layarHasil" class="hidden">
+  <div class="card">
+    <h2 style="text-align:center">Hasil Ujianmu</h2>
+    <p style="text-align:center;margin:2px 0"><b id="hNama"></b> &bull; <span id="hKelas"></span></p>
+    <div class="skorbesar" id="hSkor">0</div>
+    <p style="text-align:center;margin:4px 0 0">dari 100</p>
+    <div id="hRincian"></div>
+    <div class="info">
+      <b>Cara isian dinilai:</b> spasi dan huruf besar/kecil tidak masalah; koma desimal sama dengan titik (0,35 = 0.35); pecahan yang setara nilainya diterima; satuan yang kurang (misalnya lupa menulis &ldquo;km per jam&rdquo; atau &ldquo;kubus satuan&rdquo;) tidak mengurangi skor. Khusus soal 33 dan 40: jawaban yang nilainya benar tetapi belum disederhanakan (misalnya 15 : 20 atau 2/8) mendapat separuh skor, yaitu 2 dari 4.
+    </div>
+    <button class="btn" id="btnPembahasan">Lihat Pembahasan</button>
+    <button class="btn hijau" id="btnUlang">Kerjakan Ulang</button>
+  </div>
+  <div class="card hidden" id="kotakPembahasan">
+    <h2>Pembahasan</h2>
+    <div id="isiPembahasan"></div>
+  </div>
+</section>
+<footer>CBT Matematika Kelas 6 — Tanpa Cloud v1 &bull; Hardiansyah Math<br>Latihan dari Bahan Ajar Matematika Kelas 6, bukan soal resmi Pusmendik/Kemendikdasmen.</footer>
+</div>
+<div id="modal" class="modalbg hidden"><div class="modal" id="modalIsi"></div></div>
+<script>
+"use strict";
+function F(n,d){return '<span class="frac"><span class="num">'+n+'</span><span class="den">'+d+'</span></span>';}
+var DENAH='<table class="denah"><tr><td class="sumbu">3</td><td style="background:#dbeafe">Sekolah</td><td style="background:#fef9c3">Taman</td><td style="background:#dcfce7">Pasar</td></tr><tr><td class="sumbu">2</td><td style="background:#fee2e2">Rumah Siti</td><td style="background:#ffedd5">Perpustakaan</td><td style="background:#ede9fe">Masjid</td></tr><tr><td class="sumbu">1</td><td style="background:#e0e7ff">Lapangan</td><td style="background:#fce7f3">Puskesmas</td><td style="background:#ccfbf1">Terminal</td></tr><tr><td class="sumbu"></td><td class="sumbu">A</td><td class="sumbu">B</td><td class="sumbu">C</td></tr></table><p style="font-size:15px;color:#5b6b7a">Denah Bab 3: huruf = kolom, angka = baris. Baca huruf dulu, lalu angka.</p>';
+var TAMPAK='<svg width="200" height="170" viewBox="0 0 200 170" role="img" aria-label="Tampak depan 3 persegi"><rect x="30" y="10" width="60" height="60" fill="#60a5fa" stroke="#37474f" stroke-width="3"/><rect x="30" y="70" width="60" height="60" fill="#93c5fd" stroke="#37474f" stroke-width="3"/><rect x="90" y="70" width="60" height="60" fill="#93c5fd" stroke="#37474f" stroke-width="3"/><text x="90" y="158" text-anchor="middle" font-size="15">Tampak depan</text></svg>';
+var JARING='<svg width="270" height="200" viewBox="0 0 270 200" role="img" aria-label="Jaring-jaring kubus 6 persegi"><rect x="100" y="5" width="55" height="55" fill="#c4b5fd" stroke="#5b21b6" stroke-width="3"/><rect x="45" y="60" width="55" height="55" fill="#c4b5fd" stroke="#5b21b6" stroke-width="3"/><rect x="100" y="60" width="55" height="55" fill="#8b5cf6" stroke="#5b21b6" stroke-width="3"/><rect x="155" y="60" width="55" height="55" fill="#c4b5fd" stroke="#5b21b6" stroke-width="3"/><rect x="210" y="60" width="55" height="55" fill="#c4b5fd" stroke="#5b21b6" stroke-width="3"/><rect x="100" y="115" width="55" height="55" fill="#c4b5fd" stroke="#5b21b6" stroke-width="3"/><text x="155" y="192" text-anchor="middle" font-size="15">Satu jaring-jaring kubus</text></svg>';
+var RODA27='<svg width="200" height="200" viewBox="0 0 200 200" role="img" aria-label="Roda putar separuh merah seperempat biru"><path d="M100,100 L100,10 A90,90 0 0,1 190,100 Z" fill="#ef4444"/><path d="M100,100 L190,100 A90,90 0 0,1 100,190 Z" fill="#ef4444"/><path d="M100,100 L100,190 A90,90 0 0,1 10,100 Z" fill="#3b82f6"/><path d="M100,100 L10,100 A90,90 0 0,1 100,10 Z" fill="#facc15"/><circle cx="100" cy="100" r="90" fill="none" stroke="#37474f" stroke-width="3"/><circle cx="100" cy="100" r="8" fill="#37474f"/><text x="145" y="70" font-size="14" font-weight="bold">merah</text><text x="42" y="150" font-size="14" font-weight="bold">biru</text></svg>';
+var RODA40='<svg width="200" height="200" viewBox="0 0 200 200" role="img" aria-label="Roda 8 bagian 2 merah"><g stroke="#37474f" stroke-width="2"><path d="M100,100 L100,10 A90,90 0 0,1 163.6,36.4 Z" fill="#ef4444"/><path d="M100,100 L163.6,36.4 A90,90 0 0,1 190,100 Z" fill="#ef4444"/><path d="M100,100 L190,100 A90,90 0 0,1 163.6,163.6 Z" fill="#e5e7eb"/><path d="M100,100 L163.6,163.6 A90,90 0 0,1 100,190 Z" fill="#e5e7eb"/><path d="M100,100 L100,190 A90,90 0 0,1 36.4,163.6 Z" fill="#e5e7eb"/><path d="M100,100 L36.4,163.6 A90,90 0 0,1 10,100 Z" fill="#e5e7eb"/><path d="M100,100 L10,100 A90,90 0 0,1 36.4,36.4 Z" fill="#e5e7eb"/><path d="M100,100 L36.4,36.4 A90,90 0 0,1 100,10 Z" fill="#e5e7eb"/></g><circle cx="100" cy="100" r="8" fill="#37474f"/></svg>';
+var SOAL=[
+{no:1,bab:1,tipe:"pg",q:"Hasil dari 4 x "+F(3,5)+" adalah ...",opsi:[F(12,5),F(7,5),F(3,20),F(12,20)],kunci:0,p:"<b>Jawaban A.</b> Kalikan bilangan asli dengan pembilang, penyebut tetap: 4 x "+F(3,5)+" = "+F("4 x 3",5)+" = "+F(12,5)+"."},
+{no:2,bab:1,tipe:"pg",q:"Hasil dari "+F(2,3)+" x 9 adalah ...",opsi:["3","6","11","18"],kunci:1,p:"<b>Jawaban B.</b> "+F(2,3)+" x 9 = "+F("2 x 9",3)+" = "+F(18,3)+" = 6. Cara cepat: 9 dibagi 3 = 3, lalu 2 x 3 = 6."},
+{no:3,bab:1,tipe:"pg",q:"Hasil dari "+F(3,4)+" : 3 adalah ...",opsi:[F(1,4),F(9,4),F(1,3),F(3,4)],kunci:0,p:"<b>Jawaban A.</b> Membagi pecahan dengan bilangan asli: pembilang tetap, penyebut dikali bilangan itu. "+F(3,4)+" : 3 = "+F(3,12)+" = "+F(1,4)+" setelah disederhanakan dengan membagi 3."},
+{no:4,bab:1,tipe:"pg",q:"Hasil dari 6 : "+F(2,3)+" adalah ...",opsi:["4","8","9","12"],kunci:2,p:"<b>Jawaban C.</b> Balik pecahan pembagi lalu kalikan: 6 : "+F(2,3)+" = 6 x "+F(3,2)+" = "+F(18,2)+" = 9."},
+{no:5,bab:1,tipe:"pg",q:"Bentuk desimal dari "+F(3,8)+" adalah ...",opsi:["0,38","0,375","0,83","3,8"],kunci:1,p:"<b>Jawaban B.</b> "+F(3,8)+" = 3 : 8. Dengan pembagian bersusun, 3,000 : 8 = 0,375."},
+{no:6,bab:1,tipe:"pg",q:"Urutan bilangan dari yang terkecil adalah ...",opsi:["0,5 ; 0,32 ; 0,6 ; 0,56","0,32 ; 0,5 ; 0,56 ; 0,6","0,6 ; 0,56 ; 0,5 ; 0,32","0,32 ; 0,56 ; 0,5 ; 0,6"],kunci:1,p:"<b>Jawaban B.</b> Samakan menjadi dua angka di belakang koma: 0,32 ; 0,50 ; 0,56 ; 0,60. Dari yang terkecil: 0,32 ; 0,5 ; 0,56 ; 0,6."},
+{no:7,bab:1,tipe:"pg",q:"Hasil dari "+F(5,6)+" : 5 adalah ...",opsi:[F(25,6),F(1,6),F(6,5),F(5,6)],kunci:1,p:"<b>Jawaban B.</b> "+F(5,6)+" : 5 = "+F(5,"6 x 5")+" = "+F(5,30)+" = "+F(1,6)+" setelah pembilang dan penyebut dibagi 5."},
+{no:8,bab:1,tipe:"pg",q:"Hasil dari 10 : "+F(5,2)+" adalah ...",opsi:["25","20","4","5"],kunci:2,p:"<b>Jawaban C (Bab 1).</b> 10 : "+F(5,2)+" = 10 x "+F(2,5)+" = "+F(20,5)+" = 4."},
+{no:9,bab:2,tipe:"pg",q:"Ada 12 pensil dan 8 pulpen. Rasio pensil terhadap pulpen dalam bentuk paling sederhana adalah ...",opsi:["12 : 8","3 : 2","2 : 3","4 : 3"],kunci:1,p:"<b>Jawaban B (Bab 2).</b> Rasio pensil terhadap pulpen = 12 : 8. Bagi kedua bilangan dengan 4: 12 : 8 = 3 : 2."},
+{no:10,bab:2,tipe:"pg",q:"Rasio yang sama dengan 2 : 3 adalah ...",opsi:["4 : 5","6 : 8","8 : 12","10 : 12"],kunci:2,p:"<b>Jawaban C (Bab 2).</b> Kalikan kedua bilangan pada 2 : 3 dengan 4: 2 x 4 : 3 x 4 = 8 : 12. Pilihan lain tidak menyederhanakan menjadi 2 : 3."},
+{no:11,bab:2,tipe:"pg",q:"Sebuah mobil menempuh 180 km dalam 3 jam. Rasio satuannya adalah ...",opsi:["30 km per jam","60 km per jam","90 km per jam","540 km per jam"],kunci:1,p:"<b>Jawaban B (Bab 2).</b> Rasio satuan = 180 km : 3 jam. Bagi keduanya dengan 3: 60 km : 1 jam, jadi 60 km per jam."},
+{no:12,bab:2,tipe:"pg",q:"Rasio kelereng merah terhadap biru adalah 3 : 5. Jika seluruh kelereng 40 butir, banyak kelereng merah adalah ...",opsi:["8 butir","12 butir","15 butir","25 butir"],kunci:2,p:"<b>Jawaban C (Bab 2).</b> Jumlah bagian = 3 + 5 = 8. Setiap bagian bernilai 40 : 8 = 5 butir. Kelereng merah = 3 x 5 = 15 butir."},
+{no:13,bab:2,tipe:"pg",q:"Di kelas ada 30 siswa, 12 di antaranya perempuan. Rasio siswa perempuan terhadap seluruh siswa dalam bentuk paling sederhana adalah ...",opsi:["12 : 30","3 : 5","2 : 3","2 : 5"],kunci:3,p:"<b>Jawaban D (Bab 2).</b> Rasio perempuan terhadap seluruh siswa = 12 : 30. Bagi kedua bilangan dengan 6: 2 : 5. Ingat, ini rasio bagian terhadap keseluruhan, bukan terhadap siswa laki-laki."},
+{no:14,bab:2,tipe:"pg",q:"Dita berlari satu putaran dalam 40 detik, Raka dalam 1 menit. Rasio waktu Dita terhadap Raka adalah ...",opsi:["40 : 1","4 : 1","2 : 3","3 : 2"],kunci:2,p:"<b>Jawaban C (Bab 2).</b> Samakan satuan: 1 menit = 60 detik. Rasio 40 : 60, bagi kedua bilangan dengan 20 menjadi 2 : 3."},
+{no:15,bab:2,tipe:"pg",q:"Bentuk paling sederhana dari 6 : 9 adalah ...",opsi:["2 : 3","3 : 2","6 : 9","1 : 3"],kunci:0,p:"<b>Jawaban A (Bab 2).</b> 6 : 9, bagi kedua bilangan dengan 3 menjadi 2 : 3."},
+{no:16,bab:2,tipe:"pg",q:"Harga 5 buku adalah Rp25.000,00. Harga satuan satu buku adalah ...",opsi:["Rp2.500,00","Rp5.000,00","Rp10.000,00","Rp125.000,00"],kunci:1,p:"<b>Jawaban B (Bab 2).</b> Harga satuan = Rp25.000,00 : 5 = Rp5.000,00 per buku."},
+{no:17,bab:3,tipe:"pg",q:"Banyak sisi sebuah kubus adalah ...",opsi:["4","6","8","12"],kunci:1,p:"<b>Jawaban B (Bab 3).</b> Kubus mempunyai 6 sisi, semuanya persegi yang sama besar: atas, bawah, depan, belakang, kiri, dan kanan."},
+{no:18,bab:3,tipe:"pg",q:"Banyak rusuk sebuah balok adalah ...",opsi:["6","8","10","12"],kunci:3,p:"<b>Jawaban D (Bab 3).</b> Balok mempunyai 12 rusuk: 4 rusuk panjang, 4 rusuk lebar, dan 4 rusuk tinggi."},
+{no:19,bab:3,tipe:"pg",q:"Semua sisi kubus berbentuk ...",opsi:["segitiga","persegi panjang","persegi","lingkaran"],kunci:2,p:"<b>Jawaban C (Bab 3).</b> Ciri khas kubus adalah keenam sisinya berbentuk persegi dengan ukuran yang sama."},
+{no:20,bab:3,tipe:"pg",q:"Susunan kubus terdiri atas dua kolom: kolom kiri bertumpuk 2 dan kolom kanan bertumpuk 1. Banyak persegi yang terlihat pada gambar tampak depan adalah ...",gambar:TAMPAK,opsi:["2","3","4","5"],kunci:1,p:"<b>Jawaban B (Bab 3).</b> Pada tampak depan, yang terlihat adalah tumpukan tertinggi setiap kolom: kolom kiri 2 dan kolom kanan 1, jadi 2 + 1 = 3 persegi."},
+{no:21,bab:3,tipe:"pg",q:"Jaring-jaring kubus selalu terdiri atas ... persegi.",gambar:JARING,opsi:["4","5","6","8"],kunci:2,p:"<b>Jawaban C (Bab 3).</b> Jaring-jaring adalah uraian semua sisi bangun. Karena kubus mempunyai 6 sisi, jaring-jaringnya selalu terdiri atas 6 persegi."},
+{no:22,bab:3,tipe:"pg",q:"Pada denah Bab 3 (kolom A-C, baris 1-3), benda yang terletak di (C, 2) adalah ...",gambar:DENAH,opsi:["Perpustakaan","Masjid","Pasar","Terminal"],kunci:1,p:"<b>Jawaban B (Bab 3).</b> Baca huruf kolom dulu, lalu angka baris. Kolom C dan baris 2 pada denah Bab 3 adalah Masjid. Perpustakaan ada di (B, 2) dan Pasar di (C, 3)."},
+{no:23,bab:3,tipe:"pg",q:"Banyak titik sudut sebuah balok adalah ...",opsi:["6","8","10","12"],kunci:1,p:"<b>Jawaban B (Bab 3).</b> Balok mempunyai 8 titik sudut, sama seperti kubus: 4 di sisi bawah dan 4 di sisi atas."},
+{no:24,bab:4,tipe:"pg",q:"Pada skala peluang, kejadian matahari terbit dari barat termasuk ...",opsi:["tidak mungkin","kurang mungkin","mungkin","pasti"],kunci:0,p:"<b>Jawaban A (Bab 4).</b> Matahari selalu terbit dari timur. Terbit dari barat tidak pernah terjadi, jadi termasuk tidak mungkin."},
+{no:25,bab:4,tipe:"pg",q:"Peluang dadu bermata 6 menunjukkan angka 7 adalah ...",opsi:["sangat mungkin","mungkin","kurang mungkin","tidak mungkin"],kunci:3,p:"<b>Jawaban D (Bab 4).</b> Sisi dadu hanya berisi angka 1, 2, 3, 4, 5, dan 6. Angka 7 tidak ada, jadi peluangnya tidak mungkin."},
+{no:26,bab:4,tipe:"pg",q:"Kantong berisi 3 kelereng merah dan 5 kelereng biru. Warna yang peluangnya lebih besar untuk terambil adalah ...",opsi:["merah","biru","sama besar","tidak dapat ditentukan"],kunci:1,p:"<b>Jawaban B (Bab 4).</b> Peluang merah = "+F(3,8)+" dan peluang biru = "+F(5,8)+". Karena 5 lebih besar dari 3, peluang biru lebih besar."},
+{no:27,bab:4,tipe:"pg",q:"Roda putar dibagi sama besar: separuh berwarna merah dan seperempat berwarna biru. Warna yang peluangnya lebih besar adalah ...",gambar:RODA27,opsi:["biru","merah","sama besar","keduanya kecil"],kunci:1,p:"<b>Jawaban B (Bab 4).</b> Peluang merah adalah separuh roda, yaitu "+F(1,2)+", sedangkan biru hanya "+F(1,4)+". Separuh lebih besar dari seperempat, jadi merah lebih mungkin."},
+{no:28,bab:4,tipe:"pg",q:"Pada lemparan satu koin, peluang muncul sisi angka dibandingkan sisi gambar adalah ...",opsi:["lebih besar","lebih kecil","sama besar","tidak mungkin"],kunci:2,p:"<b>Jawaban C (Bab 4).</b> Koin mempunyai 2 sisi yang sama luas: angka dan gambar. Peluang masing-masing "+F(1,2)+", jadi sama besar."},
+{no:29,bab:4,tipe:"pg",q:"Mengambil kelereng merah dari kantong yang isinya semua kelereng merah termasuk kejadian ...",opsi:["tidak mungkin","kurang mungkin","mungkin","pasti"],kunci:3,p:"<b>Jawaban D (Bab 4).</b> Semua kelereng di kantong berwarna merah, jadi warna apa pun yang terambil pasti merah."},
+{no:30,bab:4,tipe:"pg",q:"Peluang besok turun hujan yang lebih besar terjadi pada ...",opsi:["musim kemarau panjang","musim hujan","keduanya sama","tidak pernah hujan"],kunci:1,p:"<b>Jawaban B (Bab 4).</b> Di musim hujan, awan pembawa hujan jauh lebih sering muncul, sehingga peluang hujan lebih besar daripada di musim kemarau panjang."},
+{no:31,bab:1,tipe:"isian",q:"Hasil dari 7 x "+F(2,7)+" adalah ...",kunciTampil:"2",p:"<b>Jawaban: 2 (Bab 1).</b> 7 x "+F(2,7)+" = "+F("7 x 2",7)+" = "+F(14,7)+" = 2. Cara cepat: 7 dan penyebut 7 saling meniadakan."},
+{no:32,bab:1,tipe:"isian",q:"Bentuk desimal dari "+F(7,20)+" adalah ...",kunciTampil:"0,35",p:"<b>Jawaban: 0,35 (Bab 1).</b> Ubah penyebut menjadi 100: "+F(7,20)+" = "+F("7 x 5","20 x 5")+" = "+F(35,100)+" = 0,35."},
+{no:33,bab:2,tipe:"isian",q:"Bentuk paling sederhana dari rasio 15 : 20 adalah ...",kunciTampil:"3 : 4",p:"<b>Jawaban: 3 : 4 (Bab 2).</b> Bagi kedua bilangan pada 15 : 20 dengan 5: 15 : 20 = 3 : 4."},
+{no:34,bab:2,tipe:"isian",q:"Sepeda motor menempuh 120 km dalam 2 jam. Kecepatan satuannya adalah ... km per jam.",kunciTampil:"60 km per jam",p:"<b>Jawaban: 60 km per jam (Bab 2).</b> Kecepatan satuan = 120 km : 2 jam. Bagi keduanya dengan 2: 60 km : 1 jam."},
+{no:35,bab:3,tipe:"isian",q:"Susunan kubus satuan berbentuk 2 x 2 x 2 (panjang 2, lebar 2, tinggi 2). Banyak kubus satuan seluruhnya adalah ...",kunciTampil:"8 kubus satuan",p:"<b>Jawaban: 8 kubus satuan (Bab 3).</b> Kalikan panjang, lebar, dan tinggi: 2 x 2 x 2 = 8. Setiap lapis berisi 4 kubus dan ada 2 lapis."},
+{no:36,bab:3,tipe:"isian",q:"Banyak rusuk sebuah kubus adalah ...",kunciTampil:"12 rusuk",p:"<b>Jawaban: 12 rusuk (Bab 3).</b> Kubus mempunyai 12 rusuk yang semuanya sama panjang: 4 rusuk alas, 4 rusuk atas, dan 4 rusuk tegak."},
+{no:37,bab:3,tipe:"isian",q:"Susunan kubus satuan berukuran panjang 3, lebar 2, dan tinggi 1 berisi ... kubus satuan.",kunciTampil:"6 kubus satuan",p:"<b>Jawaban: 6 kubus satuan (Bab 3).</b> Karena tingginya hanya 1, susunan ini satu lapis: 3 x 2 x 1 = 6 kubus satuan."},
+{no:38,bab:4,tipe:"isian",q:"Kantong berisi 4 kelereng merah dan 6 kelereng biru. Warna yang peluangnya paling besar untuk terambil adalah ...",kunciTampil:"biru",p:"<b>Jawaban: biru (Bab 4).</b> Peluang biru = "+F(6,10)+" dan peluang merah = "+F(4,10)+". Karena 6 lebih besar dari 4, peluang biru paling besar."},
+{no:39,bab:4,tipe:"isian",q:"Pada skala peluang, melempar dadu dan mendapat angka 6 termasuk kejadian yang ... (tulis satu kata: pasti / mungkin / tidak mungkin)",kunciTampil:"mungkin",p:"<b>Jawaban: mungkin (Bab 4).</b> Angka 6 ada pada satu dari enam sisi dadu, jadi kejadian ini bisa terjadi tetapi tidak pasti. Peluangnya "+F(1,6)+"."},
+{no:40,bab:4,tipe:"isian",q:"Roda putar dibagi menjadi 8 bagian sama besar, 2 di antaranya berwarna merah. Peluang berhenti di warna merah, ditulis sebagai pecahan paling sederhana, adalah ...",gambar:RODA40,kunciTampil:"1/4",p:"<b>Jawaban: "+F(1,4)+" (Bab 4).</b> Peluang merah = banyak bagian merah dibagi seluruh bagian = "+F(2,8)+". Sederhanakan dengan membagi pembilang dan penyebut dengan 2 menjadi "+F(1,4)+"."}
+];
+var BABNAMA={1:"Bab 1 — Pecahan dan Desimal",2:"Bab 2 — Rasio",3:"Bab 3 — Kubus dan Balok",4:"Bab 4 — Peluang"};
+var LS_SESI="cbtK6_sesi_v1", LS_ARSIP="cbtK6_arsip_v1";
+var state={nama:"",kelas:"",idx:0,jawaban:{},ragu:{},sisa:90*60,mulai:false,selesai:false};
+var timerId=null;
+function el(id){return document.getElementById(id);}
+function show(id){["layarLogin","layarKonfirmasi","layarUjian","layarHasil"].forEach(function(x){el(x).classList.toggle("hidden",x!==id);});window.scrollTo(0,0);}
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function simpan(){try{localStorage.setItem(LS_SESI,JSON.stringify(state));}catch(e){}}
+function tampilArsip(){
+  var a=null;try{a=JSON.parse(localStorage.getItem(LS_ARSIP)||"null");}catch(e){}
+  if(a&&a.nama){el("arsipBox").innerHTML='<div class="arsip"><b>Hasil terakhir di alat ini:</b> '+esc(a.nama)+' ('+esc(a.kelas)+') — nilai <b>'+a.skor+'</b> dari 100, '+esc(a.waktu)+'. Kamu boleh mengerjakan lagi.</div>';}
+  else{el("arsipBox").innerHTML="";}
+}
+function fmtWaktu(d){var m=Math.floor(d/60),s=d%60;return (m<10?"0":"")+m+":"+(s<10?"0":"")+s;}
+function updateTimer(){el("timer").textContent=fmtWaktu(Math.max(0,state.sisa));el("timer").classList.toggle("merah",state.sisa<=300);}
+function mulaiTimer(){
+  if(timerId)clearInterval(timerId);
+  updateTimer();
+  timerId=setInterval(function(){
+    if(!state.mulai||state.selesai)return;
+    state.sisa--;updateTimer();simpan();
+    if(state.sisa<=0){kumpulkan(true);}
+  },1000);
+}
+function sudahJawab(no){var v=state.jawaban[no];return v!==undefined&&v!==null&&String(v).trim()!=="";}
+function renderNav(){
+  var g=el("navGrid");g.innerHTML="";
+  SOAL.forEach(function(s,i){
+    var b=document.createElement("button");b.type="button";b.textContent=s.no;
+    if(sudahJawab(s.no))b.className="jawab";
+    if(state.ragu[s.no])b.className="ragu";
+    if(i===state.idx)b.classList.add("aktif");
+    b.onclick=function(){state.idx=i;simpan();renderSoal();};
+    g.appendChild(b);
+  });
+}
+function renderSoal(){
+  var s=SOAL[state.idx];
+  el("noSoal").textContent="Soal "+s.no+" dari 40";
+  el("babSoal").textContent=BABNAMA[s.bab]+(s.tipe==="pg"?" • Pilihan Ganda":" • Isian Singkat");
+  el("teksSoal").innerHTML=s.q;
+  el("gambarSoal").innerHTML=s.gambar||"";
+  var area=el("areaJawab");area.innerHTML="";
+  if(s.tipe==="pg"){
+    var huruf=["A","B","C","D"];
+    s.opsi.forEach(function(op,i){
+      var b=document.createElement("button");b.type="button";b.className="opsi"+(state.jawaban[s.no]===i?" pilih":"");
+      b.innerHTML="<b>"+huruf[i]+".</b> "+op;
+      b.onclick=function(){state.jawaban[s.no]=i;simpan();renderSoal();};
+      area.appendChild(b);
+    });
+  }else{
+    var lab=document.createElement("label");lab.textContent="Jawabanmu:";lab.setAttribute("for","isian");area.appendChild(lab);
+    var inp=document.createElement("input");inp.type="text";inp.id="isian";inp.autocomplete="off";
+    inp.placeholder="Tulis jawaban akhirmu saja";
+    inp.value=state.jawaban[s.no]||"";
+    inp.oninput=function(){state.jawaban[s.no]=inp.value;simpan();renderNav();};
+    area.appendChild(inp);
+  }
+  el("btnPrev").disabled=(state.idx===0);
+  el("btnNext").disabled=(state.idx===SOAL.length-1);
+  el("btnRagu").textContent=state.ragu[s.no]?"Hapus Tanda Ragu":"Tandai Ragu";
+  renderNav();
+}
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=a%b;a=b;b=t;}return a||1;}
+function normTeks(v){return String(v||"").toLowerCase().trim().replace(/\s+/g," ");}
+function ambilAngka(v){
+  var t=normTeks(v).replace(/,/g,".").replace(/[^0-9.\/-]/g,"");
+  if(!t)return null;
+  if(t.indexOf("/")>=0){var p=t.split("/");var a=parseFloat(p[0]),b=parseFloat(p[1]);if(!isFinite(a)||!isFinite(b)||b===0)return null;return a/b;}
+  var n=parseFloat(t);return isFinite(n)?n:null;
+}
+function skorIsian(no,raw){
+  var t=normTeks(raw);
+  if(!t)return 0;
+  if(no===31){var n=ambilAngka(t);return (n!==null&&Math.abs(n-2)<1e-9)?4:0;}
+  if(no===32){var n2=ambilAngka(t);return (n2!==null&&Math.abs(n2-0.35)<1e-9)?4:0;}
+  if(no===33){
+    var m=t.replace(/\s/g,"").match(/^(\d+(?:[.,]\d+)?)[:\/](\d+(?:[.,]\d+)?)$/);
+    if(!m)return 0;
+    var a=parseFloat(m[1].replace(",",".")),b=parseFloat(m[2].replace(",","."));
+    if(!isFinite(a)||!isFinite(b)||b===0)return 0;
+    if(Math.abs(a/b-0.75)>1e-9)return 0;
+    var ai=Math.round(a),bi=Math.round(b);
+    if(Math.abs(a-ai)<1e-9&&Math.abs(b-bi)<1e-9){return (ai===3&&bi===4)?4:2;}
+    return 2;
+  }
+  if(no===34){var n3=ambilAngka(t);return (n3!==null&&Math.abs(n3-60)<1e-9)?4:0;}
+  if(no===35){var n4=ambilAngka(t);return (n4!==null&&Math.abs(n4-8)<1e-9)?4:0;}
+  if(no===36){var n5=ambilAngka(t);return (n5!==null&&Math.abs(n5-12)<1e-9)?4:0;}
+  if(no===37){var n6=ambilAngka(t);return (n6!==null&&Math.abs(n6-6)<1e-9)?4:0;}
+  if(no===38){return (t.indexOf("biru")>=0&&t.indexOf("merah")<0)?4:0;}
+  if(no===39){if(t.indexOf("tidak")>=0)return 0;return (t.indexOf("mungkin")>=0)?4:0;}
+  if(no===40){
+    var n7=ambilAngka(t);
+    if(n7===null||Math.abs(n7-0.25)>1e-9)return 0;
+    var fr=t.replace(/\s/g,"").match(/^(\d+)\/(\d+)$/);
+    if(fr){var fa=parseInt(fr[1],10),fb=parseInt(fr[2],10);return (fa===1&&fb===4)?4:2;}
+    return 4;
+  }
+  return 0;
+}
+function hitungSkor(){
+  var total=0,perBab={1:{benar:0,skor:0,maks:0},2:{benar:0,skor:0,maks:0},3:{benar:0,skor:0,maks:0},4:{benar:0,skor:0,maks:0}},detail={};
+  SOAL.forEach(function(s){
+    var maks=(s.tipe==="pg")?2:4;perBab[s.bab].maks+=maks;
+    var sk=0;
+    if(s.tipe==="pg"){sk=(state.jawaban[s.no]===s.kunci)?2:0;}
+    else{sk=skorIsian(s.no,state.jawaban[s.no]||"");}
+    detail[s.no]=sk;total+=sk;perBab[s.bab].skor+=sk;
+    if(sk===maks)perBab[s.bab].benar++;
+  });
+  return {total:total,perBab:perBab,detail:detail};
+}
+function tutupModal(){el("modal").classList.add("hidden");}
+function bukaModal(html){el("modalIsi").innerHTML=html;el("modal").classList.remove("hidden");}
+function kumpulkan(otomatis){
+  if(state.selesai)return;
+  state.selesai=true;state.mulai=false;
+  if(timerId)clearInterval(timerId);
+  var h=hitungSkor();
+  var waktu=new Date().toLocaleString("id-ID");
+  try{localStorage.setItem(LS_ARSIP,JSON.stringify({nama:state.nama,kelas:state.kelas,skor:h.total,waktu:waktu}));}catch(e){}
+  try{localStorage.removeItem(LS_SESI);}catch(e){}
+  el("hNama").textContent=state.nama;el("hKelas").textContent=state.kelas;
+  el("hSkor").textContent=h.total;
+  var html="<table><tr><th>Bab</th><th>Soal Benar Penuh</th><th>Skor</th></tr>";
+  [1,2,3,4].forEach(function(b){html+="<tr><td>"+BABNAMA[b]+"</td><td>"+h.perBab[b].benar+" dari 10 soal</td><td>"+h.perBab[b].skor+" dari "+h.perBab[b].maks+"</td></tr>";});
+  html+="</table><p>"+(otomatis?"Waktu habis, jawabanmu dikumpulkan otomatis. ":"")+"Nilai = (pilihan ganda benar x 2) + (isian benar x 4). Skor separuh (2) pada soal 33/40 dihitung sebagai belum benar penuh.</p>";
+  el("hRincian").innerHTML=html;
+  var ph="";
+  SOAL.forEach(function(s){
+    var sk=h.detail[s.no];var maks=(s.tipe==="pg")?2:4;
+    var jwb=(s.tipe==="pg")?((state.jawaban[s.no]===undefined||state.jawaban[s.no]===null)?"(kosong)":("ABCD"[state.jawaban[s.no]]+". "+s.opsi[state.jawaban[s.no]])):esc(state.jawaban[s.no]||"(kosong)");
+    var kunci=(s.tipe==="pg")?("ABCD"[s.kunci]+". "+s.opsi[s.kunci]):esc(s.kunciTampil);
+    ph+='<div class="pembahasan'+(sk===maks?"":" salah")+'"><p style="margin:0 0 6px"><b>Soal '+s.no+'</b> ('+BABNAMA[s.bab]+') — skor '+sk+' dari '+maks+'</p><div class="soaltext" style="font-size:18px">'+s.q+'</div>'+(s.gambar?'<div class="gambar">'+s.gambar+'</div>':"")+'<p style="margin:6px 0">Jawabanmu: '+jwb+'<br>Jawaban benar: '+kunci+'</p><p style="margin:6px 0">'+s.p+'</p></div>';
+  });
+  el("isiPembahasan").innerHTML=ph;
+  el("kotakPembahasan").classList.add("hidden");
+  el("btnPembahasan").textContent="Lihat Pembahasan";
+  show("layarHasil");
+}
+el("btnLanjut").onclick=function(){
+  var nama=el("nama").value.trim(),kelas=el("kelas").value.trim();
+  if(!nama){el("errLogin").textContent="Tulis Nama Lengkap dulu, ya.";return;}
+  if(!kelas){el("errLogin").textContent="Tulis Kelas dulu, ya.";return;}
+  if(!el("jujur").checked){el("errLogin").textContent="Centang dulu janji mengerjakan dengan jujur.";return;}
+  el("errLogin").textContent="";
+  state.nama=nama;state.kelas=kelas;
+  el("kNama").textContent=nama;el("kKelas").textContent=kelas;
+  show("layarKonfirmasi");
+};
+el("btnKembali").onclick=function(){show("layarLogin");};
+el("btnMulai").onclick=function(){
+  state.jawaban={};state.ragu={};state.idx=0;state.sisa=90*60;state.mulai=true;state.selesai=false;
+  el("uNama").textContent=state.nama;el("uKelas").textContent="Kelas "+state.kelas;
+  simpan();show("layarUjian");renderSoal();mulaiTimer();
+};
+el("btnPrev").onclick=function(){if(state.idx>0){state.idx--;simpan();renderSoal();}};
+el("btnNext").onclick=function(){if(state.idx<SOAL.length-1){state.idx++;simpan();renderSoal();}};
+el("btnRagu").onclick=function(){var no=SOAL[state.idx].no;state.ragu[no]=!state.ragu[no];simpan();renderSoal();};
+el("btnKumpul").onclick=function(){
+  var kosong=[];SOAL.forEach(function(s){if(!sudahJawab(s.no))kosong.push(s.no);});
+  var ragu=[];SOAL.forEach(function(s){if(state.ragu[s.no])ragu.push(s.no);});
+  var pesan="<h2>Kumpulkan Jawaban?</h2>";
+  if(kosong.length){pesan+="<p><b>Soal yang belum dijawab:</b> "+kosong.join(", ")+".</p>";}
+  else{pesan+="<p>Semua soal sudah dijawab.</p>";}
+  if(ragu.length){pesan+="<p><b>Soal yang ditandai ragu:</b> "+ragu.join(", ")+".</p>";}
+  pesan+='<p>Setelah dikumpulkan, kamu tidak bisa mengubah jawaban lagi.</p><button class="btn hijau" id="mYa">Ya, Kumpulkan</button><button class="btn abu" id="mTidak">Tidak, Kembali Mengerjakan</button>';
+  bukaModal(pesan);
+  el("mYa").onclick=function(){tutupModal();kumpulkan(false);};
+  el("mTidak").onclick=tutupModal;
+};
+el("btnPembahasan").onclick=function(){
+  var k=el("kotakPembahasan");var buka=k.classList.contains("hidden");
+  k.classList.toggle("hidden",!buka);
+  el("btnPembahasan").textContent=buka?"Sembunyikan Pembahasan":"Lihat Pembahasan";
+  if(buka)k.scrollIntoView({behavior:"smooth"});
+};
+el("btnUlang").onclick=function(){
+  state={nama:"",kelas:"",idx:0,jawaban:{},ragu:{},sisa:90*60,mulai:false,selesai:false};
+  el("nama").value="";el("kelas").value="";el("jujur").checked=false;
+  tampilArsip();show("layarLogin");
+};
+el("modal").addEventListener("click",function(e){if(e.target===el("modal"))tutupModal();});
+(function pulihkan(){
+  tampilArsip();
+  var s=null;try{s=JSON.parse(localStorage.getItem(LS_SESI)||"null");}catch(e){}
+  if(s&&s.mulai&&!s.selesai&&s.nama&&s.sisa>0){
+    state=s;
+    el("uNama").textContent=state.nama;el("uKelas").textContent="Kelas "+state.kelas;
+    show("layarUjian");renderSoal();mulaiTimer();
+  }
+})();
+</script>
+</body>
+</html>
