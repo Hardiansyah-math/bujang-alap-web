@@ -348,6 +348,7 @@
       .cloud-status.off { color: var(--ink-soft); }
       .cloud-status.ok { color: var(--green-head); }
       .cloud-status.err { color: var(--danger); }
+      .admin-badge { display: inline-flex; align-items: center; background: var(--yellow-col); border: 1.5px solid var(--yellow-head); color: var(--ink); border-radius: 999px; padding: 3px 12px; font-size: .82rem; font-weight: 800; }
       .linklike { background: none; border: 0; padding: 4px 2px; min-height: 2rem; color: var(--accent); font-weight: 700; font-size: .88rem; text-decoration: underline; text-underline-offset: 3px; }
       .cloud-panel { margin-top: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px; box-shadow: var(--shadow); }
       .cloud-panel-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
@@ -402,6 +403,9 @@
       <div class="cloud-row">
         <p class="cloud-status off" id="cloud-status">○ Mode perangkat — papan bersama belum terhubung (jurnal hanya tersimpan di perangkat ini)</p>
         <button class="linklike" id="btn-cloud-settings" type="button">Pengaturan papan bersama</button>
+        <button class="linklike" id="btn-admin-login" type="button">Masuk sebagai Admin</button>
+        <span class="admin-badge" id="admin-badge" style="display:none">Mode Admin aktif</span>
+        <button class="linklike" id="btn-admin-logout" type="button" style="display:none">Keluar Admin</button>
       </div>
       <div class="cloud-panel" id="cloud-panel" hidden>
         <label class="f-label" for="cloud-url-input">Alamat Web App papan bersama (berakhiran /exec)</label>
@@ -413,7 +417,7 @@
         <p class="cloud-test-result" id="cloud-test-result" role="status"></p>
         <p class="cloud-panel-hint">Alamat ini diperoleh dari deployment Apps Script jurnal (Deploy → Web app) pada Spreadsheet “Jurnal Mengajar Daring”. Setelah disimpan, jurnal dari semua guru tampil di papan ini dan jurnal baru langsung terkirim ke papan bersama. Kosongkan lalu Simpan untuk kembali ke mode perangkat.</p>
       </div>
-      <p class="contoh-note">Ini <strong>contoh tampilan</strong> jurnal mengajar daring bergaya papan Padlet untuk <strong>semua guru mata pelajaran</strong>. Enam kartu pertama adalah contoh isian dari beberapa mapel; silakan ganti, pindah, atau hapus, lalu tulis jurnal Bapak/Ibu sendiri lewat tombol <strong>+ Tulis Jurnal</strong> — isi nama guru dan mata pelajaran Bapak/Ibu di formulir. Bila papan bersama (cloud) terhubung, jurnal yang Bapak/Ibu tulis langsung tampil untuk semua guru; bila belum terhubung, jurnal tersimpan di perangkat ini dulu.</p>
+      <p class="contoh-note">Ini <strong>contoh tampilan</strong> jurnal mengajar daring bergaya papan Padlet untuk <strong>semua guru mata pelajaran</strong>. Enam kartu pertama adalah contoh isian dari beberapa mapel; silakan pindah atau ubah, lalu tulis jurnal Bapak/Ibu sendiri (menghapus kartu hanya bisa dilakukan admin) lewat tombol <strong>+ Tulis Jurnal</strong> — isi nama guru dan mata pelajaran Bapak/Ibu di formulir. Bila papan bersama (cloud) terhubung, jurnal yang Bapak/Ibu tulis langsung tampil untuk semua guru; bila belum terhubung, jurnal tersimpan di perangkat ini dulu.</p>
 
       <section class="stats" aria-label="Statistik ringkas">
         <div class="stat s-blue"><div class="num" id="stat-total">0</div><div class="lbl">Total jurnal di papan</div></div>
@@ -456,7 +460,7 @@
         <button class="btn" id="btn-cloud-refresh" type="button" disabled>Muat Ulang dari Cloud</button>
         <button class="btn" id="btn-reset" type="button">Muat Ulang Contoh</button>
       </div>
-      <p class="toolbar-hint">Geser kartu antar-kolom dengan seret (di komputer), atau pakai tombol ⋯ pada kartu untuk memindahkan, mengubah, dan menghapus.</p>
+      <p class="toolbar-hint">Geser kartu antar-kolom dengan seret (di komputer), atau pakai tombol ⋯ pada kartu untuk memindahkan dan mengubah. Menghapus jurnal hanya bisa dilakukan admin.</p>
 
       <main class="board" id="board" aria-label="Papan jurnal mengajar daring"></main>
       <div class="no-result" id="no-result">Tidak ada kartu yang cocok dengan pencarian atau filter. Coba kata kunci lain, atau kosongkan filter.</div>
@@ -474,7 +478,7 @@
         <div id="detail-body"></div>
         <div class="sheet-actions">
           <button class="btn primary" id="detail-edit" type="button">Ubah</button>
-          <button class="btn danger" id="detail-delete" type="button">Hapus</button>
+          <button class="btn danger" id="detail-delete" type="button" style="display:none">Hapus</button>
           <button class="btn" type="button" data-close>Tutup</button>
         </div>
       </div>
@@ -573,7 +577,7 @@
             <div class="full" id="f-code-wrap">
               <label class="f-label" for="f-code">Kode Edit (4 digit) <span class="req">*</span></label>
               <input class="f-input" id="f-code" type="text" inputmode="numeric" autocomplete="off" maxlength="4" placeholder="cth. 1234" />
-              <p class="f-hint">Kode ini hanya milik Bapak/Ibu — dipakai untuk mengubah atau menghapus jurnal ini nanti di papan bersama. Ingat baik-baik dan jangan dibagikan; kode tidak tampil di papan dan tidak bisa dilihat guru lain.</p>
+              <p class="f-hint">Kode ini hanya milik Bapak/Ibu — dipakai untuk mengubah jurnal ini nanti di papan bersama. Ingat baik-baik dan jangan dibagikan; kode tidak tampil di papan dan tidak bisa dilihat guru lain. Menghapus jurnal hanya bisa dilakukan admin.</p>
             </div>
             <div class="full" id="f-newcode-wrap" style="display:none">
               <label class="f-label" for="f-newcode">Kode Edit baru (opsional)</label>
@@ -621,25 +625,21 @@
       </div>
     </div>
 
-    <!-- Modal kode edit (hapus entri papan bersama) -->
-    <div class="overlay" id="overlay-code" role="alertdialog" aria-modal="true" aria-labelledby="code-title">
+    <!-- Modal masuk admin -->
+    <div class="overlay" id="overlay-admin" role="alertdialog" aria-modal="true" aria-labelledby="admin-title">
       <div class="sheet" style="max-width:440px">
         <div class="sheet-head">
-          <h2 id="code-title">Hapus Jurnal dari Papan Bersama</h2>
+          <h2 id="admin-title">Masuk sebagai Admin</h2>
           <button class="sheet-close" type="button" data-close aria-label="Tutup">✕</button>
         </div>
-        <p id="code-text" style="line-height:1.6;margin:6px 0 0"></p>
+        <p style="line-height:1.6;margin:6px 0 0">Mode admin diperlukan untuk menghapus jurnal dari papan. Kata sandi diperiksa ke server papan bersama dan hanya tersimpan selama halaman ini terbuka.</p>
         <div style="margin-top:12px">
-          <label class="f-label" for="code-input">Kode Edit jurnal ini</label>
-          <input class="f-input" id="code-input" type="text" inputmode="numeric" autocomplete="off" maxlength="4" placeholder="4 digit" />
+          <label class="f-label" for="admin-pass">Kata sandi admin</label>
+          <input class="f-input" id="admin-pass" type="password" autocomplete="off" placeholder="Kata sandi admin" />
         </div>
-        <div style="margin-top:10px">
-          <label class="f-label" for="code-token">Token admin (opsional, hanya admin)</label>
-          <input class="f-input" id="code-token" type="password" autocomplete="off" placeholder="Kosongkan bila memakai Kode Edit" />
-        </div>
-        <div class="form-error" id="code-error"></div>
+        <div class="form-error" id="admin-error"></div>
         <div class="sheet-actions">
-          <button class="btn danger-solid" id="code-yes" type="button">Hapus dari Papan Bersama</button>
+          <button class="btn primary" id="admin-yes" type="button">Masuk</button>
           <button class="btn" type="button" data-close>Batal</button>
         </div>
       </div>
@@ -753,6 +753,22 @@
   var detailId = null;
   var confirmAction = null;
   var dragId = null;
+
+  /* ---------- Mode admin (hapus hanya admin) ---------- */
+  var ADMIN_KEY = "jurnal-admin-token";
+  function getAdminToken() { try { return sessionStorage.getItem(ADMIN_KEY) || ""; } catch (e) { return ""; } }
+  function isAdmin() { return !!getAdminToken(); }
+  function updateAdminUI() {
+    var admin = isAdmin();
+    var loginBtn = document.getElementById("btn-admin-login");
+    var badge = document.getElementById("admin-badge");
+    var logoutBtn = document.getElementById("btn-admin-logout");
+    var delBtn = document.getElementById("detail-delete");
+    if (loginBtn) loginBtn.style.display = admin ? "none" : "";
+    if (badge) badge.style.display = admin ? "" : "none";
+    if (logoutBtn) logoutBtn.style.display = admin ? "" : "none";
+    if (delBtn) delBtn.style.display = admin ? "" : "none";
+  }
 
   function load() {
     try {
@@ -886,8 +902,7 @@
         '<button type="button" data-act="edit">Ubah jurnal</button>' +
         '<div class="menu-sep"></div><div class="menu-label">PINDAHKAN KE KOLOM</div>' +
         moveBtns +
-        '<div class="menu-sep"></div>' +
-        '<button type="button" class="danger" data-act="delete">Hapus jurnal</button>' +
+        (isAdmin() ? '<div class="menu-sep"></div>' + '<button type="button" class="danger" data-act="delete">Hapus jurnal</button>' : "") +
       "</div>" +
     "</article>";
   }
@@ -920,6 +935,7 @@
     document.getElementById("no-result").classList.toggle("show", visibleTotal === 0);
     refreshGuruFilter();
     renderStats();
+    updateAdminUI();
   }
 
   function refreshGuruFilter() {
@@ -1122,10 +1138,10 @@
     var codeVal = document.getElementById("f-code").value.trim();
     var editingEntry = editingId ? entries.find(function (x) { return x.id === editingId; }) : null;
     var isCloudEdit = !!(editingEntry && editingEntry.src === "cloud");
-    var tokenVal = isCloudEdit ? document.getElementById("f-token").value.trim() : "";
+    var tokenVal = isCloudEdit ? (document.getElementById("f-token").value.trim() || (isAdmin() ? getAdminToken() : "")) : "";
     var newCodeVal = isCloudEdit ? document.getElementById("f-newcode").value.trim() : "";
     if (!editingId && !/^\d{4}$/.test(codeVal)) {
-      err.textContent = "Kode Edit wajib diisi tepat 4 angka — kode ini dipakai untuk mengubah atau menghapus jurnal Bapak/Ibu nanti.";
+      err.textContent = "Kode Edit wajib diisi tepat 4 angka — kode ini dipakai untuk mengubah jurnal Bapak/Ibu nanti.";
       err.classList.add("show");
       document.getElementById("f-code").focus();
       return;
@@ -1590,53 +1606,78 @@
   }
   function requestDelete(e) {
     if (!e) return;
-    if (e.src === "cloud") { askDeleteCode(e); return; }
-    askConfirm("Hapus jurnal?", "Jurnal “" + e.materi + "” (" + e.kelas + ") akan dihapus dari papan. Tindakan ini tidak bisa dibatalkan.", function () {
+    if (!isAdmin()) {
+      toast(cloudMode()
+        ? "Hanya admin yang bisa menghapus jurnal."
+        : "Hapus hanya bisa dalam mode admin saat papan bersama terhubung.");
+      return;
+    }
+    askConfirm("Hapus jurnal?", "Jurnal “" + e.materi + "” (" + e.kelas + ") akan dihapus" + (e.src === "cloud" ? " dari papan bersama" : " dari papan") + ". Tindakan ini tidak bisa dibatalkan.", function () {
+      if (e.src === "cloud") {
+        apiPost({ action: "delete", id: e.id, token: getAdminToken() }).then(function (res) {
+          if (res && res.ok) { toast("Jurnal dihapus dari papan bersama."); loadCloud(); }
+          else toast("Gagal menghapus: " + ((res && res.error) || "server menolak."));
+        }).catch(function () {
+          toast("Cloud tidak dapat dijangkau — jurnal belum terhapus.");
+        });
+        return;
+      }
       localEntries = localEntries.filter(function (x) { return x.id !== e.id; });
       save(); rebuild(); render(); toast("Jurnal dihapus.");
     });
   }
-  var codeTarget = null;
-  function askDeleteCode(e) {
-    codeTarget = e;
-    document.getElementById("code-text").textContent = "Jurnal “" + e.materi + "” (" + e.kelas + ") ada di papan bersama. Masukkan Kode Edit jurnal ini untuk menghapusnya — jurnal hanya terhapus bila server menyetujui.";
-    document.getElementById("code-input").value = "";
-    document.getElementById("code-token").value = "";
-    var err = document.getElementById("code-error");
+
+  /* ---------- Masuk / keluar admin ---------- */
+  document.getElementById("btn-admin-login").addEventListener("click", function () {
+    var err = document.getElementById("admin-error");
     err.classList.remove("show"); err.textContent = "";
-    openOverlay("overlay-code");
-  }
-  document.getElementById("code-yes").addEventListener("click", function () {
-    if (!codeTarget) return;
-    var code = document.getElementById("code-input").value.trim();
-    var token = document.getElementById("code-token").value.trim();
-    var err = document.getElementById("code-error");
-    if (!code && !token) {
-      err.textContent = "Isi Kode Edit jurnal ini — atau Token admin bila Anda admin.";
+    var pass = document.getElementById("admin-pass");
+    pass.value = "";
+    var noCloud = !cloudUrl();
+    pass.disabled = noCloud;
+    document.getElementById("admin-yes").disabled = noCloud;
+    if (noCloud) {
+      err.textContent = "Hapus hanya bisa dalam mode admin saat papan bersama terhubung.";
+      err.classList.add("show");
+    }
+    openOverlay("overlay-admin");
+  });
+  document.getElementById("admin-pass").addEventListener("keydown", function (ev) {
+    if (ev.key === "Enter") { ev.preventDefault(); document.getElementById("admin-yes").click(); }
+  });
+  document.getElementById("admin-yes").addEventListener("click", function () {
+    var pass = document.getElementById("admin-pass").value;
+    var err = document.getElementById("admin-error");
+    if (!pass) {
+      err.textContent = "Isi kata sandi admin dulu.";
       err.classList.add("show");
       return;
     }
     var btn = this;
     btn.disabled = true;
-    var payload = { action: "delete", id: codeTarget.id };
-    if (code) payload.code = code;
-    if (token) payload.token = token;
-    apiPost(payload).then(function (res) {
+    apiPost({ action: "verify", token: pass }).then(function (res) {
       btn.disabled = false;
-      if (res && res.ok) {
-        closeOverlay(document.getElementById("overlay-code"));
-        codeTarget = null;
-        toast("Jurnal dihapus dari papan bersama.");
-        loadCloud();
+      if (res && res.ok && res.admin) {
+        try { sessionStorage.setItem(ADMIN_KEY, pass); } catch (e) {}
+        closeOverlay(document.getElementById("overlay-admin"));
+        updateAdminUI(); render();
+        toast("Mode Admin aktif — tombol Hapus kini tampil.");
       } else {
-        err.textContent = (res && res.error) || "Server menolak penghapusan.";
+        var msg = (res && res.error) || "Server menolak masuk admin.";
+        if (msg.indexOf("Aksi tidak dikenal") !== -1) msg = "Server belum diperbarui — deploy versi baru Code.gs dulu. (" + msg + ")";
+        err.textContent = msg;
         err.classList.add("show");
       }
     }).catch(function () {
       btn.disabled = false;
-      err.textContent = "Cloud tidak dapat dijangkau — jurnal belum terhapus. Periksa koneksi lalu coba lagi.";
+      err.textContent = "Cloud tidak dapat dijangkau — periksa koneksi lalu coba lagi.";
       err.classList.add("show");
     });
+  });
+  document.getElementById("btn-admin-logout").addEventListener("click", function () {
+    try { sessionStorage.removeItem(ADMIN_KEY); } catch (e) {}
+    updateAdminUI(); render();
+    toast("Mode Admin dimatikan — tombol Hapus disembunyikan lagi.");
   });
 
   /* ---------- Pengaturan & muat ulang papan bersama ---------- */
