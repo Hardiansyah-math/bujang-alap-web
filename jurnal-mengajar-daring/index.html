@@ -95,16 +95,6 @@
       .masthead h1 .accent-word { color: var(--accent); }
       .identity { margin: 8px 0 0; color: var(--ink-soft); font-size: .95rem; line-height: 1.5; }
       .identity strong { color: var(--ink); }
-      .contoh-badge {
-        display: inline-flex; align-items: center; gap: 8px;
-        background: var(--yellow-col); color: var(--ink);
-        border: 1.5px dashed var(--yellow-head);
-        padding: 8px 14px; border-radius: 999px; font-weight: 700; font-size: .85rem;
-      }
-      .contoh-note {
-        margin: 14px 0 0; padding: 10px 14px; border-radius: 12px;
-        background: var(--accent-soft); color: var(--ink); font-size: .88rem; line-height: 1.55;
-      }
 
       /* ---------- Statistik ---------- */
       .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 18px 0 0; }
@@ -190,11 +180,6 @@
       .card.dragging { opacity: .45; }
       .card-top { display: flex; align-items: flex-start; gap: 6px; }
       .card-date { font-size: .78rem; font-weight: 700; color: var(--ink-soft); letter-spacing: .02em; }
-      .tag-contoh {
-        font-size: .62rem; font-weight: 800; letter-spacing: .08em;
-        background: var(--yellow-col); color: var(--ink); border: 1px solid var(--yellow-head);
-        border-radius: 6px; padding: 1px 6px; white-space: nowrap;
-      }
       .card-menu-btn {
         margin-left: auto; flex: none; width: 2.25rem; height: 2.25rem; min-height: 2.25rem;
         border: 0; background: transparent; border-radius: 9px; font-size: 1.15rem; line-height: 1;
@@ -265,6 +250,11 @@
         background: var(--surface); border: 1px dashed var(--line); border-radius: 14px; color: var(--ink-soft);
       }
       .no-result.show { display: block; }
+      .board-empty {
+        margin-top: 16px; text-align: center; padding: 30px 16px;
+        background: var(--surface); border: 1.5px dashed var(--line); border-radius: 14px;
+        color: var(--ink-soft); font-size: .95rem; line-height: 1.6;
+      }
 
       footer.page-foot { margin-top: 30px; font-size: .82rem; color: var(--ink-faint); line-height: 1.6; text-align: center; }
 
@@ -384,7 +374,7 @@
       #print-preview .p-title { font-family: "Playfair Display", Georgia, serif; font-size: 1.25rem; font-weight: 800; margin: 0 0 2px; }
       #print-preview .p-sub { font-size: .82rem; color: var(--ink-soft); margin-bottom: 12px; }
       @media print {
-        .toolbar, .toolbar-hint, .contoh-note, .contoh-badge, footer.page-foot, .col-add, .card-menu-btn { display: none !important; }
+        .toolbar, .toolbar-hint, footer.page-foot, .col-add, .card-menu-btn { display: none !important; }
         .board { display: block; overflow: visible; }
         .column { break-inside: avoid; margin-bottom: 14px; }
         .card { break-inside: avoid; box-shadow: none; border: 1px solid #bbb; }
@@ -398,7 +388,6 @@
           <h1>Jurnal Mengajar <span class="accent-word">Daring</span></h1>
           <p class="identity"><strong>Semua Guru Mapel</strong> — SMP Negeri 1 Terusan Nunyai</p>
         </div>
-        <span class="contoh-badge">✎ Papan Contoh — data di bawah adalah contoh</span>
       </header>
       <div class="cloud-row">
         <p class="cloud-status off" id="cloud-status">○ Mode perangkat — papan bersama belum terhubung (jurnal hanya tersimpan di perangkat ini)</p>
@@ -417,7 +406,6 @@
         <p class="cloud-test-result" id="cloud-test-result" role="status"></p>
         <p class="cloud-panel-hint">Alamat ini diperoleh dari deployment Apps Script jurnal (Deploy → Web app) pada Spreadsheet “Jurnal Mengajar Daring”. Setelah disimpan, jurnal dari semua guru tampil di papan ini dan jurnal baru langsung terkirim ke papan bersama. Kosongkan lalu Simpan untuk kembali ke mode perangkat.</p>
       </div>
-      <p class="contoh-note">Ini <strong>contoh tampilan</strong> jurnal mengajar daring bergaya papan Padlet untuk <strong>semua guru mata pelajaran</strong>. Enam kartu pertama adalah contoh isian dari beberapa mapel; silakan pindah atau ubah, lalu tulis jurnal Bapak/Ibu sendiri (menghapus kartu hanya bisa dilakukan admin) lewat tombol <strong>+ Tulis Jurnal</strong> — isi nama guru dan mata pelajaran Bapak/Ibu di formulir. Bila papan bersama (cloud) terhubung, jurnal yang Bapak/Ibu tulis langsung tampil untuk semua guru; bila belum terhubung, jurnal tersimpan di perangkat ini dulu.</p>
 
       <section class="stats" aria-label="Statistik ringkas">
         <div class="stat s-blue"><div class="num" id="stat-total">0</div><div class="lbl">Total jurnal di papan</div></div>
@@ -458,14 +446,14 @@
         <button class="btn" id="btn-export" type="button">Ekspor JSON</button>
         <button class="btn" id="btn-print" type="button">Cetak / Simpan PDF</button>
         <button class="btn" id="btn-cloud-refresh" type="button" disabled>Muat Ulang dari Cloud</button>
-        <button class="btn" id="btn-reset" type="button">Muat Ulang Contoh</button>
       </div>
       <p class="toolbar-hint">Geser kartu antar-kolom dengan seret (di komputer), atau pakai tombol ⋯ pada kartu untuk memindahkan dan mengubah. Menghapus jurnal hanya bisa dilakukan admin.</p>
 
       <main class="board" id="board" aria-label="Papan jurnal mengajar daring"></main>
+      <div class="board-empty" id="board-empty" style="display:none">Belum ada jurnal di papan. Klik <strong>+ Tulis Jurnal</strong> untuk menulis jurnal pertama.</div>
       <div class="no-result" id="no-result">Tidak ada kartu yang cocok dengan pencarian atau filter. Coba kata kunci lain, atau kosongkan filter.</div>
 
-      <footer class="page-foot">Jurnal Mengajar Daring — contoh papan bergaya Padlet untuk semua guru mata pelajaran yang melaksanakan pembelajaran secara daring.<br />Papan bersama memakai Google Spreadsheet lewat Apps Script: jurnal yang terhubung cloud terlihat oleh semua guru. Jurnal bertanda “Perangkat ini” hanya tersimpan di perangkat penulisnya sampai berhasil terkirim ke papan bersama.</footer>
+      <footer class="page-foot">Jurnal Mengajar Daring — papan bergaya Padlet untuk semua guru mata pelajaran yang melaksanakan pembelajaran secara daring.<br />Papan bersama memakai Google Spreadsheet lewat Apps Script: jurnal yang terhubung cloud terlihat oleh semua guru. Jurnal bertanda “Perangkat ini” hanya tersimpan di perangkat penulisnya sampai berhasil terkirim ke papan bersama.</footer>
     </div>
 
     <!-- Modal detail -->
@@ -675,74 +663,6 @@
   var PLATFORM_CLASS = { "Google Meet": "meet", "Zoom": "zoom", "WhatsApp": "wa", "Google Classroom": "gc" };
   var PLATFORM_SHORT = { "Google Meet": "Meet", "Zoom": "Zoom", "WhatsApp": "WhatsApp", "Google Classroom": "Classroom" };
 
-  var SEED = [
-    {
-      id: "contoh-1", contoh: true, status: "selesai", tanggal: "2026-11-23",
-      guru: "Hardiansyah, S.Pd", mapel: "Matematika",
-      kelas: "VIIIA", materi: "Teorema Pythagoras",
-      tp: "Menentukan panjang sisi segitiga siku-siku dengan teorema Pythagoras",
-      platform: ["Google Meet"], jam: "07.30–09.00", hadir: 26, total: 28,
-      kegiatan: "Murid membuktikan teorema Pythagoras lewat potongan persegi di layar bersama, lalu mengerjakan 3 soal berjenjang di LKPD digital.",
-      kendala: "2 murid sinyal lemah, beberapa kali keluar-masuk ruang Meet.",
-      refleksi: "Pembuktian visual membuat murid cepat paham; soal berjenjang membantu murid lambat tetap ikut.",
-      tindak: "Kirim rekaman Meet + LKPD ke 2 murid yang sinyalnya lemah, cek pemahaman mereka lewat chat sebelum pertemuan berikutnya."
-    },
-    {
-      id: "contoh-2", contoh: true, status: "selesai", tanggal: "2026-11-24",
-      guru: "Endah Purnomowati", mapel: "IPS",
-      kelas: "VIIA", materi: "Interaksi Sosial",
-      tp: "Menjelaskan bentuk-bentuk interaksi sosial dalam kehidupan sehari-hari",
-      platform: ["Google Classroom"], jam: "09.30–11.00", hadir: 27, total: 29,
-      kegiatan: "Materi dan studi kasus diunggah di Classroom; murid mengidentifikasi contoh interaksi sosial di lingkungan sekitarnya, lalu mempresentasikan temuan lewat komentar berantai.",
-      kendala: "Beberapa murid baru membuka tugas menjelang batas waktu pengumpulan.",
-      refleksi: "Contoh dari lingkungan sendiri membuat konsep interaksi sosial mudah dipahami; perlu pengingat bertahap sebelum tenggat.",
-      tindak: "Beri pengingat H-1 di Classroom dan siapkan rubrik komentar agar diskusi lebih terarah."
-    },
-    {
-      id: "contoh-3", contoh: true, status: "selesai", tanggal: "2026-11-25",
-      guru: "Deni Yantika", mapel: "Bahasa Inggris",
-      kelas: "VIIIC", materi: "Perkenalan Diri (Introducing Myself)",
-      tp: "Memperkenalkan diri dan orang lain dengan ungkapan yang tepat",
-      platform: ["Zoom"], jam: "07.30–09.00", hadir: 25, total: 28,
-      kegiatan: "Murid berlatih dialog perkenalan berpasangan di ruang Zoom, lalu tampil dua-dua memperkenalkan diri dan temannya dalam bahasa Inggris.",
-      kendala: "Audio beberapa murid pecah sehingga dialog harus diulang; sebagian murid malu membuka kamera.",
-      refleksi: "Latihan berpasangan menurunkan rasa malu; contoh dialog yang dimodelkan guru di awal sangat membantu.",
-      tindak: "Bagikan teks dialog contoh dan rekaman model pengucapan agar murid bisa berlatih mandiri."
-    },
-    {
-      id: "contoh-4", contoh: true, status: "berlangsung", tanggal: "2026-11-27",
-      guru: "Ruliati", mapel: "Bahasa Indonesia",
-      kelas: "VIIB", materi: "Teks Prosedur",
-      tp: "Mengidentifikasi struktur dan langkah-langkah dalam teks prosedur",
-      platform: ["WhatsApp", "Google Meet"], jam: "09.30–11.00", hadir: 26, total: 30,
-      kegiatan: "Contoh teks prosedur membuat minuman tradisional dikirim lewat grup WhatsApp; murid menandai tujuan, bahan, dan langkah, lalu membahasnya bersama di Meet.",
-      kendala: "Sebagian murid terlambat bergabung karena pengumuman di WhatsApp tertumpuk pesan lain.",
-      refleksi: "Teks dari kegiatan sehari-hari membuat murid cepat mengenali struktur prosedur; penandaan warna membantu murid membedakan bagian teks.",
-      tindak: "Lanjutkan ke praktik menulis teks prosedur sederhana, kumpulkan lewat foto tulisan di grup kelas."
-    },
-    {
-      id: "contoh-5", contoh: true, status: "rencana", tanggal: "2026-11-30",
-      guru: "Hardiansyah, S.Pd", mapel: "Matematika",
-      kelas: "VIIIB", materi: "Relasi dan Fungsi",
-      tp: "Menentukan relasi antara dua himpunan dan menyajikannya dalam berbagai bentuk",
-      platform: ["Google Meet"], jam: "07.30–09.00", hadir: null, total: 28,
-      kegiatan: "Rencana: apersepsi relasi “siswa dan makanan favorit”, eksplorasi diagram panah di layar bersama, latihan berpasangan.",
-      kendala: "",
-      refleksi: "",
-      tindak: "Siapkan daftar hadir dan bahan diagram panah; umumkan jadwal di grup kelas sehari sebelumnya."
-    },
-    {
-      id: "contoh-6", contoh: true, status: "rencana", tanggal: "2026-12-01",
-      guru: "Ayu Anisa", mapel: "IPA",
-      kelas: "VIIID", materi: "Sistem Pencernaan Manusia",
-      tp: "Menjelaskan organ dan proses pencernaan makanan pada manusia",
-      platform: ["Google Meet"], jam: "09.30–11.00", hadir: null, total: 27,
-      kegiatan: "Rencana: apersepsi perjalanan sepotong makanan, eksplorasi animasi organ pencernaan di layar bersama, kuis kilat di akhir sesi.",
-      kendala: "",
-      refleksi: "",
-      tindak: "Siapkan animasi sistem pencernaan dan LKPD digital; umumkan jadwal di grup kelas sehari sebelumnya."
-    }
-  ];
 
   var localEntries = load();
   var cloudEntries = [];
@@ -773,21 +693,19 @@
   function load() {
     try {
       var raw = localStorage.getItem(LS_KEY);
-      if (!raw) return seedCopy();
+      if (!raw) return [];
       var data = JSON.parse(raw);
-      if (!Array.isArray(data)) return seedCopy();
-      var hasOldSeed = data.some(function (e) { return e.contoh && !e.mapel; });
-      if (hasOldSeed) {
-        var mine = data.filter(function (e) { return !e.contoh; });
-        return seedCopy().concat(mine);
+      if (!Array.isArray(data)) return [];
+      // Bersihkan kartu contoh yang mungkin tersimpan dari versi sebelumnya;
+      // jurnal asli guru (termasuk yang Belum terkirim) tidak ikut terhapus.
+      var cleaned = data.filter(function (e) {
+        return !(e && (e.contoh === true || (typeof e.id === "string" && e.id.indexOf("contoh-") === 0)));
+      });
+      if (cleaned.length !== data.length) {
+        try { localStorage.setItem(LS_KEY, JSON.stringify(cleaned)); } catch (e2) {}
       }
-      return data;
-    } catch (e) { return seedCopy(); }
-  }
-  function seedCopy() { return JSON.parse(JSON.stringify(SEED)); }
-  function save() {
-    try { localStorage.setItem(LS_KEY, JSON.stringify(localEntries)); }
-    catch (e) { toast("Penyimpanan perangkat penuh — entri terakhir mungkin tidak tersimpan."); }
+      return cleaned;
+    } catch (e) { return []; }
   }
   function rebuild() {
     localEntries.forEach(function (e) { e.src = "local"; });
@@ -883,7 +801,6 @@
     '<article class="card" draggable="true" data-id="' + esc(e.id) + '" tabindex="0" role="button" aria-label="Buka detail jurnal ' + esc(e.materi) + '">' +
       '<div class="card-top">' +
         '<span class="card-date">' + esc(fmtDate(e.tanggal)) + "</span>" +
-        (e.contoh ? '<span class="tag-contoh">CONTOH</span>' : "") +
         (e.src !== "cloud" && cloudMode() ? '<span class="tag-local">PERANGKAT INI</span>' : "") +
         (e.pending ? '<span class="tag-pending">BELUM TERKIRIM</span>' : "") +
         '<button class="card-menu-btn" type="button" data-act="menu" aria-label="Menu kartu" aria-haspopup="true">⋯</button>' +
@@ -932,7 +849,9 @@
         '<button class="col-add" type="button" data-add="' + col.id + '">+ Jurnal di kolom ini</button>' +
       "</section>";
     }).join("");
-    document.getElementById("no-result").classList.toggle("show", visibleTotal === 0);
+    var boardEmptyEl = document.getElementById("board-empty");
+    if (boardEmptyEl) boardEmptyEl.style.display = entries.length === 0 ? "" : "none";
+    document.getElementById("no-result").classList.toggle("show", entries.length > 0 && visibleTotal === 0);
     refreshGuruFilter();
     renderStats();
     updateAdminUI();
@@ -1009,7 +928,7 @@
     detailId = id;
     var col = COLUMNS.find(function (c) { return c.id === e.status; });
     var att = attInfo(e);
-    document.getElementById("detail-title").textContent = e.materi + (e.contoh ? " (Contoh)" : "");
+    document.getElementById("detail-title").textContent = e.materi;
     document.getElementById("detail-body").innerHTML =
       '<div class="detail-grid">' +
       detailRow("Tanggal", fmtDate(e.tanggal)) +
@@ -1230,7 +1149,6 @@
     }
 
     data.id = "j" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
-    data.contoh = false;
     data.code = codeVal;
     if (cloudUrl()) {
       var addPayload = toCloudPayload(data);
@@ -1376,12 +1294,6 @@
     document.getElementById(id).addEventListener("change", render);
   });
 
-  document.getElementById("btn-reset").addEventListener("click", function () {
-    askConfirm("Muat ulang contoh?", "Enam kartu contoh awal akan dimuat ulang. Jurnal yang tersimpan di perangkat ini akan terhapus; jurnal di papan bersama (cloud) tidak ikut terhapus.", function () {
-      localEntries = seedCopy();
-      save(); rebuild(); render(); toast("Papan dikembalikan ke 6 kartu contoh.");
-    });
-  });
 
   document.getElementById("btn-export").addEventListener("click", function () {
     var payload = {
@@ -1395,7 +1307,6 @@
           materi: e.materi, tp: e.tp, platform: e.platform, jam: fmtJam(e.jam),
           hadir: e.hadir, total: e.total, kegiatan: e.kegiatan, kendala: e.kendala,
           refleksi: e.refleksi, tindak: e.tindak, status: e.status,
-          contoh: !!e.contoh,
           sumber: e.src === "cloud" ? "Papan bersama (cloud)" : "Perangkat ini"
         };
       })
@@ -1513,7 +1424,7 @@
     var tgl = c.tanggal ? String(c.tanggal) : "";
     if (tgl.indexOf("T") !== -1) tgl = tgl.slice(0, 10);
     return {
-      id: String(c.id), src: "cloud", contoh: false, waktu: c.waktu || "",
+      id: String(c.id), src: "cloud", waktu: c.waktu || "",
       guru: c.guru || "", mapel: c.mapel || "", kelas: c.kelas || "", tanggal: tgl,
       materi: c.materi || "", tp: c.tp || "", platform: plats, jam: c.jam || "",
       hadir: numOrNull(c.hadir), total: numOrNull(c.jumlah),
