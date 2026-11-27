@@ -20,6 +20,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
       :root {
         --bg: #eef4fb;
@@ -404,21 +405,10 @@
         </div>
       </header>
       <div class="cloud-row">
-        <p class="cloud-status off" id="cloud-status">○ Mode perangkat — papan bersama belum terhubung (jurnal hanya tersimpan di perangkat ini)</p>
-        <button class="linklike" id="btn-cloud-settings" type="button">Pengaturan papan bersama</button>
+        <p class="cloud-status off" id="cloud-status">● Menghubungi papan bersama…</p>
         <button class="linklike" id="btn-admin-login" type="button">Masuk sebagai Admin</button>
         <span class="admin-badge" id="admin-badge" style="display:none">Mode Admin aktif</span>
         <button class="linklike" id="btn-admin-logout" type="button" style="display:none">Keluar Admin</button>
-      </div>
-      <div class="cloud-panel" id="cloud-panel" hidden>
-        <label class="f-label" for="cloud-url-input">Alamat Web App papan bersama (berakhiran /exec)</label>
-        <div class="cloud-panel-row">
-          <input class="f-input" id="cloud-url-input" type="url" placeholder="https://script.google.com/macros/s/…/exec" />
-          <button class="btn primary" id="cloud-save" type="button">Simpan</button>
-          <button class="btn" id="cloud-test" type="button">Uji koneksi</button>
-        </div>
-        <p class="cloud-test-result" id="cloud-test-result" role="status"></p>
-        <p class="cloud-panel-hint">Alamat ini diperoleh dari deployment Apps Script jurnal (Deploy → Web app) pada Spreadsheet “Jurnal Mengajar Daring”. Setelah disimpan, jurnal dari semua guru tampil di papan ini dan jurnal baru langsung terkirim ke papan bersama. Kosongkan lalu Simpan untuk kembali ke mode perangkat.</p>
       </div>
 
       <section class="stats" aria-label="Statistik ringkas">
@@ -658,9 +648,12 @@
   "use strict";
 
   var LS_KEY = "jurnal-mengajar-daring-v1";
-  var CLOUD_URL_KEY = "jurnal-cloud-url";
   var CLOUD_CACHE_KEY = "jurnal-cloud-cache";
-  var CLOUD_URL_BUILTIN = 'https://script.google.com/macros/s/AKfycbz5znqXcDXnChKQ9S5CTaLINuPO84OWTx6_BsZz1rXDNMrM6AxGS1A0g_Tc0c7vzNiqPg/exec'; // alamat Web App papan bersama (tertanam)
+  var SUPABASE_URL = "https://faafvjshncoijwfungbv.supabase.co";
+  var SUPABASE_ANON_KEY = "sb_publishable_ZNtX2VxJXWVtEDtNSxkoqA_rroGcVem";
+  var SUPABASE_REST = SUPABASE_URL + "/rest/v1/";
+  var SUPABASE_AUTH_URL = SUPABASE_URL + "/auth/v1/token?grant_type=password";
+  var ADMIN_EMAIL = "boentak@gmail.com";
 
   var COLUMNS = [
     { id: "rencana",    title: "Rencana",            cls: "c-blue",   empty: "Belum ada rencana. Klik “+ Rencana” atau tombol Tulis Jurnal." },
@@ -1042,11 +1035,13 @@
     document.getElementById("f-code").value = "";
     document.getElementById("f-newcode").value = "";
     document.getElementById("f-token").value = "";
-    document.getElementById("f-newcode-wrap").style.display = cloudEdit ? "" : "none";
-    document.getElementById("f-token-wrap").style.display = cloudEdit ? "" : "none";
-    document.querySelector('label[for="f-code"]').innerHTML = cloudEdit
-      ? 'Kode Edit jurnal ini <span class="req">*</span>'
-      : (id ? 'Kode Edit (isi hanya bila ingin mengganti)' : 'Kode Edit (4 digit) <span class="req">*</span>');
+    document.getElementById("f-newcode-wrap").style.display = "none";
+    document.getElementById("f-token-wrap").style.display = "none";
+    document.querySelector('label[for="f-code"]').innerHTML = (cloudEdit && isAdmin())
+      ? 'Kode Edit (tidak perlu diisi — Mode Admin aktif)'
+      : (cloudEdit
+        ? 'Kode Edit jurnal ini <span class="req">*</span>'
+        : (id ? 'Kode Edit (isi hanya bila ingin mengganti)' : 'Kode Edit (4 digit) <span class="req">*</span>'));
     openOverlay("overlay-form");
   }
 
@@ -1075,21 +1070,20 @@
     var codeVal = document.getElementById("f-code").value.trim();
     var editingEntry = editingId ? entries.find(function (x) { return x.id === editingId; }) : null;
     var isCloudEdit = !!(editingEntry && editingEntry.src === "cloud");
-    var tokenVal = isCloudEdit ? (document.getElementById("f-token").value.trim() || (isAdmin() ? getAdminToken() : "")) : "";
-    var newCodeVal = isCloudEdit ? document.getElementById("f-newcode").value.trim() : "";
+    var adminEdit = isCloudEdit && isAdmin();
     if (!editingId && !/^\d{4}$/.test(codeVal)) {
       err.textContent = "Kode Edit wajib diisi tepat 4 angka — kode ini dipakai untuk mengubah jurnal Bapak/Ibu nanti.";
       err.classList.add("show");
       document.getElementById("f-code").focus();
       return;
     }
-    if (isCloudEdit && !codeVal && !tokenVal) {
-      err.textContent = "Jurnal ini ada di papan bersama — isi Kode Edit jurnal ini, atau Token admin bila Anda admin.";
+    if (isCloudEdit && !adminEdit && !codeVal) {
+      err.textContent = "Jurnal ini ada di papan bersama — isi Kode Edit jurnal ini untuk mengubahnya.";
       err.classList.add("show");
       document.getElementById("f-code").focus();
       return;
     }
-    if ((codeVal && !/^\d{4}$/.test(codeVal)) || (newCodeVal && !/^\d{4}$/.test(newCodeVal))) {
+    if (codeVal && !/^\d{4}$/.test(codeVal)) {
       err.textContent = "Kode Edit harus tepat 4 angka.";
       err.classList.add("show");
       return;
@@ -1126,27 +1120,19 @@
     function tutupForm() { closeOverlay(document.getElementById("overlay-form")); }
 
     if (editingId && isCloudEdit) {
-      var editPayload = toCloudPayload(data);
-      editPayload.action = "edit";
-      editPayload.id = editingId;
-      if (codeVal) editPayload.code = codeVal;
-      if (tokenVal) editPayload.token = tokenVal;
-      if (newCodeVal) editPayload.newCode = newCodeVal;
+      var editBody = toRpcPayload(data);
+      editBody.p_id = editingId;
+      editBody.p_kode = adminEdit ? "" : codeVal;
       submitBtn.disabled = true;
-      apiPost(editPayload).then(function (res) {
+      rpcCall("ubah_jurnal", editBody, adminEdit).then(function () {
         submitBtn.disabled = false;
-        if (res && res.ok) {
-          saveProfile(guru, mapel);
-          tutupForm();
-          toast("Jurnal diperbarui di papan bersama.");
-          loadCloud();
-        } else {
-          err.textContent = (res && res.error) || "Server menolak perubahan ini.";
-          err.classList.add("show");
-        }
-      }).catch(function () {
+        saveProfile(guru, mapel);
+        tutupForm();
+        toast("Jurnal diperbarui di papan bersama.");
+        loadCloud();
+      }).catch(function (e2) {
         submitBtn.disabled = false;
-        err.textContent = "Cloud tidak dapat dijangkau — perubahan belum terkirim. Periksa koneksi lalu coba lagi.";
+        err.textContent = (e2 && e2.server) ? e2.message : "Cloud tidak dapat dijangkau — perubahan belum terkirim. Periksa koneksi lalu coba lagi.";
         err.classList.add("show");
       });
       return;
@@ -1162,48 +1148,35 @@
       save(); rebuild(); render();
       tutupForm();
       toast("Jurnal diperbarui dan tersimpan di perangkat ini.");
-      if (le && le.pending && cloudUrl()) resendEntry(le.id);
+      if (le && le.pending) resendEntry(le.id);
       return;
     }
 
     data.id = "j" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
     data.code = codeVal;
-    if (cloudUrl()) {
-      var addPayload = toCloudPayload(data);
-      addPayload.action = "add";
-      addPayload.code = codeVal;
-      submitBtn.disabled = true;
-      apiPost(addPayload).then(function (res) {
-        submitBtn.disabled = false;
-        if (res && res.ok) {
-          saveProfile(guru, mapel);
-          tutupForm();
-          toast("Jurnal terkirim ke papan bersama.");
-          loadCloud();
-        } else {
-          data.pending = true;
-          localEntries.push(data);
-          saveProfile(guru, mapel);
-          save(); rebuild(); render();
-          tutupForm();
-          toast("Server menolak jurnal — disimpan di perangkat ini sebagai Belum terkirim.");
-        }
-      }).catch(function () {
-        submitBtn.disabled = false;
-        data.pending = true;
-        localEntries.push(data);
-        saveProfile(guru, mapel);
-        save(); rebuild(); render();
-        tutupForm();
-        toast("Cloud tidak terjangkau — jurnal disimpan di perangkat ini sebagai Belum terkirim.");
-      });
-      return;
-    }
-    localEntries.push(data);
-    saveProfile(guru, mapel);
-    save(); rebuild(); render();
-    tutupForm();
-    toast("Jurnal baru ditambahkan ke papan.");
+    var addBody = toRpcPayload(data);
+    addBody.p_kode = codeVal;
+    submitBtn.disabled = true;
+    rpcCall("tambah_jurnal", addBody, false).then(function () {
+      submitBtn.disabled = false;
+      saveProfile(guru, mapel);
+      tutupForm();
+      toast("Jurnal terkirim ke papan bersama.");
+      loadCloud();
+    }).catch(function (e2) {
+      submitBtn.disabled = false;
+      if (e2 && e2.server) {
+        err.textContent = e2.message;
+        err.classList.add("show");
+        return;
+      }
+      data.pending = true;
+      localEntries.push(data);
+      saveProfile(guru, mapel);
+      save(); rebuild(); render();
+      tutupForm();
+      toast("Cloud tidak terjangkau — jurnal disimpan di perangkat ini sebagai Belum terkirim.");
+    });
   });
 
   /* ---------- Interaksi papan (delegasi) ---------- */
@@ -1257,11 +1230,11 @@
     var col = COLUMNS.find(function (c) { return c.id === to; });
     var colName = col ? col.title : to;
     if (e.src === "cloud") {
-      apiGet({ action: "move", id: id, status: to }).then(function (res) {
-        if (res && res.ok) { toast("Kartu dipindah ke kolom " + colName + "."); loadCloud(); }
-        else toast("Gagal memindah kartu di papan bersama: " + ((res && res.error) || "server menolak."));
-      }).catch(function () {
-        toast("Cloud tidak dapat dijangkau — kartu belum dipindah.");
+      rpcCall("pindah_jurnal", { p_id: id, p_status: to }, false).then(function () {
+        toast("Kartu dipindah ke kolom " + colName + ".");
+        loadCloud();
+      }).catch(function (e2) {
+        toast(e2 && e2.server ? e2.message : "Cloud tidak dapat dijangkau — kartu belum dipindah.");
       });
       return;
     }
@@ -1398,36 +1371,53 @@
     toast("Lembar cetak diunduh — buka berkasnya lalu cetak dari peramban.");
   });
 
-  /* ---------- Papan bersama (cloud — Google Sheets + Apps Script) ---------- */
-  function cloudUrl() {
-    try {
-      var override = (localStorage.getItem(CLOUD_URL_KEY) || "").trim();
-      if (override) return override;
-    } catch (e) {}
-    return CLOUD_URL_BUILTIN || "";
-  }
-  function cloudMode() { return !!cloudUrl(); }
-  function apiGet(params) {
-    var base = cloudUrl();
-    var qs = Object.keys(params).map(function (k) {
-      return encodeURIComponent(k) + "=" + encodeURIComponent(params[k]);
-    }).join("&");
-    return fetch(base + (base.indexOf("?") === -1 ? "?" : "&") + qs).then(function (r) { return r.json(); });
-  }
-  function apiPost(obj) {
-    return fetch(cloudUrl(), {
-      method: "POST",
-      headers: { "Content-Type": "text/plain" },
-      body: JSON.stringify(obj)
-    }).then(function (r) { return r.json(); });
-  }
-  function toCloudPayload(e) {
+  /* ---------- Papan bersama (cloud — Supabase) ---------- */
+  function cloudMode() { return true; }
+  function supaHeaders(useAdmin) {
+    var token = SUPABASE_ANON_KEY;
+    if (useAdmin) { var t = getAdminToken(); if (t) token = t; }
     return {
-      guru: e.guru, mapel: e.mapel, kelas: e.kelas, tanggal: e.tanggal, materi: e.materi,
-      tp: e.tp || "", platform: (e.platform || []).join(", "), jam: e.jam || "",
-      hadir: e.hadir == null ? "" : e.hadir, jumlah: e.total == null ? "" : e.total,
-      kegiatan: e.kegiatan || "", kendala: e.kendala || "", refleksi: e.refleksi || "",
-      tindakLanjut: e.tindak || "", status: e.status
+      "apikey": SUPABASE_ANON_KEY,
+      "Authorization": "Bearer " + token,
+      "Content-Type": "application/json"
+    };
+  }
+  function supaFail(r, data) {
+    var msg = (data && (data.message || data.error_description || data.error)) || ("Server menjawab dengan kode " + r.status + ".");
+    var err = new Error(msg);
+    err.server = true;
+    return err;
+  }
+  function rpcCall(name, body, useAdmin) {
+    return fetch(SUPABASE_REST + "rpc/" + name, {
+      method: "POST",
+      headers: supaHeaders(useAdmin),
+      body: JSON.stringify(body || {})
+    }).then(function (r) {
+      return r.json().catch(function () { return null; }).then(function (data) {
+        if (!r.ok) throw supaFail(r, data);
+        return data;
+      });
+    });
+  }
+  function fetchJurnal() {
+    return fetch(SUPABASE_REST + "jurnal?select=*&order=created_at.asc", {
+      headers: { "apikey": SUPABASE_ANON_KEY, "Authorization": "Bearer " + SUPABASE_ANON_KEY }
+    }).then(function (r) {
+      return r.json().catch(function () { return null; }).then(function (data) {
+        if (!r.ok || !Array.isArray(data)) throw supaFail(r, data);
+        return data;
+      });
+    });
+  }
+  function toRpcPayload(e) {
+    return {
+      p_guru: e.guru, p_mapel: e.mapel, p_kelas: e.kelas, p_tanggal: e.tanggal,
+      p_materi: e.materi, p_tp: e.tp || "", p_platform: (e.platform || []).join(", "),
+      p_jam: e.jam || "", p_hadir: e.hadir == null ? null : e.hadir,
+      p_jumlah: e.total == null ? null : e.total,
+      p_kegiatan: e.kegiatan || "", p_kendala: e.kendala || "",
+      p_refleksi: e.refleksi || "", p_tindak_lanjut: e.tindak || "", p_status: e.status
     };
   }
   function numOrNull(v) {
@@ -1442,12 +1432,12 @@
     var tgl = c.tanggal ? String(c.tanggal) : "";
     if (tgl.indexOf("T") !== -1) tgl = tgl.slice(0, 10);
     return {
-      id: String(c.id), src: "cloud", waktu: c.waktu || "",
+      id: String(c.id), src: "cloud", waktu: c.created_at || "",
       guru: c.guru || "", mapel: c.mapel || "", kelas: c.kelas || "", tanggal: tgl,
       materi: c.materi || "", tp: c.tp || "", platform: plats, jam: c.jam || "",
       hadir: numOrNull(c.hadir), total: numOrNull(c.jumlah),
       kegiatan: c.kegiatan || "", kendala: c.kendala || "", refleksi: c.refleksi || "",
-      tindak: c.tindakLanjut || "", status: c.status || "rencana"
+      tindak: c.tindak_lanjut || "", status: c.status || "rencana"
     };
   }
   function loadCloudCache() {
@@ -1462,13 +1452,7 @@
   function updateCloudStatus() {
     var el = document.getElementById("cloud-status");
     var btn = document.getElementById("btn-cloud-refresh");
-    var url = cloudUrl();
-    if (btn) btn.disabled = !url;
-    if (!url) {
-      el.textContent = "○ Mode perangkat — papan bersama belum terhubung (jurnal hanya tersimpan di perangkat ini)";
-      el.className = "cloud-status off";
-      return;
-    }
+    if (btn) btn.disabled = false;
     if (cloudState === "error") {
       el.textContent = "⚠ Cloud tidak dapat dijangkau — menampilkan salinan perangkat. Periksa koneksi lalu tekan Muat Ulang dari Cloud.";
       el.className = "cloud-status err";
@@ -1484,24 +1468,13 @@
     el.className = "cloud-status ok";
   }
   function loadCloud() {
-    if (!cloudUrl()) {
-      cloudEntries = [];
-      cloudState = "off";
-      rebuild(); updateCloudStatus(); render();
-      return Promise.resolve();
-    }
     cloudState = "loading";
     updateCloudStatus();
-    return apiGet({ action: "list" }).then(function (res) {
-      if (res && res.ok && Array.isArray(res.entries)) {
-        cloudEntries = res.entries.map(normalizeCloud);
-        cloudState = "ok";
-        lastSync = new Date();
-        try { localStorage.setItem(CLOUD_CACHE_KEY, JSON.stringify(cloudEntries)); } catch (e) {}
-      } else {
-        cloudState = "error";
-        cloudEntries = loadCloudCache();
-      }
+    return fetchJurnal().then(function (rows) {
+      cloudEntries = rows.map(normalizeCloud);
+      cloudState = "ok";
+      lastSync = new Date();
+      try { localStorage.setItem(CLOUD_CACHE_KEY, JSON.stringify(cloudEntries)); } catch (e) {}
     }).catch(function () {
       cloudState = "error";
       cloudEntries = loadCloudCache();
@@ -1512,42 +1485,31 @@
   function resendEntry(id) {
     var e = localEntries.find(function (x) { return x.id === id; });
     if (!e) return;
-    if (!cloudUrl()) {
-      toast("Papan bersama belum terhubung — isi alamat Web App di Pengaturan papan bersama.");
-      return;
-    }
-    var payload = toCloudPayload(e);
-    payload.action = "add";
-    payload.code = e.code || "";
+    var body = toRpcPayload(e);
+    body.p_kode = e.code || "";
     toast("Mengirim jurnal ke papan bersama…");
-    apiPost(payload).then(function (res) {
-      if (res && res.ok) {
-        localEntries = localEntries.filter(function (x) { return x.id !== id; });
-        save(); rebuild(); render();
-        toast("Jurnal terkirim ke papan bersama.");
-        loadCloud();
-      } else {
-        toast("Belum terkirim: " + ((res && res.error) || "server menolak."));
-      }
-    }).catch(function () {
-      toast("Cloud tidak dapat dijangkau — jurnal masih Belum terkirim.");
+    rpcCall("tambah_jurnal", body, false).then(function () {
+      localEntries = localEntries.filter(function (x) { return x.id !== id; });
+      save(); rebuild(); render();
+      toast("Jurnal terkirim ke papan bersama.");
+      loadCloud();
+    }).catch(function (e2) {
+      toast(e2 && e2.server ? ("Belum terkirim: " + e2.message) : "Cloud tidak dapat dijangkau — jurnal masih Belum terkirim.");
     });
   }
   function requestDelete(e) {
     if (!e) return;
     if (!isAdmin()) {
-      toast(cloudMode()
-        ? "Hanya admin yang bisa menghapus jurnal."
-        : "Hapus hanya bisa dalam mode admin saat papan bersama terhubung.");
+      toast("Hanya admin yang bisa menghapus jurnal.");
       return;
     }
     askConfirm("Hapus jurnal?", "Jurnal “" + e.materi + "” (" + e.kelas + ") akan dihapus" + (e.src === "cloud" ? " dari papan bersama" : " dari papan") + ". Tindakan ini tidak bisa dibatalkan.", function () {
       if (e.src === "cloud") {
-        apiPost({ action: "delete", id: e.id, token: getAdminToken() }).then(function (res) {
-          if (res && res.ok) { toast("Jurnal dihapus dari papan bersama."); loadCloud(); }
-          else toast("Gagal menghapus: " + ((res && res.error) || "server menolak."));
-        }).catch(function () {
-          toast("Cloud tidak dapat dijangkau — jurnal belum terhapus.");
+        rpcCall("hapus_jurnal", { p_id: e.id }, true).then(function () {
+          toast("Jurnal dihapus dari papan bersama.");
+          loadCloud();
+        }).catch(function (e2) {
+          toast(e2 && e2.server ? e2.message : "Cloud tidak dapat dijangkau — jurnal belum terhapus.");
         });
         return;
       }
@@ -1560,15 +1522,7 @@
   document.getElementById("btn-admin-login").addEventListener("click", function () {
     var err = document.getElementById("admin-error");
     err.classList.remove("show"); err.textContent = "";
-    var pass = document.getElementById("admin-pass");
-    pass.value = "";
-    var noCloud = !cloudUrl();
-    pass.disabled = noCloud;
-    document.getElementById("admin-yes").disabled = noCloud;
-    if (noCloud) {
-      err.textContent = "Hapus hanya bisa dalam mode admin saat papan bersama terhubung.";
-      err.classList.add("show");
-    }
+    document.getElementById("admin-pass").value = "";
     openOverlay("overlay-admin");
   });
   document.getElementById("admin-pass").addEventListener("keydown", function (ev) {
@@ -1584,17 +1538,23 @@
     }
     var btn = this;
     btn.disabled = true;
-    apiPost({ action: "verify", token: pass }).then(function (res) {
+    fetch(SUPABASE_AUTH_URL, {
+      method: "POST",
+      headers: { "apikey": SUPABASE_ANON_KEY, "Content-Type": "application/json" },
+      body: JSON.stringify({ email: ADMIN_EMAIL, password: pass })
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (data) {
+        return { ok: r.ok, data: data };
+      });
+    }).then(function (res) {
       btn.disabled = false;
-      if (res && res.ok && res.admin) {
-        try { sessionStorage.setItem(ADMIN_KEY, pass); } catch (e) {}
+      if (res.ok && res.data && res.data.access_token) {
+        try { sessionStorage.setItem(ADMIN_KEY, res.data.access_token); } catch (e) {}
         closeOverlay(document.getElementById("overlay-admin"));
         updateAdminUI(); render();
         toast("Mode Admin aktif — tombol Hapus kini tampil.");
       } else {
-        var msg = (res && res.error) || "Server menolak masuk admin.";
-        if (msg.indexOf("Aksi tidak dikenal") !== -1) msg = "Server belum diperbarui — deploy versi baru Code.gs dulu. (" + msg + ")";
-        err.textContent = msg;
+        err.textContent = "Kata sandi admin salah.";
         err.classList.add("show");
       }
     }).catch(function () {
@@ -1609,45 +1569,8 @@
     toast("Mode Admin dimatikan — tombol Hapus disembunyikan lagi.");
   });
 
-  /* ---------- Pengaturan & muat ulang papan bersama ---------- */
-  document.getElementById("btn-cloud-settings").addEventListener("click", function () {
-    var panel = document.getElementById("cloud-panel");
-    panel.hidden = !panel.hidden;
-    if (!panel.hidden) {
-      var input = document.getElementById("cloud-url-input");
-      input.value = cloudUrl();
-      input.disabled = !!CLOUD_URL_BUILTIN;
-      document.getElementById("cloud-save").disabled = !!CLOUD_URL_BUILTIN;
-      if (CLOUD_URL_BUILTIN) {
-        document.getElementById("cloud-test-result").textContent = "Alamat papan bersama sudah tertanam di halaman ini.";
-      }
-    }
-  });
-  document.getElementById("cloud-save").addEventListener("click", function () {
-    var v = document.getElementById("cloud-url-input").value.trim();
-    try {
-      if (v) localStorage.setItem(CLOUD_URL_KEY, v);
-      else localStorage.removeItem(CLOUD_URL_KEY);
-    } catch (e) {}
-    document.getElementById("cloud-test-result").textContent = "";
-    toast(v ? "Alamat papan bersama disimpan — memuat jurnal dari cloud…" : "Alamat papan bersama dikosongkan — kembali ke mode perangkat.");
-    loadCloud();
-  });
-  document.getElementById("cloud-test").addEventListener("click", function () {
-    var v = document.getElementById("cloud-url-input").value.trim() || cloudUrl();
-    var out = document.getElementById("cloud-test-result");
-    if (!v) { out.textContent = "Isi dulu alamat Web App-nya pada kolom di atas."; return; }
-    out.textContent = "Menguji koneksi…";
-    fetch(v + (v.indexOf("?") === -1 ? "?" : "&") + "action=ping").then(function (r) { return r.json(); }).then(function (res) {
-      out.textContent = res && res.ok
-        ? "✓ Terhubung — " + (res.service || "layanan papan bersama aktif")
-        : "✗ Server menjawab: " + ((res && res.error) || "jawaban tidak dikenal");
-    }).catch(function () {
-      out.textContent = "✗ Tidak terjangkau — periksa alamat /exec dan koneksi internet.";
-    });
-  });
+  /* ---------- Muat ulang papan bersama ---------- */
   document.getElementById("btn-cloud-refresh").addEventListener("click", function () {
-    if (!cloudUrl()) return;
     toast("Memuat ulang dari cloud…");
     loadCloud().then(function () {
       if (cloudState === "ok") toast("Papan bersama dimuat ulang.");
@@ -1655,10 +1578,35 @@
     });
   });
 
+  /* ---------- Realtime (Supabase) + cadangan polling ---------- */
+  var rtReloadTimer = null;
+  function scheduleCloudReload() {
+    clearTimeout(rtReloadTimer);
+    rtReloadTimer = setTimeout(function () { loadCloud(); }, 400);
+  }
+  function startPolling() {
+    setInterval(function () {
+      if (document.visibilityState === "visible") loadCloud();
+    }, 25000);
+  }
+  function initRealtime() {
+    try {
+      if (window.supabase && window.supabase.createClient) {
+        var client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        client.channel("jurnal-realtime")
+          .on("postgres_changes", { event: "*", schema: "public", table: "jurnal" }, function () { scheduleCloudReload(); })
+          .subscribe();
+        return;
+      }
+    } catch (e) {}
+    startPolling();
+  }
+
   rebuild();
   updateCloudStatus();
   render();
-  if (cloudUrl()) loadCloud();
+  loadCloud();
+  initRealtime();
 })();
 </script>
   </body>
