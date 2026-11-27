@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CBT Bahasa Indonesia Kelas 6 — Bab 1-4</title>
+<style>
+:root{--biru:#1565c0;--biru2:#0d47a1;--hijau:#2e7d32;--kuning:#fff8e1;--teks:#1a2733;--abu:#5b6b7a;--garis:#cfd8dc}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;background:#e8f1fb;color:var(--teks);font-size:18px;line-height:1.55}
+.wrap{max-width:860px;margin:0 auto;padding:16px 14px 40px}
+.card{background:#fff;border-radius:18px;box-shadow:0 4px 18px rgba(13,71,161,.12);padding:22px 20px;margin:16px 0}
+.hero{background:linear-gradient(135deg,#1565c0,#42a5f5);color:#fff;border-radius:18px;padding:26px 22px;text-align:center;box-shadow:0 4px 18px rgba(13,71,161,.25)}
+.hero h1{margin:0 0 6px;font-size:30px;line-height:1.25}
+.hero p{margin:4px 0;font-size:17px}
+.badge{display:inline-block;background:#fff;color:var(--biru2);border-radius:999px;padding:4px 14px;font-weight:700;font-size:14px;margin-bottom:10px}
+h2{color:var(--biru2);margin:0 0 10px;font-size:24px}
+label{display:block;font-weight:700;margin:14px 0 6px;font-size:18px}
+input[type=text]{width:100%;padding:14px;font-size:19px;border:2px solid var(--garis);border-radius:12px;background:#fff}
+input[type=text]:focus{outline:3px solid #90caf9;border-color:var(--biru)}
+.check{display:flex;gap:12px;align-items:flex-start;background:var(--kuning);border:2px solid #ffe082;border-radius:12px;padding:14px;margin-top:16px}
+.check input{width:26px;height:26px;margin-top:2px;flex:none}
+.info{background:#e3f2fd;border:2px solid #90caf9;border-radius:12px;padding:14px 16px;margin-top:16px}
+.info ul{margin:6px 0 0;padding-left:22px}
+.btn{display:block;width:100%;padding:16px;font-size:20px;font-weight:800;border:0;border-radius:14px;background:var(--biru);color:#fff;cursor:pointer;margin-top:16px}
+.btn.hijau{background:var(--hijau)}
+.btn.abu{background:#eceff1;color:var(--teks)}
+.btn:disabled{background:#b0bec5;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row .btn{flex:1;min-width:140px}
+.err{color:#b71c1c;font-weight:700;margin-top:8px;min-height:24px}
+.hidden{display:none!important}
+.timerbar{position:sticky;top:0;z-index:20;background:var(--biru2);color:#fff;border-radius:0 0 14px 14px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;box-shadow:0 3px 10px rgba(0,0,0,.2)}
+.timerbar .waktu{font-size:26px;font-weight:800;font-variant-numeric:tabular-nums}
+.timerbar .waktu.merah{color:#ffcdd2}
+.soalhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.babtag{background:#e8f5e9;color:var(--hijau);font-weight:800;border-radius:999px;padding:3px 12px;font-size:15px}
+.soaltext{font-size:21px;margin:12px 0}
+.opsi{display:block;width:100%;text-align:left;padding:15px 16px;margin:10px 0;font-size:19px;border:2px solid var(--garis);border-radius:14px;background:#fff;cursor:pointer}
+.opsi b{color:var(--biru2)}
+.opsi.pilih{border-color:var(--biru);background:#e3f2fd;box-shadow:inset 0 0 0 2px var(--biru)}
+.navgrid{display:grid;grid-template-columns:repeat(8,1fr);gap:8px;margin-top:10px}
+.navgrid button{padding:12px 0;font-size:17px;font-weight:700;border:2px solid var(--garis);border-radius:10px;background:#fff;cursor:pointer}
+.navgrid button.jawab{background:#c8e6c9;border-color:var(--hijau)}
+.navgrid button.ragu{background:#fff9c4;border-color:#f9a825}
+.navgrid button.aktif{outline:3px solid var(--biru)}
+.legenda{display:flex;gap:16px;flex-wrap:wrap;font-size:15px;margin-top:8px;color:var(--abu)}
+.skorbesar{font-size:64px;font-weight:900;color:var(--biru2);text-align:center;line-height:1}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:17px}
+th,td{border:1.5px solid var(--garis);padding:9px 10px;text-align:left}
+th{background:#e3f2fd}
+.pembahasan{border-left:6px solid #43a047;background:#f1f8e9;border-radius:0 12px 12px 0;padding:12px 14px;margin:12px 0}
+.pembahasan.salah{border-left-color:#e53935;background:#fff3e0}
+.gambar{text-align:center;margin:12px 0}
+.gambar svg{max-width:100%;height:auto}
+footer{text-align:center;color:var(--abu);font-size:15px;padding:18px 8px}
+.modalbg{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:50}
+.modal{background:#fff;border-radius:18px;padding:22px;max-width:560px;width:100%;max-height:85vh;overflow:auto}
+.arsip{background:#f1f8e9;border:2px solid #a5d6a7;border-radius:12px;padding:12px 16px;margin-top:14px}
+@media(max-width:560px){.navgrid{grid-template-columns:repeat(5,1fr)}.hero h1{font-size:25px}.soaltext{font-size:19px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<section id="layarLogin">
+  <div class="hero">
+    <div class="badge">CBT Bahasa Indonesia Kelas 6 — Tanpa Cloud v1</div>
+    <h1>CBT Bahasa Indonesia Kelas 6 — Bab 1-4</h1>
+    <p>Bab 1 Anak-Anak yang Mengubah Dunia &bull; Bab 2 Nusantara Berjuta Cerita &bull; Bab 3 Temukan Minat, Tunjukkan Bakat &bull; Bab 4 Dari Hobi Menjadi Profesi</p>
+    <p>Latihan/ujian dari Bahan Ajar Bahasa Indonesia Kelas 6. Ini <b>bukan</b> soal resmi Pusmendik/Kemendikdasmen.</p>
+  </div>
+  <div class="card">
+    <h2>Login Peserta</h2>
+    <label for="nama">Nama Lengkap</label>
+    <input type="text" id="nama" placeholder="Tulis namamu" autocomplete="off">
+    <label for="kelas">Kelas</label>
+    <input type="text" id="kelas" placeholder="Contoh: 6A" autocomplete="off">
+    <div class="check">
+      <input type="checkbox" id="jujur">
+      <label for="jujur" style="margin:0;font-weight:600">Saya akan mengerjakan dengan jujur.</label>
+    </div>
+    <div class="info">
+      <b>Informasi Ujian</b>
+      <ul>
+        <li>Jumlah soal: <b>40 soal</b> (30 pilihan ganda + 10 isian singkat)</li>
+        <li>Waktu: <b>90 menit</b>, terhitung setelah kamu menekan &ldquo;Data Benar &mdash; Mulai&rdquo;</li>
+        <li>Skor total: <b>100</b> (pilihan ganda 2 poin, isian 4 poin)</li>
+        <li>Jawabanmu tersimpan otomatis di alat ini selama ujian.</li>
+      </ul>
+    </div>
+    <div id="arsipBox"></div>
+    <div class="err" id="errLogin"></div>
+    <button class="btn" id="btnLanjut">Lanjut ke Konfirmasi Data</button>
+  </div>
+</section>
+<section id="layarKonfirmasi" class="hidden">
+  <div class="card">
+    <h2>Konfirmasi Data Peserta</h2>
+    <table>
+      <tr><th style="width:38%">Nama Lengkap</th><td id="kNama"></td></tr>
+      <tr><th>Kelas</th><td id="kKelas"></td></tr>
+      <tr><th>Ujian</th><td>CBT Bahasa Indonesia Kelas 6 — Bab 1-4</td></tr>
+      <tr><th>Jumlah Soal</th><td>40 soal (30 pilihan ganda + 10 isian singkat)</td></tr>
+      <tr><th>Waktu</th><td>90 menit</td></tr>
+    </table>
+    <p>Periksa datamu baik-baik. Waktu ujian mulai berjalan setelah kamu menekan tombol di bawah ini.</p>
+    <button class="btn hijau" id="btnMulai">Data Benar — Mulai</button>
+    <button class="btn abu" id="btnKembali">Kembali, Perbaiki Data</button>
+  </div>
+</section>
+<section id="layarUjian" class="hidden">
+  <div class="timerbar">
+    <div><b id="uNama"></b><br><span id="uKelas"></span></div>
+    <div class="waktu" id="timer">90:00</div>
+  </div>
+  <div class="card">
+    <div class="soalhead">
+      <h2 id="noSoal" style="margin:0">Soal 1 dari 40</h2>
+      <span class="babtag" id="babSoal"></span>
+    </div>
+    <div class="soaltext" id="teksSoal"></div>
+    <div class="gambar" id="gambarSoal"></div>
+    <div id="areaJawab"></div>
+    <div class="row">
+      <button class="btn abu" id="btnPrev">&larr; Sebelumnya</button>
+      <button class="btn" id="btnNext">Berikutnya &rarr;</button>
+    </div>
+    <div class="row">
+      <button class="btn abu" id="btnRagu">Tandai Ragu</button>
+      <button class="btn hijau" id="btnKumpul">Kumpulkan Jawaban</button>
+    </div>
+  </div>
+  <div class="card">
+    <h2 style="font-size:20px">Nomor Soal</h2>
+    <div class="navgrid" id="navGrid"></div>
+    <div class="legenda"><span>Hijau = sudah dijawab</span><span>Kuning = ragu-ragu</span><span>Putih = belum dijawab</span></div>
+  </div>
+</section>
+<section id="layarHasil" class="hidden">
+  <div class="card">
+    <h2 style="text-align:center">Hasil Ujianmu</h2>
+    <p style="text-align:center;margin:2px 0"><b id="hNama"></b> &bull; <span id="hKelas"></span></p>
+    <div class="skorbesar" id="hSkor">0</div>
+    <p style="text-align:center;margin:4px 0 0">dari 100</p>
+    <div id="hRincian"></div>
+    <div class="info">
+      <b>Cara isian dinilai:</b> spasi dan huruf besar/kecil tidak masalah; jawaban alternatif yang tercantum pada kunci diterima.</div>
+    <button class="btn" id="btnPembahasan">Lihat Pembahasan</button>
+    <button class="btn hijau" id="btnUlang">Kerjakan Ulang</button>
+  </div>
+  <div class="card hidden" id="kotakPembahasan">
+    <h2>Pembahasan</h2>
+    <div id="isiPembahasan"></div>
+  </div>
+</section>
+<footer>CBT Bahasa Indonesia Kelas 6 — Tanpa Cloud v1 &bull; Hardiansyah Math<br>Latihan dari Bahan Ajar Bahasa Indonesia Kelas 6, bukan soal resmi Pusmendik/Kemendikdasmen.</footer>
+</div>
+<div id="modal" class="modalbg hidden"><div class="modal" id="modalIsi"></div></div>
+<script>
+"use strict";
+var SOAL=[{"no": 1, "bab": 1, "tipe": "pg", "q": "Teks eksplanasi adalah teks yang menjelaskan …", "opsi": ["proses terjadinya suatu peristiwa atau fenomena secara ilmiah", "kisah khayalan tentang tokoh binatang yang bisa berbicara", "langkah-langkah membuat sesuatu secara berurutan", "perasaan penulis terhadap suatu kejadian"], "kunci": 0, "p": "<b>Jawaban A.</b> Definisi dari buku (hlm. 4): “Teks eksplanasi menjelaskan proses terjadinya suatu peristiwa atau fenomena secara ilmiah.”"}, {"no": 2, "bab": 1, "tipe": "pg", "q": "Bagian teks eksplanasi yang berisi gambaran umum tentang fenomena yang akan dijelaskan disebut …", "opsi": ["deretan penjelas", "pernyataan umum", "penutup", "kesimpulan"], "kunci": 1, "p": "<b>Jawaban B.</b> Pernyataan umum adalah bagian awal yang memuat gambaran umum tentang fenomena yang akan dijelaskan (hlm. 17). Deretan penjelas adalah bagian inti yang menguraikan penjelasan; penutup berisi kesimpulan atau komentar."}, {"no": 3, "bab": 1, "tipe": "pg", "q": "Sejak tahun 1800-an, penyebab utama perubahan iklim adalah …", "opsi": ["letusan gunung berapi", "penebangan hutan saja", "pembakaran bahan bakar fosil", "perputaran bumi mengelilingi matahari"], "kunci": 2, "p": "<b>Jawaban C.</b> Sejak tahun 1800-an, aktivitas manusia menjadi penyebab utama perubahan iklim karena pembakaran bahan bakar fosil (batu bara, minyak, dan gas) yang menghasilkan gas rumah kaca (hlm. 5)."}, {"no": 4, "bab": 1, "tipe": "pg", "q": "Contoh gas rumah kaca yang disebutkan dalam teks “Apa Itu Perubahan Iklim?” adalah …", "opsi": ["oksigen dan nitrogen", "hidrogen dan helium", "uap air dan ozon", "karbon dioksida dan metana"], "kunci": 3, "p": "<b>Jawaban D.</b> Pembakaran bahan bakar fosil menghasilkan gas rumah kaca, contohnya karbon dioksida dan metana (hlm. 5)."}, {"no": 5, "bab": 1, "tipe": "pg", "q": "Joseph Wijaya dari Bali memulai program Joseph Recycling pada tahun …", "opsi": ["2022", "2023", "2020", "2025"], "kunci": 0, "p": "<b>Jawaban A.</b> Program Joseph Recycling dimulai tahun 2022 (hlm. 21)."}, {"no": 6, "bab": 1, "tipe": "pg", "q": "Batas akhir pendaftaran Program Pangeran dan Putri Lingkungan Hidup 2025 adalah …", "opsi": ["30 Mei 2025", "30 April 2025", "1 Juni 2025", "30 April 2024"], "kunci": 1, "p": "<b>Jawaban B.</b> Pendaftaran daring ditutup pada 30 April 2025 (hlm. 19–20)."}, {"no": 7, "bab": 1, "tipe": "pg", "q": "Kata penghubung berikut yang termasuk kata penghubung urutan adalah …", "opsi": ["karena", "akibatnya", "pertama", "sehingga"], "kunci": 2, "p": "<b>Jawaban C.</b> Kata penghubung urutan: pertama, kemudian, selanjutnya, setelah itu, akhirnya (hlm. 30–31). Karena, akibatnya, dan sehingga adalah kata penghubung sebab akibat."}, {"no": 8, "bab": 1, "tipe": "pg", "q": "Kata berikut yang mengandung konsonan rangkap adalah …", "opsi": ["melodi", "rumah", "hijau", "struktur"], "kunci": 3, "p": "<b>Jawaban D.</b> Kata “struktur” memiliki konsonan rangkap str dan kt; dibaca s-t-ruk-tur (hlm. 10). Ini juga jawaban Uji Kompetensi Bab 1 soal 2 di buku."}, {"no": 9, "bab": 2, "tipe": "pg", "q": "Cerita rakyat adalah cerita yang …", "opsi": ["ditulis oleh penulis terkenal dan diterbitkan", "diwariskan secara turun-temurun melalui lisan atau tulisan", "hanya diceritakan pada acara adat tertentu", "berasal dari terjemahan cerita luar negeri"], "kunci": 1, "p": "<b>Jawaban B.</b> Definisi dari buku (hlm. 57): “Cerita rakyat adalah cerita yang diwariskan secara turun-temurun melalui lisan atau tulisan.”"}, {"no": 10, "bab": 2, "tipe": "pg", "q": "Jenis cerita rakyat yang tokohnya binatang yang berperilaku layaknya manusia disebut …", "opsi": ["legenda", "mite", "fabel", "sage"], "kunci": 2, "p": "<b>Jawaban C.</b> Fabel adalah cerita rakyat dengan tokoh binatang yang berperilaku layaknya manusia; contohnya “Kancil dan Harimau” (hlm. 58). “Doa-Doa dalam Sumur Tua” juga fabel."}, {"no": 11, "bab": 2, "tipe": "pg", "q": "Legenda adalah cerita rakyat yang mengisahkan …", "opsi": ["asal-usul suatu tempat atau peristiwa", "kepahlawanan dan perjuangan", "kepercayaan atau hal-hal mistis", "kisah khayalan untuk hiburan"], "kunci": 0, "p": "<b>Jawaban A.</b> Legenda mengisahkan asal usul suatu tempat atau peristiwa; contohnya “Legenda Danau Toba” dan “Legenda Telaga Sarangan” (hlm. 58)."}, {"no": 12, "bab": 2, "tipe": "pg", "q": "Buku favorit Mira dalam cerita “Kupu-Kupu Mira” adalah …", "opsi": ["Cerita Rakyat Nusantara", "Buku Dongeng Binatang", "Ensiklopedia Hewan Langka", "Ensiklopedia Keragaman Hayati"], "kunci": 3, "p": "<b>Jawaban D.</b> Buku favorit Mira adalah Ensiklopedia Keragaman Hayati; dari buku itu ia mempelajari aneka ragam flora dan fauna (hlm. 46–47)."}, {"no": 13, "bab": 2, "tipe": "pg", "q": "Kawasan Lubuk Larangan biasanya mencapai panjang …", "opsi": ["100 meter", "500 meter", "1 km", "5 km"], "kunci": 2, "p": "<b>Jawaban C.</b> Panjang kawasan Lubuk Larangan yang terlarang biasanya mencapai 1 km (hlm. 68)."}, {"no": 14, "bab": 2, "tipe": "pg", "q": "Dalam kalimat “Hatinya hancur karena dikhianati sahabatnya”, kata “hancur” bermakna …", "opsi": ["denotatif: rumahnya rusak berantakan", "konotatif: sangat sedih dan kecewa", "denotatif: hatinya pecah berkeping-keping", "konotatif: marah dan ingin membalas"], "kunci": 1, "p": "<b>Jawaban B.</b> “Hatinya hancur karena dikhianati sahabatnya” — kata hancur bermakna konotatif, yaitu sangat sedih dan kecewa (hlm. 78). Bandingkan dengan denotatif: “Rumah itu hancur diguncang gempa.”"}, {"no": 15, "bab": 2, "tipe": "pg", "q": "Dalam “Legenda Telaga Sarangan”, Kyai Pasir dan Nyai Pasir berubah wujud menjadi …", "opsi": ["ular naga", "burung garuda", "ikan besar", "batu besar"], "kunci": 0, "p": "<b>Jawaban A.</b> Setelah memakan telur aneh itu, Kyai Pasir lalu Nyai Pasir berubah menjadi ular naga; cekungan tempat mereka berguling menjadi Telaga Sarangan (hlm. 79–81)."}, {"no": 16, "bab": 2, "tipe": "pg", "q": "Cerita “Lembah Apapuhang dan Orang-Orang Kecil” berasal dari Kepulauan Sangihe, provinsi …", "opsi": ["Sulawesi Tengah", "Sulawesi Tenggara", "Sulawesi Selatan", "Sulawesi Utara"], "kunci": 3, "p": "<b>Jawaban D.</b> Kepulauan Sangihe berada di provinsi Sulawesi Utara (hlm. 52; jawaban Aktivitas 2.4 no. 1)."}, {"no": 17, "bab": 3, "tipe": "pg", "q": "Wawancara adalah kegiatan …", "opsi": ["tanya jawab antara dua orang atau lebih untuk mendapatkan informasi", "menulis cerita berdasarkan khayalan", "membaca nyaring teks di depan kelas", "mengamati benda lalu menulis laporan"], "kunci": 0, "p": "<b>Jawaban A.</b> Definisi dari buku (hlm. 102): “Wawancara adalah kegiatan tanya jawab antara dua orang atau lebih untuk mendapatkan informasi.”"}, {"no": 18, "bab": 3, "tipe": "pg", "q": "Orang yang menjawab pertanyaan dalam wawancara disebut …", "opsi": ["pewawancara", "narasumber", "wartawan", "moderator"], "kunci": 1, "p": "<b>Jawaban B.</b> Orang yang menjawab pertanyaan disebut narasumber — orang yang memiliki pengalaman, keahlian, atau pengetahuan tentang topik yang dibahas (hlm. 102)."}, {"no": 19, "bab": 3, "tipe": "pg", "q": "Buku “A Tale of J: Quirky Friends” karya Muhammad DeLiang Al-Farabi masuk …", "opsi": ["Top 5 Buku Amazon", "Top 10 Buku Amazon", "Top 15 Buku Amazon", "Top 100 Buku Amazon"], "kunci": 2, "p": "<b>Jawaban C.</b> Novel “A Tale of J: Quirky Friends” masuk Top 15 Buku Amazon di Amerika dan Inggris (hlm. 108)."}, {"no": 20, "bab": 3, "tipe": "pg", "q": "Afrilla Dina Najwa Nastiti meraih medali emas pencak silat kategori D (39–42 kg) pada ajang …", "opsi": ["PON 2018", "Kejuaraan Dunia 2018", "O2SN 2019", "O2SN 2018"], "kunci": 3, "p": "<b>Jawaban D.</b> Afrilla meraih medali emas cabang pencak silat kategori D (39–42 kg) dalam Olimpiade Olahraga Siswa Nasional (O2SN) 2018 di Yogyakarta (hlm. 119)."}, {"no": 21, "bab": 3, "tipe": "pg", "q": "Ciri kalimat langsung adalah …", "opsi": ["tidak memakai tanda petik", "memakai kata hubung bahwa", "memakai tanda petik", "kata ganti orang selalu berubah"], "kunci": 2, "p": "<b>Jawaban C.</b> Kalimat langsung menyampaikan ucapan persis seperti yang dikatakan dan memakai tanda petik (“….”) (hlm. 116). Kata hubung “bahwa” dan perubahan kata ganti adalah ciri kalimat tidak langsung."}, {"no": 22, "bab": 3, "tipe": "pg", "q": "Kata hubung yang dipakai dalam kalimat tidak langsung adalah …", "opsi": ["karena", "bahwa", "sehingga", "tetapi"], "kunci": 1, "p": "<b>Jawaban B.</b> Kalimat tidak langsung menggunakan kata hubung “bahwa” untuk menghubungkan bagian pengantar dengan isi ucapan (hlm. 116–117). Contoh: Bu Meta berkata bahwa membaca itu penting."}, {"no": 23, "bab": 3, "tipe": "pg", "q": "Sayursegar, usaha yang didirikan Kak Belinda, berdiri pada tahun …", "opsi": ["2019", "2021", "2017", "2016"], "kunci": 2, "p": "<b>Jawaban C.</b> Sayursegar didirikan pada tahun 2017, setelah Kak Belinda keluar dari pekerjaan lamanya (hlm. 126)."}, {"no": 24, "bab": 4, "tipe": "pg", "q": "Dalam laporan hasil pengamatan, unsur yang menjelaskan “di mana pengamatan dilakukan” adalah …", "opsi": ["waktu pengamatan", "tempat pengamatan", "tujuan pengamatan", "kesimpulan"], "kunci": 1, "p": "<b>Jawaban B.</b> Tempat Pengamatan adalah unsur yang menjelaskan di mana pengamatan dilakukan (hlm. 156–157)."}, {"no": 25, "bab": 4, "tipe": "pg", "q": "Berikut ini yang BUKAN ciri laporan hasil pengamatan adalah …", "opsi": ["objektif", "faktual", "sistematis", "menambahkan pendapat sendiri"], "kunci": 3, "p": "<b>Jawaban D.</b> Tiga ciri laporan hasil pengamatan adalah objektif, faktual, dan sistematis (hlm. 157). Objektif justru berarti menggambarkan apa yang diamati tanpa menambahkan pendapat sendiri."}, {"no": 26, "bab": 4, "tipe": "pg", "q": "Pernyataan berikut yang merupakan fakta adalah …", "opsi": ["“Sapi adalah hewan mamalia.”", "“Kuah soto akan lebih segar jika ditambahi perasan jeruk nipis.”", "“Dokter itu pasti yang paling baik di kota ini.”", "“Kue buatan ibu adalah kue terenak di dunia.”"], "kunci": 0, "p": "<b>Jawaban A.</b> Fakta adalah pernyataan yang dapat dibuktikan. Contoh dari buku (hlm. 152): “Sapi adalah hewan mamalia.” (fakta). “Kuah soto akan lebih segar jika ditambahi perasan jeruk nipis.” adalah opini."}, {"no": 27, "bab": 4, "tipe": "pg", "q": "Penulisan nama tempat yang benar menurut kaidah huruf kapital adalah …", "opsi": ["aku pernah pergi ke danau toba.", "Aku tinggal di Kota Surabaya.", "gunung rinjani terletak di Pulau Lombok.", "Sungai kapuas adalah sungai terpanjang di Indonesia."], "kunci": 1, "p": "<b>Jawaban B.</b> Nama tempat memakai huruf kapital di awalnya. Contoh benar dari buku (hlm. 160–161): “Aku tinggal di Kota Surabaya.” Contoh salah dari buku: “Aku pernah pergi ke danau toba.” (seharusnya Danau Toba)."}, {"no": 28, "bab": 4, "tipe": "pg", "q": "Dalam kalimat “Kegiatan pengamatan dilakukan pada pagi hari”, kata “pada pagi hari” adalah keterangan …", "opsi": ["tempat", "cara", "waktu", "intensitas"], "kunci": 2, "p": "<b>Jawaban C.</b> “pada pagi hari” menunjukkan kapan kegiatan dilakukan, jadi keterangan waktu (hlm. 170–171)."}, {"no": 29, "bab": 4, "tipe": "pg", "q": "Rizky Ridho pernah dipercaya mengenakan ban kapten saat Timnas U-19 menghadapi …", "opsi": ["Bulgaria U-19", "Thailand U-19", "Vietnam U-19", "Malaysia U-19"], "kunci": 0, "p": "<b>Jawaban A.</b> Rizky Ridho pernah mengenakan ban kapten saat menghadapi Bulgaria U-19 pada September 2020 (hlm. 138–139)."}, {"no": 30, "bab": 4, "tipe": "pg", "q": "Kesimpulan adalah …", "opsi": ["daftar pertanyaan yang diajukan kepada narasumber", "kalimat pembuka yang berisi gambaran umum", "kumpulan data mentah hasil pengamatan", "ringkasan atau pendapat akhir yang diambil dari isi teks secara menyeluruh"], "kunci": 3, "p": "<b>Jawaban D.</b> Definisi dari buku (hlm. 168): “Kesimpulan adalah ringkasan atau pendapat akhir yang diambil dari isi teks secara menyeluruh.”"}, {"no": 31, "bab": 1, "tipe": "isian", "q": "Salah satu variasi kosakata untuk menggantikan kata “menjaga” adalah …", "kunciTampil": "melindungi (diterima juga: merawat, memelihara, mempertahankan)", "p": "<b>Jawaban: melindungi (Bab 1).</b> Tabel 1.1 (hlm. 24): menjaga → melindungi, merawat, memelihara, mempertahankan."}, {"no": 32, "bab": 1, "tipe": "isian", "q": "Gas yang dihasilkan dari pembakaran bahan bakar fosil dan membuat panas matahari terperangkap di dalam bumi disebut …", "kunciTampil": "gas rumah kaca", "p": "<b>Jawaban: gas rumah kaca (Bab 1).</b> Pembakaran bahan bakar fosil menghasilkan gas rumah kaca, contohnya karbon dioksida dan metana; gas ini membuat panas matahari terperangkap di bumi (hlm. 5)."}, {"no": 33, "bab": 1, "tipe": "isian", "q": "Dalam teks “Cara Menyelamatkan Bumi”, langkah pertama yang dijelaskan untuk menyelamatkan bumi adalah mengurangi …", "kunciTampil": "sampah plastik", "p": "<b>Jawaban: sampah plastik (Bab 1).</b> Langkah pertama: mengurangi sampah plastik karena sulit terurai dan mencemari lingkungan selama ratusan tahun (hlm. 8)."}, {"no": 34, "bab": 2, "tipe": "isian", "q": "“Ahmad adalah bintang di kelas ini.” Kata “bintang” pada kalimat itu bermakna konotatif, yaitu …", "kunciTampil": "anak terpandai di kelas (diterima: terpandai)", "p": "<b>Jawaban: anak terpandai di kelas (Bab 2).</b> Contoh dari buku (Aktivitas 2.15, hlm. 78): “Ahmad adalah bintang di kelas ini” bermakna konotatif — anak terpandai di kelas."}, {"no": 35, "bab": 2, "tipe": "isian", "q": "Dalam cerita “Kupu-Kupu Mira”, Mira menunggu kupu-kupu keluar dari kepompong pada hari ke-…", "kunciTampil": "15 (diterima: 15 hari)", "p": "<b>Jawaban: 15 (Bab 2).</b> Metamorfosis ulat menjadi kupu-kupu butuh sekitar 10 sampai 15 hari; pada hari kelima belas, kupu-kupu keluar dari kepompong (hlm. 47–49)."}, {"no": 36, "bab": 2, "tipe": "isian", "q": "“Bika” dalam cerita Apapuhang adalah keranjang anyaman dari …", "kunciTampil": "rotan", "p": "<b>Jawaban: rotan (Bab 2).</b> Bika adalah keranjang anyaman dari rotan untuk membawa air (hlm. 53; Aktivitas 2.5)."}, {"no": 37, "bab": 3, "tipe": "isian", "q": "Tanda baca yang dipakai setelah nama pewawancara atau narasumber sebelum mengutip ucapannya adalah tanda …", "kunciTampil": "titik dua (diterima: : )", "p": "<b>Jawaban: titik dua (Bab 3).</b> Tanda titik dua (:) digunakan setelah nama pewawancara atau narasumber sebelum mengutip ucapannya (hlm. 103)."}, {"no": 38, "bab": 3, "tipe": "isian", "q": "Ucok Setiawan menjuarai lomba robotik antarprovinsi dengan robot …", "kunciTampil": "robot penyiram tanaman otomatis (diterima: penyiram tanaman)", "p": "<b>Jawaban: robot penyiram tanaman otomatis (Bab 3).</b> Pada lomba robotik pertamanya, Ucok membuat robot penyiram tanaman otomatis dan juri menyukainya (hlm. 106)."}, {"no": 39, "bab": 4, "tipe": "isian", "q": "“Rumah Ikan” yang dibuat Pak Bayan bersama pemuda desa terbuat dari …", "kunciTampil": "semen dan tempurung kelapa", "p": "<b>Jawaban: semen dan tempurung kelapa (Bab 4).</b> “Rumah Ikan” dari semen dan tempurung kelapa diletakkan di dasar laut sebagai tempat berkembang biaknya ikan dan konservasi terumbu karang (hlm. 145)."}, {"no": 40, "bab": 4, "tipe": "isian", "q": "Pengamat dalam laporan hasil pengamatan “Mengenal Profesi Dokter” adalah …", "kunciTampil": "Talita Anjani", "p": "<b>Jawaban: Talita Anjani (Bab 4).</b> Laporan “Mengenal Profesi Dokter” diamati oleh Talita Anjani di Puskesmas Waru Sehat pada Senin, 10 Maret 2025 (hlm. 150)."}];
+var BABNAMA={1:"Bab 1 \u2014 Anak-Anak yang Mengubah Dunia",2:"Bab 2 \u2014 Nusantara Berjuta Cerita",3:"Bab 3 \u2014 Temukan Minat, Tunjukkan Bakat",4:"Bab 4 \u2014 Dari Hobi Menjadi Profesi"};
+var LS_SESI="cbtBIndo6_sesi_v1", LS_ARSIP="cbtBIndo6_arsip_v1";
+var state={nama:"",kelas:"",idx:0,jawaban:{},ragu:{},sisa:90*60,mulai:false,selesai:false};
+var timerId=null;
+function el(id){return document.getElementById(id);}
+function show(id){["layarLogin","layarKonfirmasi","layarUjian","layarHasil"].forEach(function(x){el(x).classList.toggle("hidden",x!==id);});window.scrollTo(0,0);}
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function simpan(){try{localStorage.setItem(LS_SESI,JSON.stringify(state));}catch(e){}}
+function tampilArsip(){
+  var a=null;try{a=JSON.parse(localStorage.getItem(LS_ARSIP)||"null");}catch(e){}
+  if(a&&a.nama){el("arsipBox").innerHTML='<div class="arsip"><b>Hasil terakhir di alat ini:</b> '+esc(a.nama)+' ('+esc(a.kelas)+') — nilai <b>'+a.skor+'</b> dari 100, '+esc(a.waktu)+'. Kamu boleh mengerjakan lagi.</div>';}
+  else{el("arsipBox").innerHTML="";}
+}
+function fmtWaktu(d){var m=Math.floor(d/60),s=d%60;return (m<10?"0":"")+m+":"+(s<10?"0":"")+s;}
+function updateTimer(){el("timer").textContent=fmtWaktu(Math.max(0,state.sisa));el("timer").classList.toggle("merah",state.sisa<=300);}
+function mulaiTimer(){
+  if(timerId)clearInterval(timerId);
+  updateTimer();
+  timerId=setInterval(function(){
+    if(!state.mulai||state.selesai)return;
+    state.sisa--;updateTimer();simpan();
+    if(state.sisa<=0){kumpulkan(true);}
+  },1000);
+}
+function sudahJawab(no){var v=state.jawaban[no];return v!==undefined&&v!==null&&String(v).trim()!=="";}
+function renderNav(){
+  var g=el("navGrid");g.innerHTML="";
+  SOAL.forEach(function(s,i){
+    var b=document.createElement("button");b.type="button";b.textContent=s.no;
+    if(sudahJawab(s.no))b.className="jawab";
+    if(state.ragu[s.no])b.className="ragu";
+    if(i===state.idx)b.classList.add("aktif");
+    b.onclick=function(){state.idx=i;simpan();renderSoal();};
+    g.appendChild(b);
+  });
+}
+function renderSoal(){
+  var s=SOAL[state.idx];
+  el("noSoal").textContent="Soal "+s.no+" dari 40";
+  el("babSoal").textContent=BABNAMA[s.bab]+(s.tipe==="pg"?" • Pilihan Ganda":" • Isian Singkat");
+  el("teksSoal").innerHTML=s.q;
+  el("gambarSoal").innerHTML=s.gambar||"";
+  var area=el("areaJawab");area.innerHTML="";
+  if(s.tipe==="pg"){
+    var huruf=["A","B","C","D"];
+    s.opsi.forEach(function(op,i){
+      var b=document.createElement("button");b.type="button";b.className="opsi"+(state.jawaban[s.no]===i?" pilih":"");
+      b.innerHTML="<b>"+huruf[i]+".</b> "+op;
+      b.onclick=function(){state.jawaban[s.no]=i;simpan();renderSoal();};
+      area.appendChild(b);
+    });
+  }else{
+    var lab=document.createElement("label");lab.textContent="Jawabanmu:";lab.setAttribute("for","isian");area.appendChild(lab);
+    var inp=document.createElement("input");inp.type="text";inp.id="isian";inp.autocomplete="off";
+    inp.placeholder="Tulis jawaban akhirmu saja";
+    inp.value=state.jawaban[s.no]||"";
+    inp.oninput=function(){state.jawaban[s.no]=inp.value;simpan();renderNav();};
+    area.appendChild(inp);
+  }
+  el("btnPrev").disabled=(state.idx===0);
+  el("btnNext").disabled=(state.idx===SOAL.length-1);
+  el("btnRagu").textContent=state.ragu[s.no]?"Hapus Tanda Ragu":"Tandai Ragu";
+  renderNav();
+}
+function normTeks(v){return String(v||"").toLowerCase().trim().replace(/\s+/g," ");}
+function ambilAngka(v){
+  var t=normTeks(v).replace(/,/g,".").replace(/[^0-9.\/-]/g,"");
+  if(!t)return null;
+  if(t.indexOf("/")>=0){var p=t.split("/");var a=parseFloat(p[0]),b=parseFloat(p[1]);if(!isFinite(a)||!isFinite(b)||b===0)return null;return a/b;}
+  var n=parseFloat(t);return isFinite(n)?n:null;
+}
+function skorIsian(no,raw){
+  var t=normTeks(raw);
+  if(!t)return 0;
+  if(no===31){var alt=["melindungi","merawat","memelihara","mempertahankan"];for(var i=0;i<alt.length;i++){if(t.indexOf(alt[i])>=0)return 4;}return 0;}
+  if(no===32){return t==="gas rumah kaca"?4:0;}
+  if(no===33){return t==="sampah plastik"?4:0;}
+  if(no===34){return t.indexOf("terpandai")>=0?4:0;}
+  if(no===35){var n=ambilAngka(t);return (n!==null&&Math.abs(n-15)<1e-9)?4:0;}
+  if(no===36){return t.indexOf("rotan")>=0?4:0;}
+  if(no===37){return (t.indexOf("titik dua")>=0||t===":")?4:0;}
+  if(no===38){return t.indexOf("penyiram tanaman")>=0?4:0;}
+  if(no===39){return (t.indexOf("semen")>=0&&t.indexOf("tempurung kelapa")>=0)?4:0;}
+  if(no===40){return t==="talita anjani"?4:0;}
+  return 0;
+}
+function hitungSkor(){
+  var total=0,perBab={1:{benar:0,skor:0,maks:0,jml:0},2:{benar:0,skor:0,maks:0,jml:0},3:{benar:0,skor:0,maks:0,jml:0},4:{benar:0,skor:0,maks:0,jml:0}},detail={};
+  SOAL.forEach(function(s){
+    var maks=(s.tipe==="pg")?2:4;perBab[s.bab].maks+=maks;perBab[s.bab].jml++;
+    var sk=0;
+    if(s.tipe==="pg"){sk=(state.jawaban[s.no]===s.kunci)?2:0;}
+    else{sk=skorIsian(s.no,state.jawaban[s.no]||"");}
+    detail[s.no]=sk;total+=sk;perBab[s.bab].skor+=sk;
+    if(sk===maks)perBab[s.bab].benar++;
+  });
+  return {total:total,perBab:perBab,detail:detail};
+}
+function tutupModal(){el("modal").classList.add("hidden");}
+function bukaModal(html){el("modalIsi").innerHTML=html;el("modal").classList.remove("hidden");}
+function kumpulkan(otomatis){
+  if(state.selesai)return;
+  state.selesai=true;state.mulai=false;
+  if(timerId)clearInterval(timerId);
+  var h=hitungSkor();
+  var waktu=new Date().toLocaleString("id-ID");
+  try{localStorage.setItem(LS_ARSIP,JSON.stringify({nama:state.nama,kelas:state.kelas,skor:h.total,waktu:waktu}));}catch(e){}
+  try{localStorage.removeItem(LS_SESI);}catch(e){}
+  el("hNama").textContent=state.nama;el("hKelas").textContent=state.kelas;
+  el("hSkor").textContent=h.total;
+  var html="<table><tr><th>Bab</th><th>Soal Benar Penuh</th><th>Skor</th></tr>";
+  [1,2,3,4].forEach(function(b){html+="<tr><td>"+BABNAMA[b]+"</td><td>"+h.perBab[b].benar+" dari "+h.perBab[b].jml+" soal</td><td>"+h.perBab[b].skor+" dari "+h.perBab[b].maks+"</td></tr>";});
+  html+="</table><p>"+(otomatis?"Waktu habis, jawabanmu dikumpulkan otomatis. ":"")+"Nilai = (pilihan ganda benar x 2) + (isian benar x 4).</p>";
+  el("hRincian").innerHTML=html;
+  var ph="";
+  SOAL.forEach(function(s){
+    var sk=h.detail[s.no];var maks=(s.tipe==="pg")?2:4;
+    var jwb=(s.tipe==="pg")?((state.jawaban[s.no]===undefined||state.jawaban[s.no]===null)?"(kosong)":("ABCD"[state.jawaban[s.no]]+". "+s.opsi[state.jawaban[s.no]])):esc(state.jawaban[s.no]||"(kosong)");
+    var kunci=(s.tipe==="pg")?("ABCD"[s.kunci]+". "+s.opsi[s.kunci]):esc(s.kunciTampil);
+    ph+='<div class="pembahasan'+(sk===maks?"":" salah")+'"><p style="margin:0 0 6px"><b>Soal '+s.no+'</b> ('+BABNAMA[s.bab]+') — skor '+sk+' dari '+maks+'</p><div class="soaltext" style="font-size:18px">'+s.q+'</div>'+(s.gambar?'<div class="gambar">'+s.gambar+'</div>':"")+'<p style="margin:6px 0">Jawabanmu: '+jwb+'<br>Jawaban benar: '+kunci+'</p><p style="margin:6px 0">'+s.p+'</p></div>';
+  });
+  el("isiPembahasan").innerHTML=ph;
+  el("kotakPembahasan").classList.add("hidden");
+  el("btnPembahasan").textContent="Lihat Pembahasan";
+  show("layarHasil");
+}
+el("btnLanjut").onclick=function(){
+  var nama=el("nama").value.trim(),kelas=el("kelas").value.trim();
+  if(!nama){el("errLogin").textContent="Tulis Nama Lengkap dulu, ya.";return;}
+  if(!kelas){el("errLogin").textContent="Tulis Kelas dulu, ya.";return;}
+  if(!el("jujur").checked){el("errLogin").textContent="Centang dulu janji mengerjakan dengan jujur.";return;}
+  el("errLogin").textContent="";
+  state.nama=nama;state.kelas=kelas;
+  el("kNama").textContent=nama;el("kKelas").textContent=kelas;
+  show("layarKonfirmasi");
+};
+el("btnKembali").onclick=function(){show("layarLogin");};
+el("btnMulai").onclick=function(){
+  state.jawaban={};state.ragu={};state.idx=0;state.sisa=90*60;state.mulai=true;state.selesai=false;
+  el("uNama").textContent=state.nama;el("uKelas").textContent="Kelas "+state.kelas;
+  simpan();show("layarUjian");renderSoal();mulaiTimer();
+};
+el("btnPrev").onclick=function(){if(state.idx>0){state.idx--;simpan();renderSoal();}};
+el("btnNext").onclick=function(){if(state.idx<SOAL.length-1){state.idx++;simpan();renderSoal();}};
+el("btnRagu").onclick=function(){var no=SOAL[state.idx].no;state.ragu[no]=!state.ragu[no];simpan();renderSoal();};
+el("btnKumpul").onclick=function(){
+  var kosong=[];SOAL.forEach(function(s){if(!sudahJawab(s.no))kosong.push(s.no);});
+  var ragu=[];SOAL.forEach(function(s){if(state.ragu[s.no])ragu.push(s.no);});
+  var pesan="<h2>Kumpulkan Jawaban?</h2>";
+  if(kosong.length){pesan+="<p><b>Soal yang belum dijawab:</b> "+kosong.join(", ")+".</p>";}
+  else{pesan+="<p>Semua soal sudah dijawab.</p>";}
+  if(ragu.length){pesan+="<p><b>Soal yang ditandai ragu:</b> "+ragu.join(", ")+".</p>";}
+  pesan+='<p>Setelah dikumpulkan, kamu tidak bisa mengubah jawaban lagi.</p><button class="btn hijau" id="mYa">Ya, Kumpulkan</button><button class="btn abu" id="mTidak">Tidak, Kembali Mengerjakan</button>';
+  bukaModal(pesan);
+  el("mYa").onclick=function(){tutupModal();kumpulkan(false);};
+  el("mTidak").onclick=tutupModal;
+};
+el("btnPembahasan").onclick=function(){
+  var k=el("kotakPembahasan");var buka=k.classList.contains("hidden");
+  k.classList.toggle("hidden",!buka);
+  el("btnPembahasan").textContent=buka?"Sembunyikan Pembahasan":"Lihat Pembahasan";
+  if(buka)k.scrollIntoView({behavior:"smooth"});
+};
+el("btnUlang").onclick=function(){
+  state={nama:"",kelas:"",idx:0,jawaban:{},ragu:{},sisa:90*60,mulai:false,selesai:false};
+  el("nama").value="";el("kelas").value="";el("jujur").checked=false;
+  tampilArsip();show("layarLogin");
+};
+el("modal").addEventListener("click",function(e){if(e.target===el("modal"))tutupModal();});
+(function pulihkan(){
+  tampilArsip();
+  var s=null;try{s=JSON.parse(localStorage.getItem(LS_SESI)||"null");}catch(e){}
+  if(s&&s.mulai&&!s.selesai&&s.nama&&s.sisa>0){
+    state=s;
+    el("uNama").textContent=state.nama;el("uKelas").textContent="Kelas "+state.kelas;
+    show("layarUjian");renderSoal();mulaiTimer();
+  }
+})();
+</script>
+</body>
+</html>
