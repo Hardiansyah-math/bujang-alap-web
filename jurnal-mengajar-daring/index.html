@@ -267,7 +267,10 @@
         color: var(--ink-soft); font-size: .95rem; line-height: 1.6;
       }
 
-      footer.page-foot { margin-top: 30px; font-size: .82rem; color: var(--ink-faint); line-height: 1.6; text-align: center; }
+      footer.page-foot { margin-top: 36px; padding-top: 22px; border-top: 1px solid var(--line); font-size: .88rem; color: var(--ink-soft); line-height: 1.6; text-align: center; }
+      footer.page-foot .foot-title { font-family: "Playfair Display", Georgia, serif; font-size: 1.15rem; font-weight: 800; color: var(--ink); letter-spacing: .2px; }
+      footer.page-foot .foot-sub { margin-top: 4px; }
+      footer.page-foot .foot-credit { margin-top: 6px; font-size: .76rem; color: var(--ink-faint); }
 
       /* ---------- Modal ---------- */
       .overlay {
@@ -464,7 +467,11 @@
       <div class="board-empty" id="board-empty" style="display:none">Belum ada jurnal di papan. Klik <strong>+ Tulis Jurnal</strong> untuk menulis jurnal pertama.</div>
       <div class="no-result" id="no-result">Tidak ada kartu yang cocok dengan pencarian atau filter. Coba kata kunci lain, atau kosongkan filter.</div>
 
-      <footer class="page-foot">Jurnal Mengajar Daring — papan bergaya Padlet untuk semua guru mata pelajaran yang melaksanakan pembelajaran secara daring.<br />Papan bersama memakai Google Spreadsheet lewat Apps Script: jurnal yang terhubung cloud terlihat oleh semua guru. Jurnal bertanda “Perangkat ini” hanya tersimpan di perangkat penulisnya sampai berhasil terkirim ke papan bersama.</footer>
+      <footer class="page-foot">
+        <div class="foot-title">Jurnal Mengajar Daring</div>
+        <div class="foot-sub">Papan bersama untuk semua guru mata pelajaran — SMP Negeri 1 Terusan Nunyai, Lampung Tengah</div>
+        <div class="foot-credit">Dikelola oleh Hardiansyah, S.Pd</div>
+      </footer>
     </div>
 
     <!-- Modal detail -->
