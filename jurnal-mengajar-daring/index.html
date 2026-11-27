@@ -1,0 +1,1695 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>Jurnal Mengajar Daring — Papan Padlet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #eef4fb;
+        --bg-soft: #f7fafd;
+        --surface: #ffffff;
+        --ink: #16324f;
+        --ink-soft: #47617d;
+        --ink-faint: #7b93ab;
+        --line: #d7e4f2;
+        --accent: #1d6fb8;
+        --accent-deep: #14507f;
+        --accent-soft: #dceefb;
+        --blue-col: #dcecfb;
+        --blue-head: #2f7fc4;
+        --yellow-col: #fdf3cf;
+        --yellow-head: #b8860b;
+        --green-col: #dcf3e2;
+        --green-head: #2e8b57;
+        --card-bg: #ffffff;
+        --chip-meet: #0f7b6c;
+        --chip-zoom: #2d6cdf;
+        --chip-wa: #1faa55;
+        --chip-gc: #e8710a;
+        --chip-lainnya: #546e7a;
+        --danger: #c0392b;
+        --shadow: 0 2px 6px rgba(22, 50, 79, .08), 0 10px 24px rgba(22, 50, 79, .07);
+        --shadow-lift: 0 6px 14px rgba(22, 50, 79, .14), 0 16px 34px rgba(22, 50, 79, .12);
+        color-scheme: light dark;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0e1a28;
+          --bg-soft: #122334;
+          --surface: #16283c;
+          --ink: #e8f1f9;
+          --ink-soft: #b3c9dd;
+          --ink-faint: #7f9cb5;
+          --line: #2a4258;
+          --accent: #5aa7e8;
+          --accent-deep: #9cccf5;
+          --accent-soft: #1d3d5c;
+          --blue-col: #17334f;
+          --blue-head: #7db9ec;
+          --yellow-col: #3d3417;
+          --yellow-head: #e8c766;
+          --green-col: #17382a;
+          --green-head: #6fd598;
+          --card-bg: #1b3049;
+          --chip-meet: #4cc9b0;
+          --chip-zoom: #7aa5f0;
+          --chip-wa: #4ed07f;
+          --chip-gc: #f5a45c;
+          --danger: #f08a7d;
+          --shadow: 0 2px 6px rgba(0,0,0,.35), 0 10px 24px rgba(0,0,0,.3);
+          --shadow-lift: 0 6px 14px rgba(0,0,0,.45), 0 16px 34px rgba(0,0,0,.4);
+        }
+      }
+      * { box-sizing: border-box; }
+      html { -webkit-text-size-adjust: 100%; }
+      body {
+        margin: 0;
+        font-family: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+        background:
+          radial-gradient(900px 420px at 12% -120px, rgba(29,111,184,.16), transparent 60%),
+          radial-gradient(760px 380px at 95% -100px, rgba(46,139,87,.12), transparent 60%),
+          var(--bg);
+        color: var(--ink);
+        min-height: 100vh;
+      }
+      button, select, input, textarea { font: inherit; color: inherit; }
+      button, [role="button"], select, input:not([type="checkbox"]) { min-height: 2.25rem; }
+      button { cursor: pointer; }
+      :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+
+      .wrap { max-width: 1240px; margin: 0 auto; padding: 20px 16px 48px; }
+
+      /* ---------- Kepala halaman ---------- */
+      .masthead { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px; }
+      .masthead h1 {
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: clamp(1.7rem, 4.5vw, 2.6rem);
+        line-height: 1.12; margin: 0; font-weight: 800; letter-spacing: .2px;
+      }
+      .masthead h1 .accent-word { color: var(--accent); }
+      .identity { margin: 8px 0 0; color: var(--ink-soft); font-size: .95rem; line-height: 1.5; }
+      .identity strong { color: var(--ink); }
+      .contoh-badge {
+        display: inline-flex; align-items: center; gap: 8px;
+        background: var(--yellow-col); color: var(--ink);
+        border: 1.5px dashed var(--yellow-head);
+        padding: 8px 14px; border-radius: 999px; font-weight: 700; font-size: .85rem;
+      }
+      .contoh-note {
+        margin: 14px 0 0; padding: 10px 14px; border-radius: 12px;
+        background: var(--accent-soft); color: var(--ink); font-size: .88rem; line-height: 1.55;
+      }
+
+      /* ---------- Statistik ---------- */
+      .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 18px 0 0; }
+      .stat {
+        background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+        padding: 12px 14px; box-shadow: var(--shadow);
+      }
+      .stat .num { font-family: "Playfair Display", Georgia, serif; font-size: 1.7rem; font-weight: 800; line-height: 1; }
+      .stat .lbl { margin-top: 5px; font-size: .8rem; color: var(--ink-soft); font-weight: 600; }
+      .stat.s-blue .num { color: var(--blue-head); }
+      .stat.s-green .num { color: var(--green-head); }
+      .stat.s-gold .num { color: var(--yellow-head); }
+
+      /* ---------- Bilah alat ---------- */
+      .toolbar {
+        display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch;
+        margin: 18px 0 6px;
+      }
+      .toolbar .grow { flex: 1 1 200px; }
+      .field {
+        display: flex; align-items: center; gap: 8px;
+        background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+        padding: 0 12px; min-height: 2.75rem;
+      }
+      .field svg { flex: none; opacity: .65; }
+      .field input, .field select { border: 0; background: transparent; width: 100%; min-height: 2.6rem; }
+      .field input:focus, .field select:focus { outline: none; }
+      .field:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+      .btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+        border-radius: 12px; border: 1px solid var(--line); background: var(--surface);
+        padding: 0 16px; min-height: 2.75rem; font-weight: 700; font-size: .92rem;
+        box-shadow: var(--shadow); transition: transform .12s ease, box-shadow .12s ease;
+      }
+      .btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-lift); }
+      .btn:active { transform: translateY(0); }
+      .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+      .btn.primary:hover { background: var(--accent-deep); }
+      @media (prefers-color-scheme: dark) { .btn.primary { color: #0e1a28; } }
+      .toolbar-hint { font-size: .8rem; color: var(--ink-faint); margin: 4px 2px 0; }
+
+      /* ---------- Papan ---------- */
+      .board {
+        display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px;
+        margin-top: 14px; align-items: start;
+      }
+      .column { border-radius: 18px; padding: 12px; min-height: 220px; transition: box-shadow .15s ease, outline-color .15s ease; outline: 2.5px dashed transparent; outline-offset: -6px; }
+      .column.c-blue { background: var(--blue-col); }
+      .column.c-yellow { background: var(--yellow-col); }
+      .column.c-green { background: var(--green-col); }
+      .column.drop-target { outline-color: var(--accent); }
+      .col-head { display: flex; align-items: center; gap: 8px; padding: 2px 4px 10px; }
+      .col-dot { width: 12px; height: 12px; border-radius: 50%; flex: none; }
+      .c-blue .col-dot { background: var(--blue-head); }
+      .c-yellow .col-dot { background: var(--yellow-head); }
+      .c-green .col-dot { background: var(--green-head); }
+      .col-head h2 { font-size: 1.02rem; margin: 0; font-weight: 800; }
+      .col-count {
+        margin-left: auto; background: var(--surface); border: 1px solid var(--line);
+        border-radius: 999px; padding: 1px 10px; font-size: .8rem; font-weight: 700;
+      }
+      .col-empty {
+        border: 1.5px dashed var(--ink-faint); border-radius: 12px; padding: 18px 12px;
+        text-align: center; color: var(--ink-soft); font-size: .86rem; line-height: 1.5;
+      }
+      .col-add {
+        width: 100%; margin-top: 10px; border: 1.5px dashed var(--ink-faint); background: transparent;
+        border-radius: 12px; min-height: 2.6rem; font-weight: 700; color: var(--ink-soft);
+      }
+      .col-add:hover { color: var(--ink); border-color: var(--ink-soft); }
+
+      /* ---------- Kartu ---------- */
+      .card {
+        background: var(--card-bg); border-radius: 14px; box-shadow: var(--shadow);
+        padding: 13px 14px 12px; margin-bottom: 11px; cursor: pointer; position: relative;
+        border-top: 5px solid var(--ink-faint);
+        transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+      }
+      .c-blue .card { border-top-color: var(--blue-head); }
+      .c-yellow .card { border-top-color: var(--yellow-head); }
+      .c-green .card { border-top-color: var(--green-head); }
+      .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); }
+      .card.dragging { opacity: .45; }
+      .card-top { display: flex; align-items: flex-start; gap: 6px; }
+      .card-date { font-size: .78rem; font-weight: 700; color: var(--ink-soft); letter-spacing: .02em; }
+      .tag-contoh {
+        font-size: .62rem; font-weight: 800; letter-spacing: .08em;
+        background: var(--yellow-col); color: var(--ink); border: 1px solid var(--yellow-head);
+        border-radius: 6px; padding: 1px 6px; white-space: nowrap;
+      }
+      .card-menu-btn {
+        margin-left: auto; flex: none; width: 2.25rem; height: 2.25rem; min-height: 2.25rem;
+        border: 0; background: transparent; border-radius: 9px; font-size: 1.15rem; line-height: 1;
+        color: var(--ink-soft);
+      }
+      .card-menu-btn:hover { background: var(--accent-soft); color: var(--ink); }
+      .card h3 { margin: 4px 0 2px; font-size: 1.04rem; line-height: 1.3; font-weight: 800; }
+      .card .guru-line { font-size: .85rem; color: var(--ink); font-weight: 700; margin-top: 2px; }
+      .mapel-badge {
+        display: inline-flex; align-items: center; font-size: .7rem; font-weight: 800; letter-spacing: .03em;
+        border-radius: 999px; padding: 3px 10px; color: #fff; white-space: nowrap; margin-top: 6px;
+      }
+      .mapel-badge.m-pai { background: #1e7a4f; }
+      .mapel-badge.m-pkn { background: #b03a2e; }
+      .mapel-badge.m-indo { background: #8e44ad; }
+      .mapel-badge.m-mtk { background: #1d6fb8; }
+      .mapel-badge.m-ipa { background: #178a50; }
+      .mapel-badge.m-ips { background: #b9770e; }
+      .mapel-badge.m-ing { background: #2471a3; }
+      .mapel-badge.m-inf { background: #5d6d7e; }
+      .mapel-badge.m-sbd { background: #ca6f1e; }
+      .mapel-badge.m-pjok { background: #117a65; }
+      .mapel-badge.m-lampung { background: #7d3c98; }
+      .mapel-badge.m-pak { background: #943126; }
+      @media (prefers-color-scheme: dark) { .mapel-badge { color: #0e1a28; filter: brightness(1.35) saturate(.85); } }
+      .card .kelas-line { font-size: .85rem; color: var(--ink-soft); font-weight: 600; }
+      .card .tp { font-size: .83rem; color: var(--ink-soft); line-height: 1.45; margin: 6px 0 0; }
+      .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+      .chip {
+        font-size: .72rem; font-weight: 800; letter-spacing: .02em; border-radius: 999px;
+        padding: 3px 9px; color: #fff; white-space: nowrap;
+      }
+      .chip.meet { background: var(--chip-meet); }
+      .chip.zoom { background: var(--chip-zoom); }
+      .chip.wa { background: var(--chip-wa); }
+      .chip.gc { background: var(--chip-gc); }
+      .chip.lainnya { background: var(--chip-lainnya); }
+      @media (prefers-color-scheme: dark) { .chip { color: #0e1a28; } }
+      .card-meta { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 9px; font-size: .8rem; color: var(--ink-soft); }
+      .att-badge {
+        display: inline-flex; align-items: center; gap: 5px; font-weight: 800; font-size: .78rem;
+        border-radius: 999px; padding: 2px 9px; border: 1.5px solid;
+      }
+      .att-badge.good { color: var(--green-head); border-color: var(--green-head); background: var(--green-col); }
+      .att-badge.mid { color: var(--yellow-head); border-color: var(--yellow-head); background: var(--yellow-col); }
+      .att-badge.low { color: var(--danger); border-color: var(--danger); background: transparent; }
+      .card-snippet { font-size: .83rem; line-height: 1.5; color: var(--ink-soft); margin: 8px 0 0; }
+      .card-snippet strong { color: var(--ink); }
+
+      .card-menu {
+        position: absolute; top: 44px; right: 10px; z-index: 30; min-width: 210px;
+        background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+        box-shadow: var(--shadow-lift); padding: 6px; display: none;
+      }
+      .card-menu.open { display: block; }
+      .card-menu button {
+        display: flex; width: 100%; align-items: center; gap: 8px; text-align: left;
+        border: 0; background: transparent; border-radius: 8px; padding: 9px 10px;
+        min-height: 2.5rem; font-size: .88rem; font-weight: 600;
+      }
+      .card-menu button:hover { background: var(--accent-soft); }
+      .card-menu .menu-sep { height: 1px; background: var(--line); margin: 5px 4px; }
+      .card-menu .menu-label { font-size: .7rem; font-weight: 800; letter-spacing: .07em; color: var(--ink-faint); padding: 6px 10px 2px; }
+      .card-menu button.danger { color: var(--danger); }
+
+      .no-result {
+        display: none; margin-top: 16px; text-align: center; padding: 26px 16px;
+        background: var(--surface); border: 1px dashed var(--line); border-radius: 14px; color: var(--ink-soft);
+      }
+      .no-result.show { display: block; }
+
+      footer.page-foot { margin-top: 30px; font-size: .82rem; color: var(--ink-faint); line-height: 1.6; text-align: center; }
+
+      /* ---------- Modal ---------- */
+      .overlay {
+        position: fixed; inset: 0; z-index: 60; background: rgba(10, 25, 40, .55);
+        display: none; align-items: flex-end; justify-content: center; padding: 0;
+      }
+      .overlay.open { display: flex; }
+      .sheet {
+        background: var(--surface); width: 100%; max-width: 640px; max-height: 92vh; overflow-y: auto;
+        border-radius: 20px 20px 0 0; padding: 20px 20px 26px; box-shadow: var(--shadow-lift);
+      }
+      @media (min-width: 640px) {
+        .overlay { align-items: center; padding: 18px; }
+        .sheet { border-radius: 20px; }
+      }
+      .sheet-head { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px; }
+      .sheet-head h2 { font-family: "Playfair Display", Georgia, serif; font-size: 1.35rem; margin: 0; line-height: 1.25; }
+      .sheet-close {
+        margin-left: auto; flex: none; width: 2.5rem; height: 2.5rem; border-radius: 10px;
+        border: 1px solid var(--line); background: var(--bg-soft); font-size: 1.1rem;
+      }
+      .detail-grid { display: grid; gap: 12px; margin-top: 12px; }
+      .detail-item { background: var(--bg-soft); border: 1px solid var(--line); border-radius: 12px; padding: 10px 13px; }
+      .detail-item .k { font-size: .7rem; font-weight: 800; letter-spacing: .07em; color: var(--ink-faint); text-transform: uppercase; }
+      .detail-item .v { margin-top: 3px; font-size: .94rem; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
+      .detail-item .v:empty::after { content: "—"; color: var(--ink-faint); }
+      .sheet-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+      .btn.danger { color: var(--danger); border-color: var(--danger); }
+      .btn.danger-solid { background: var(--danger); border-color: var(--danger); color: #fff; }
+
+      /* ---------- Formulir ---------- */
+      .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
+      .form-grid .full { grid-column: 1 / -1; }
+      .f-label { display: block; font-size: .8rem; font-weight: 700; color: var(--ink-soft); margin-bottom: 5px; }
+      .f-label .req { color: var(--danger); }
+      .f-input, .f-select, .f-textarea {
+        width: 100%; border: 1px solid var(--line); border-radius: 10px; background: var(--bg-soft);
+        padding: 9px 11px; min-height: 2.6rem;
+      }
+      .f-textarea { min-height: 4.2rem; resize: vertical; line-height: 1.5; }
+      .f-input:focus, .f-select:focus, .f-textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+      .plat-checks { display: flex; flex-wrap: wrap; gap: 8px; }
+      .plat-checks label {
+        display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--line);
+        border-radius: 999px; padding: 8px 13px; min-height: 2.5rem; font-size: .86rem; font-weight: 600;
+        background: var(--bg-soft); cursor: pointer;
+      }
+      .plat-checks input { width: 1.05rem; height: 1.05rem; accent-color: var(--accent); }
+      .form-error { display: none; background: #fdecea; color: #8f2318; border: 1px solid #f0b8b0; border-radius: 10px; padding: 9px 12px; font-size: .86rem; margin-top: 12px; }
+      @media (prefers-color-scheme: dark) { .form-error { background: #3d1d18; color: #f5b8ae; border-color: #6e352c; } }
+      .form-error.show { display: block; }
+
+      /* ---------- Toast ---------- */
+      .toast {
+        position: fixed; left: 50%; bottom: 22px; transform: translate(-50%, 80px); z-index: 90;
+        background: var(--ink); color: var(--bg); padding: 11px 18px; border-radius: 999px;
+        font-size: .9rem; font-weight: 700; box-shadow: var(--shadow-lift); opacity: 0;
+        transition: transform .25s ease, opacity .25s ease; pointer-events: none; max-width: calc(100vw - 32px); text-align: center;
+      }
+      .toast.show { transform: translate(-50%, 0); opacity: 1; }
+
+      /* ---------- Papan di HP: kolom bergeser menyamping seperti Padlet ---------- */
+      @media (max-width: 820px) {
+        .board {
+          display: flex; overflow-x: auto; scroll-snap-type: x proximity;
+          padding-bottom: 12px; margin-left: -16px; margin-right: -16px; padding-left: 16px; padding-right: 16px;
+          -webkit-overflow-scrolling: touch;
+        }
+        .column { flex: 0 0 84vw; max-width: 340px; scroll-snap-align: start; }
+        .stats { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+        .stat .num { font-size: 1.35rem; }
+        .stat .lbl { font-size: .72rem; }
+        .form-grid { grid-template-columns: 1fr; }
+      }
+
+      /* ---------- Papan bersama (cloud) ---------- */
+      .cloud-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; margin-top: 14px; }
+      .cloud-status { margin: 0; font-size: .9rem; font-weight: 700; line-height: 1.5; }
+      .cloud-status.off { color: var(--ink-soft); }
+      .cloud-status.ok { color: var(--green-head); }
+      .cloud-status.err { color: var(--danger); }
+      .linklike { background: none; border: 0; padding: 4px 2px; min-height: 2rem; color: var(--accent); font-weight: 700; font-size: .88rem; text-decoration: underline; text-underline-offset: 3px; }
+      .cloud-panel { margin-top: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px; box-shadow: var(--shadow); }
+      .cloud-panel-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+      .cloud-panel-row .f-input { flex: 1 1 260px; }
+      .cloud-test-result { margin: 10px 0 0; font-size: .88rem; font-weight: 600; }
+      .cloud-test-result:empty { margin: 0; }
+      .cloud-panel-hint { margin: 8px 0 0; font-size: .82rem; color: var(--ink-soft); line-height: 1.55; }
+      .card-top { flex-wrap: wrap; }
+      .tag-local {
+        font-size: .62rem; font-weight: 800; letter-spacing: .08em;
+        background: var(--accent-soft); color: var(--ink); border: 1px solid var(--accent);
+        border-radius: 6px; padding: 1px 6px; white-space: nowrap;
+      }
+      .tag-pending {
+        font-size: .62rem; font-weight: 800; letter-spacing: .08em;
+        background: transparent; color: var(--danger); border: 1px solid var(--danger);
+        border-radius: 6px; padding: 1px 6px; white-space: nowrap;
+      }
+      .resend-btn {
+        margin-top: 10px; width: 100%; border: 1.5px solid var(--accent); color: var(--accent);
+        background: transparent; border-radius: 10px; padding: 7px 12px; min-height: 2.4rem;
+        font-weight: 800; font-size: .82rem;
+      }
+      .resend-btn:hover { background: var(--accent-soft); }
+      .f-hint { margin: 6px 0 0; font-size: .8rem; color: var(--ink-soft); line-height: 1.5; }
+      .btn[disabled] { opacity: .5; cursor: not-allowed; }
+      .btn[disabled]:hover { transform: none; box-shadow: var(--shadow); }
+
+      /* ---------- Lembar cetak ---------- */
+      #print-preview table { width: 100%; border-collapse: collapse; font-size: .8rem; min-width: 640px; }
+      #print-preview th, #print-preview td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; line-height: 1.45; }
+      #print-preview th { background: var(--accent-soft); }
+      #print-preview .p-title { font-family: "Playfair Display", Georgia, serif; font-size: 1.25rem; font-weight: 800; margin: 0 0 2px; }
+      #print-preview .p-sub { font-size: .82rem; color: var(--ink-soft); margin-bottom: 12px; }
+      @media print {
+        .toolbar, .toolbar-hint, .contoh-note, .contoh-badge, footer.page-foot, .col-add, .card-menu-btn { display: none !important; }
+        .board { display: block; overflow: visible; }
+        .column { break-inside: avoid; margin-bottom: 14px; }
+        .card { break-inside: avoid; box-shadow: none; border: 1px solid #bbb; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="masthead">
+        <div>
+          <h1>Jurnal Mengajar <span class="accent-word">Daring</span></h1>
+          <p class="identity"><strong>Semua Guru Mapel</strong> — SMP Negeri 1 Terusan Nunyai</p>
+        </div>
+        <span class="contoh-badge">✎ Papan Contoh — data di bawah adalah contoh</span>
+      </header>
+      <div class="cloud-row">
+        <p class="cloud-status off" id="cloud-status">○ Mode perangkat — papan bersama belum terhubung (jurnal hanya tersimpan di perangkat ini)</p>
+        <button class="linklike" id="btn-cloud-settings" type="button">Pengaturan papan bersama</button>
+      </div>
+      <div class="cloud-panel" id="cloud-panel" hidden>
+        <label class="f-label" for="cloud-url-input">Alamat Web App papan bersama (berakhiran /exec)</label>
+        <div class="cloud-panel-row">
+          <input class="f-input" id="cloud-url-input" type="url" placeholder="https://script.google.com/macros/s/…/exec" />
+          <button class="btn primary" id="cloud-save" type="button">Simpan</button>
+          <button class="btn" id="cloud-test" type="button">Uji koneksi</button>
+        </div>
+        <p class="cloud-test-result" id="cloud-test-result" role="status"></p>
+        <p class="cloud-panel-hint">Alamat ini diperoleh dari deployment Apps Script jurnal (Deploy → Web app) pada Spreadsheet “Jurnal Mengajar Daring”. Setelah disimpan, jurnal dari semua guru tampil di papan ini dan jurnal baru langsung terkirim ke papan bersama. Kosongkan lalu Simpan untuk kembali ke mode perangkat.</p>
+      </div>
+      <p class="contoh-note">Ini <strong>contoh tampilan</strong> jurnal mengajar daring bergaya papan Padlet untuk <strong>semua guru mata pelajaran</strong>. Enam kartu pertama adalah contoh isian dari beberapa mapel; silakan ganti, pindah, atau hapus, lalu tulis jurnal Bapak/Ibu sendiri lewat tombol <strong>+ Tulis Jurnal</strong> — isi nama guru dan mata pelajaran Bapak/Ibu di formulir. Bila papan bersama (cloud) terhubung, jurnal yang Bapak/Ibu tulis langsung tampil untuk semua guru; bila belum terhubung, jurnal tersimpan di perangkat ini dulu.</p>
+
+      <section class="stats" aria-label="Statistik ringkas">
+        <div class="stat s-blue"><div class="num" id="stat-total">0</div><div class="lbl">Total jurnal di papan</div></div>
+        <div class="stat s-green"><div class="num" id="stat-done">0</div><div class="lbl">Selesai &amp; refleksi</div></div>
+        <div class="stat s-gold"><div class="num" id="stat-att">—</div><div class="lbl">Rata-rata kehadiran</div></div>
+        <div class="stat s-blue"><div class="num" id="stat-guru">0</div><div class="lbl">Guru aktif di papan</div></div>
+      </section>
+
+      <div class="toolbar" role="search">
+        <label class="field grow">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+          <input id="search" type="search" placeholder="Cari materi, kegiatan, kendala…" aria-label="Cari jurnal" />
+        </label>
+        <label class="field">
+          <select id="filter-mapel" aria-label="Filter mata pelajaran">
+            <option value="">Semua mapel</option>
+            <option>PAI dan Budi Pekerti</option><option>Pendidikan Pancasila</option><option>Bahasa Indonesia</option><option>Matematika</option><option>IPA</option><option>IPS</option><option>Bahasa Inggris</option><option>Informatika</option><option>Seni Budaya</option><option>PJOK</option><option>Bahasa Lampung</option><option>Pendidikan Anti Korupsi</option>
+          </select>
+        </label>
+        <label class="field">
+          <select id="filter-guru" aria-label="Filter guru">
+            <option value="">Semua guru</option>
+          </select>
+        </label>
+        <label class="field">
+          <select id="filter-kelas" aria-label="Filter kelas">
+            <option value="">Semua kelas</option>
+            <option>VIIA</option><option>VIIB</option><option>VIIC</option><option>VIID</option><option>VIIE</option><option>VIIIA</option><option>VIIIB</option><option>VIIIC</option><option>VIIID</option><option>VIIIE</option><option>IXA</option><option>IXB</option><option>IXC</option><option>IXD</option><option>IXE</option>
+          </select>
+        </label>
+        <label class="field">
+          <select id="filter-platform" aria-label="Filter platform">
+            <option value="">Semua platform</option>
+            <option>Google Meet</option><option>Zoom</option><option>WhatsApp</option><option>Google Classroom</option><option>Lainnya</option>
+          </select>
+        </label>
+        <button class="btn primary" id="btn-add" type="button">+ Tulis Jurnal</button>
+        <button class="btn" id="btn-export" type="button">Ekspor JSON</button>
+        <button class="btn" id="btn-print" type="button">Cetak / Simpan PDF</button>
+        <button class="btn" id="btn-cloud-refresh" type="button" disabled>Muat Ulang dari Cloud</button>
+        <button class="btn" id="btn-reset" type="button">Muat Ulang Contoh</button>
+      </div>
+      <p class="toolbar-hint">Geser kartu antar-kolom dengan seret (di komputer), atau pakai tombol ⋯ pada kartu untuk memindahkan, mengubah, dan menghapus.</p>
+
+      <main class="board" id="board" aria-label="Papan jurnal mengajar daring"></main>
+      <div class="no-result" id="no-result">Tidak ada kartu yang cocok dengan pencarian atau filter. Coba kata kunci lain, atau kosongkan filter.</div>
+
+      <footer class="page-foot">Jurnal Mengajar Daring — contoh papan bergaya Padlet untuk semua guru mata pelajaran yang melaksanakan pembelajaran secara daring.<br />Papan bersama memakai Google Spreadsheet lewat Apps Script: jurnal yang terhubung cloud terlihat oleh semua guru. Jurnal bertanda “Perangkat ini” hanya tersimpan di perangkat penulisnya sampai berhasil terkirim ke papan bersama.</footer>
+    </div>
+
+    <!-- Modal detail -->
+    <div class="overlay" id="overlay-detail" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+      <div class="sheet">
+        <div class="sheet-head">
+          <h2 id="detail-title">Detail Jurnal</h2>
+          <button class="sheet-close" type="button" data-close aria-label="Tutup">✕</button>
+        </div>
+        <div id="detail-body"></div>
+        <div class="sheet-actions">
+          <button class="btn primary" id="detail-edit" type="button">Ubah</button>
+          <button class="btn danger" id="detail-delete" type="button">Hapus</button>
+          <button class="btn" type="button" data-close>Tutup</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal formulir -->
+    <div class="overlay" id="overlay-form" role="dialog" aria-modal="true" aria-labelledby="form-title">
+      <div class="sheet">
+        <div class="sheet-head">
+          <h2 id="form-title">Tulis Jurnal Baru</h2>
+          <button class="sheet-close" type="button" data-close aria-label="Tutup">✕</button>
+        </div>
+        <form id="journal-form" novalidate>
+          <div class="form-grid">
+            <div>
+              <label class="f-label" for="f-guru">Nama guru <span class="req">*</span></label>
+              <input class="f-input" id="f-guru" type="text" placeholder="cth. Hardiansyah, S.Pd" required />
+            </div>
+            <div>
+              <label class="f-label" for="f-mapel">Mata pelajaran <span class="req">*</span></label>
+              <select class="f-select" id="f-mapel" required>
+                <option value="">— Pilih mata pelajaran —</option>
+                <option>PAI dan Budi Pekerti</option><option>Pendidikan Pancasila</option><option>Bahasa Indonesia</option><option>Matematika</option><option>IPA</option><option>IPS</option><option>Bahasa Inggris</option><option>Informatika</option><option>Seni Budaya</option><option>PJOK</option><option>Bahasa Lampung</option><option>Pendidikan Anti Korupsi</option>
+              </select>
+            </div>
+            <div>
+              <label class="f-label" for="f-tanggal">Tanggal <span class="req">*</span></label>
+              <input class="f-input" id="f-tanggal" type="date" required />
+            </div>
+            <div>
+              <label class="f-label" for="f-kelas">Kelas <span class="req">*</span></label>
+              <select class="f-select" id="f-kelas" required>
+                <option value="">— Pilih kelas —</option>
+                <option>VIIA</option><option>VIIB</option><option>VIIC</option><option>VIID</option><option>VIIE</option><option>VIIIA</option><option>VIIIB</option><option>VIIIC</option><option>VIIID</option><option>VIIIE</option><option>IXA</option><option>IXB</option><option>IXC</option><option>IXD</option><option>IXE</option>
+              </select>
+            </div>
+            <div class="full">
+              <label class="f-label" for="f-materi">Materi <span class="req">*</span></label>
+              <input class="f-input" id="f-materi" type="text" placeholder="cth. Relasi dan Fungsi" required />
+            </div>
+            <div class="full">
+              <label class="f-label" for="f-tp">Tujuan Pembelajaran (TP) singkat</label>
+              <input class="f-input" id="f-tp" type="text" placeholder="cth. Menentukan relasi dan menyajikannya dalam berbagai bentuk" />
+            </div>
+            <div class="full">
+              <span class="f-label">Platform daring</span>
+              <div class="plat-checks" id="f-platforms">
+                <label><input type="checkbox" value="Google Meet" /> Google Meet</label>
+                <label><input type="checkbox" value="Zoom" /> Zoom</label>
+                <label><input type="checkbox" value="WhatsApp" /> WhatsApp</label>
+                <label><input type="checkbox" value="Google Classroom" /> Google Classroom</label>
+                <label><input type="checkbox" value="Lainnya" /> Lainnya</label>
+              </div>
+              <div id="f-platform-lainnya-wrap" style="display:none;margin-top:10px">
+                <label class="f-label" for="f-platform-lainnya">Sebutkan platformnya <span class="req">*</span></label>
+                <input class="f-input" id="f-platform-lainnya" type="text" placeholder="cth. Microsoft Teams, Telegram, YouTube Live" />
+              </div>
+            </div>
+            <div>
+              <label class="f-label" for="f-jam">Jam pelajaran</label>
+              <input class="f-input" id="f-jam" type="text" placeholder="cth. 07:30–09:00" />
+              <p class="f-hint">Tulis 07:30 (titik dua).</p>
+            </div>
+            <div>
+              <label class="f-label" for="f-status">Kolom tujuan <span class="req">*</span></label>
+              <select class="f-select" id="f-status" required>
+                <option value="rencana">Rencana</option>
+                <option value="berlangsung">Sedang Berlangsung</option>
+                <option value="selesai">Selesai &amp; Refleksi</option>
+              </select>
+            </div>
+            <div>
+              <label class="f-label" for="f-hadir">Murid hadir</label>
+              <input class="f-input" id="f-hadir" type="number" min="0" max="60" placeholder="cth. 24" />
+            </div>
+            <div>
+              <label class="f-label" for="f-total">Jumlah murid</label>
+              <input class="f-input" id="f-total" type="number" min="0" max="60" placeholder="cth. 28" />
+            </div>
+            <div class="full">
+              <label class="f-label" for="f-kegiatan">Kegiatan inti</label>
+              <textarea class="f-textarea" id="f-kegiatan" placeholder="Apa yang dilakukan murid selama pembelajaran daring?"></textarea>
+            </div>
+            <div class="full">
+              <label class="f-label" for="f-kendala">Kendala</label>
+              <textarea class="f-textarea" id="f-kendala" placeholder="Hambatan yang muncul, mis. sinyal, gawai, atau kehadiran."></textarea>
+            </div>
+            <div class="full">
+              <label class="f-label" for="f-refleksi">Refleksi</label>
+              <textarea class="f-textarea" id="f-refleksi" placeholder="Apa yang berjalan baik, dan apa yang perlu diperbaiki?"></textarea>
+            </div>
+            <div class="full">
+              <label class="f-label" for="f-tindak">Tindak lanjut</label>
+              <textarea class="f-textarea" id="f-tindak" placeholder="Langkah berikutnya untuk pertemuan mendatang."></textarea>
+            </div>
+            <div class="full" id="f-code-wrap">
+              <label class="f-label" for="f-code">Kode Edit (4 digit) <span class="req">*</span></label>
+              <input class="f-input" id="f-code" type="text" inputmode="numeric" autocomplete="off" maxlength="4" placeholder="cth. 1234" />
+              <p class="f-hint">Kode ini hanya milik Bapak/Ibu — dipakai untuk mengubah atau menghapus jurnal ini nanti di papan bersama. Ingat baik-baik dan jangan dibagikan; kode tidak tampil di papan dan tidak bisa dilihat guru lain.</p>
+            </div>
+            <div class="full" id="f-newcode-wrap" style="display:none">
+              <label class="f-label" for="f-newcode">Kode Edit baru (opsional)</label>
+              <input class="f-input" id="f-newcode" type="text" inputmode="numeric" autocomplete="off" maxlength="4" placeholder="Isi hanya bila ingin mengganti Kode Edit" />
+            </div>
+            <div class="full" id="f-token-wrap" style="display:none">
+              <label class="f-label" for="f-token">Token admin (opsional, hanya admin)</label>
+              <input class="f-input" id="f-token" type="password" autocomplete="off" placeholder="Kosongkan bila memakai Kode Edit" />
+            </div>
+          </div>
+          <div class="form-error" id="form-error"></div>
+          <div class="sheet-actions">
+            <button class="btn primary" type="submit" id="form-submit">Simpan Jurnal</button>
+            <button class="btn" type="button" data-close>Batal</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal konfirmasi -->
+    <div class="overlay" id="overlay-confirm" role="alertdialog" aria-modal="true" aria-labelledby="confirm-title">
+      <div class="sheet" style="max-width:440px">
+        <div class="sheet-head"><h2 id="confirm-title">Konfirmasi</h2></div>
+        <p id="confirm-text" style="line-height:1.6;margin:6px 0 0"></p>
+        <div class="sheet-actions">
+          <button class="btn danger-solid" id="confirm-yes" type="button">Ya, lanjutkan</button>
+          <button class="btn" type="button" data-close>Batal</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal lembar cetak -->
+    <div class="overlay" id="overlay-print" role="dialog" aria-modal="true" aria-labelledby="print-title">
+      <div class="sheet" style="max-width:860px">
+        <div class="sheet-head">
+          <h2 id="print-title">Lembar Cetak Jurnal</h2>
+          <button class="sheet-close" type="button" data-close aria-label="Tutup">✕</button>
+        </div>
+        <p style="line-height:1.6;margin:4px 0 0;color:var(--ink-soft);font-size:.9rem">Unduh lembar ini sebagai berkas HTML, buka berkasnya di peramban, lalu pilih menu <strong>Cetak</strong> atau <strong>Simpan sebagai PDF</strong> di peramban.</p>
+        <div id="print-preview" style="overflow-x:auto;margin-top:14px"></div>
+        <div class="sheet-actions">
+          <button class="btn primary" id="print-download" type="button">Unduh Lembar Cetak (.html)</button>
+          <button class="btn" type="button" data-close>Tutup</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal kode edit (hapus entri papan bersama) -->
+    <div class="overlay" id="overlay-code" role="alertdialog" aria-modal="true" aria-labelledby="code-title">
+      <div class="sheet" style="max-width:440px">
+        <div class="sheet-head">
+          <h2 id="code-title">Hapus Jurnal dari Papan Bersama</h2>
+          <button class="sheet-close" type="button" data-close aria-label="Tutup">✕</button>
+        </div>
+        <p id="code-text" style="line-height:1.6;margin:6px 0 0"></p>
+        <div style="margin-top:12px">
+          <label class="f-label" for="code-input">Kode Edit jurnal ini</label>
+          <input class="f-input" id="code-input" type="text" inputmode="numeric" autocomplete="off" maxlength="4" placeholder="4 digit" />
+        </div>
+        <div style="margin-top:10px">
+          <label class="f-label" for="code-token">Token admin (opsional, hanya admin)</label>
+          <input class="f-input" id="code-token" type="password" autocomplete="off" placeholder="Kosongkan bila memakai Kode Edit" />
+        </div>
+        <div class="form-error" id="code-error"></div>
+        <div class="sheet-actions">
+          <button class="btn danger-solid" id="code-yes" type="button">Hapus dari Papan Bersama</button>
+          <button class="btn" type="button" data-close>Batal</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  var LS_KEY = "jurnal-mengajar-daring-v1";
+  var CLOUD_URL_KEY = "jurnal-cloud-url";
+  var CLOUD_CACHE_KEY = "jurnal-cloud-cache";
+  var CLOUD_URL_BUILTIN = 'https://script.google.com/macros/s/AKfycbz5znqXcDXnChKQ9S5CTaLINuPO84OWTx6_BsZz1rXDNMrM6AxGS1A0g_Tc0c7vzNiqPg/exec'; // alamat Web App papan bersama (tertanam)
+
+  var COLUMNS = [
+    { id: "rencana",    title: "Rencana",            cls: "c-blue",   empty: "Belum ada rencana. Klik “+ Rencana” atau tombol Tulis Jurnal." },
+    { id: "berlangsung",title: "Sedang Berlangsung", cls: "c-yellow", empty: "Belum ada pembelajaran yang sedang berlangsung." },
+    { id: "selesai",    title: "Selesai & Refleksi", cls: "c-green",  empty: "Belum ada jurnal yang selesai. Pindahkan kartu ke sini setelah mengajar." }
+  ];
+
+  var PROFILE_KEY = "jurnal-mengajar-daring-profil";
+
+  var MAPEL_CLASS = {
+    "PAI dan Budi Pekerti": "m-pai", "Pendidikan Pancasila": "m-pkn", "Bahasa Indonesia": "m-indo",
+    "Matematika": "m-mtk", "IPA": "m-ipa", "IPS": "m-ips", "Bahasa Inggris": "m-ing",
+    "Informatika": "m-inf", "Seni Budaya": "m-sbd", "PJOK": "m-pjok",
+    "Bahasa Lampung": "m-lampung", "Pendidikan Anti Korupsi": "m-pak"
+  };
+
+  var KNOWN_PLATFORMS = ["Google Meet", "Zoom", "WhatsApp", "Google Classroom"];
+  var PLATFORM_CLASS = { "Google Meet": "meet", "Zoom": "zoom", "WhatsApp": "wa", "Google Classroom": "gc" };
+  var PLATFORM_SHORT = { "Google Meet": "Meet", "Zoom": "Zoom", "WhatsApp": "WhatsApp", "Google Classroom": "Classroom" };
+
+  var SEED = [
+    {
+      id: "contoh-1", contoh: true, status: "selesai", tanggal: "2026-11-23",
+      guru: "Hardiansyah, S.Pd", mapel: "Matematika",
+      kelas: "VIIIA", materi: "Teorema Pythagoras",
+      tp: "Menentukan panjang sisi segitiga siku-siku dengan teorema Pythagoras",
+      platform: ["Google Meet"], jam: "07.30–09.00", hadir: 26, total: 28,
+      kegiatan: "Murid membuktikan teorema Pythagoras lewat potongan persegi di layar bersama, lalu mengerjakan 3 soal berjenjang di LKPD digital.",
+      kendala: "2 murid sinyal lemah, beberapa kali keluar-masuk ruang Meet.",
+      refleksi: "Pembuktian visual membuat murid cepat paham; soal berjenjang membantu murid lambat tetap ikut.",
+      tindak: "Kirim rekaman Meet + LKPD ke 2 murid yang sinyalnya lemah, cek pemahaman mereka lewat chat sebelum pertemuan berikutnya."
+    },
+    {
+      id: "contoh-2", contoh: true, status: "selesai", tanggal: "2026-11-24",
+      guru: "Endah Purnomowati", mapel: "IPS",
+      kelas: "VIIA", materi: "Interaksi Sosial",
+      tp: "Menjelaskan bentuk-bentuk interaksi sosial dalam kehidupan sehari-hari",
+      platform: ["Google Classroom"], jam: "09.30–11.00", hadir: 27, total: 29,
+      kegiatan: "Materi dan studi kasus diunggah di Classroom; murid mengidentifikasi contoh interaksi sosial di lingkungan sekitarnya, lalu mempresentasikan temuan lewat komentar berantai.",
+      kendala: "Beberapa murid baru membuka tugas menjelang batas waktu pengumpulan.",
+      refleksi: "Contoh dari lingkungan sendiri membuat konsep interaksi sosial mudah dipahami; perlu pengingat bertahap sebelum tenggat.",
+      tindak: "Beri pengingat H-1 di Classroom dan siapkan rubrik komentar agar diskusi lebih terarah."
+    },
+    {
+      id: "contoh-3", contoh: true, status: "selesai", tanggal: "2026-11-25",
+      guru: "Deni Yantika", mapel: "Bahasa Inggris",
+      kelas: "VIIIC", materi: "Perkenalan Diri (Introducing Myself)",
+      tp: "Memperkenalkan diri dan orang lain dengan ungkapan yang tepat",
+      platform: ["Zoom"], jam: "07.30–09.00", hadir: 25, total: 28,
+      kegiatan: "Murid berlatih dialog perkenalan berpasangan di ruang Zoom, lalu tampil dua-dua memperkenalkan diri dan temannya dalam bahasa Inggris.",
+      kendala: "Audio beberapa murid pecah sehingga dialog harus diulang; sebagian murid malu membuka kamera.",
+      refleksi: "Latihan berpasangan menurunkan rasa malu; contoh dialog yang dimodelkan guru di awal sangat membantu.",
+      tindak: "Bagikan teks dialog contoh dan rekaman model pengucapan agar murid bisa berlatih mandiri."
+    },
+    {
+      id: "contoh-4", contoh: true, status: "berlangsung", tanggal: "2026-11-27",
+      guru: "Ruliati", mapel: "Bahasa Indonesia",
+      kelas: "VIIB", materi: "Teks Prosedur",
+      tp: "Mengidentifikasi struktur dan langkah-langkah dalam teks prosedur",
+      platform: ["WhatsApp", "Google Meet"], jam: "09.30–11.00", hadir: 26, total: 30,
+      kegiatan: "Contoh teks prosedur membuat minuman tradisional dikirim lewat grup WhatsApp; murid menandai tujuan, bahan, dan langkah, lalu membahasnya bersama di Meet.",
+      kendala: "Sebagian murid terlambat bergabung karena pengumuman di WhatsApp tertumpuk pesan lain.",
+      refleksi: "Teks dari kegiatan sehari-hari membuat murid cepat mengenali struktur prosedur; penandaan warna membantu murid membedakan bagian teks.",
+      tindak: "Lanjutkan ke praktik menulis teks prosedur sederhana, kumpulkan lewat foto tulisan di grup kelas."
+    },
+    {
+      id: "contoh-5", contoh: true, status: "rencana", tanggal: "2026-11-30",
+      guru: "Hardiansyah, S.Pd", mapel: "Matematika",
+      kelas: "VIIIB", materi: "Relasi dan Fungsi",
+      tp: "Menentukan relasi antara dua himpunan dan menyajikannya dalam berbagai bentuk",
+      platform: ["Google Meet"], jam: "07.30–09.00", hadir: null, total: 28,
+      kegiatan: "Rencana: apersepsi relasi “siswa dan makanan favorit”, eksplorasi diagram panah di layar bersama, latihan berpasangan.",
+      kendala: "",
+      refleksi: "",
+      tindak: "Siapkan daftar hadir dan bahan diagram panah; umumkan jadwal di grup kelas sehari sebelumnya."
+    },
+    {
+      id: "contoh-6", contoh: true, status: "rencana", tanggal: "2026-12-01",
+      guru: "Ayu Anisa", mapel: "IPA",
+      kelas: "VIIID", materi: "Sistem Pencernaan Manusia",
+      tp: "Menjelaskan organ dan proses pencernaan makanan pada manusia",
+      platform: ["Google Meet"], jam: "09.30–11.00", hadir: null, total: 27,
+      kegiatan: "Rencana: apersepsi perjalanan sepotong makanan, eksplorasi animasi organ pencernaan di layar bersama, kuis kilat di akhir sesi.",
+      kendala: "",
+      refleksi: "",
+      tindak: "Siapkan animasi sistem pencernaan dan LKPD digital; umumkan jadwal di grup kelas sehari sebelumnya."
+    }
+  ];
+
+  var localEntries = load();
+  var cloudEntries = [];
+  var entries = localEntries.slice();
+  var cloudState = "off"; // off | loading | ok | error
+  var lastSync = null;
+  var editingId = null;
+  var detailId = null;
+  var confirmAction = null;
+  var dragId = null;
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(LS_KEY);
+      if (!raw) return seedCopy();
+      var data = JSON.parse(raw);
+      if (!Array.isArray(data)) return seedCopy();
+      var hasOldSeed = data.some(function (e) { return e.contoh && !e.mapel; });
+      if (hasOldSeed) {
+        var mine = data.filter(function (e) { return !e.contoh; });
+        return seedCopy().concat(mine);
+      }
+      return data;
+    } catch (e) { return seedCopy(); }
+  }
+  function seedCopy() { return JSON.parse(JSON.stringify(SEED)); }
+  function save() {
+    try { localStorage.setItem(LS_KEY, JSON.stringify(localEntries)); }
+    catch (e) { toast("Penyimpanan perangkat penuh — entri terakhir mungkin tidak tersimpan."); }
+  }
+  function rebuild() {
+    localEntries.forEach(function (e) { e.src = "local"; });
+    entries = cloudEntries.concat(localEntries);
+  }
+
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  }
+
+  var HARI = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+  var BULAN = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+  function fmtDate(iso) {
+    if (!iso) return "Tanggal belum diisi";
+    var p = iso.split("-");
+    var d = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+    if (isNaN(d.getTime())) return iso;
+    return HARI[d.getDay()] + ", " + d.getDate() + " " + BULAN[d.getMonth()] + " " + d.getFullYear();
+  }
+  /* Jam: guru biasa menulis "07.30" (titik) — Spreadsheet mengurainya sebagai
+     desimal 7.3. Normalisasi ke "07:30" (titik dua) sebelum disimpan/dikirim,
+     supaya Sheet menyimpannya sebagai waktu, bukan angka. */
+  function normalizeJam(s) {
+    if (s == null) return "";
+    return String(s).replace(/(\d{1,2})\s*[.:]\s*(\d{1,2})/g, function (m, h, mi) {
+      return pad2(Number(h)) + ":" + pad2(Number(mi));
+    });
+  }
+  /* Saat dibaca dari cloud, jam waktu bisa kembali sebagai string tanggal ISO
+     ("1899-12-30T07:30:00.000Z") — tampilkan hanya jam:menit UTC-nya. */
+  function fmtJam(jam) {
+    if (!jam) return "";
+    var s = String(jam);
+    var t = s.indexOf("T");
+    if (t !== -1) {
+      var m = s.slice(t + 1).match(/^(\d{1,2}):(\d{2})/);
+      if (m) return pad2(Number(m[1])) + ":" + m[2];
+    }
+    return s;
+  }
+  function attInfo(e) {
+    if (e.hadir == null || e.total == null || !e.total) return null;
+    var pct = Math.round((e.hadir / e.total) * 100);
+    var cls = pct >= 90 ? "good" : (pct >= 75 ? "mid" : "low");
+    return { text: "Hadir " + e.hadir + "/" + e.total + " · " + pct + "%", cls: cls, pct: pct };
+  }
+
+  /* ---------- Render papan ---------- */
+  var board = document.getElementById("board");
+
+  function currentFilter() {
+    return {
+      q: document.getElementById("search").value.trim().toLowerCase(),
+      mapel: document.getElementById("filter-mapel").value,
+      guru: document.getElementById("filter-guru").value,
+      kelas: document.getElementById("filter-kelas").value,
+      platform: document.getElementById("filter-platform").value
+    };
+  }
+  function matches(e, f) {
+    if (f.mapel && e.mapel !== f.mapel) return false;
+    if (f.guru && e.guru !== f.guru) return false;
+    if (f.kelas && e.kelas !== f.kelas) return false;
+    if (f.platform) {
+      var plats = e.platform || [];
+      if (f.platform === "Lainnya") {
+        if (!plats.some(function (p) { return KNOWN_PLATFORMS.indexOf(p) === -1; })) return false;
+      } else if (plats.indexOf(f.platform) === -1) return false;
+    }
+    if (f.q) {
+      var hay = [e.guru, e.mapel, e.materi, e.tp, e.kegiatan, e.kendala, e.refleksi, e.tindak, e.kelas, (e.platform || []).join(" "), fmtDate(e.tanggal)].join(" ").toLowerCase();
+      if (hay.indexOf(f.q) === -1) return false;
+    }
+    return true;
+  }
+
+  function cardHTML(e) {
+    var att = attInfo(e);
+    var chips = (e.platform || []).map(function (p) {
+      return '<span class="chip ' + (PLATFORM_CLASS[p] || "lainnya") + '">' + esc(PLATFORM_SHORT[p] || p) + "</span>";
+    }).join("");
+    var snippet = "";
+    if (e.status === "selesai" && e.refleksi) snippet = '<p class="card-snippet"><strong>Refleksi:</strong> ' + esc(e.refleksi) + "</p>";
+    else if (e.kegiatan) snippet = '<p class="card-snippet">' + esc(e.kegiatan) + "</p>";
+
+    var moveBtns = COLUMNS.filter(function (c) { return c.id !== e.status; }).map(function (c) {
+      return '<button type="button" data-act="move" data-to="' + c.id + '">→ Pindah ke ' + esc(c.title) + "</button>";
+    }).join("");
+
+    return '' +
+    '<article class="card" draggable="true" data-id="' + esc(e.id) + '" tabindex="0" role="button" aria-label="Buka detail jurnal ' + esc(e.materi) + '">' +
+      '<div class="card-top">' +
+        '<span class="card-date">' + esc(fmtDate(e.tanggal)) + "</span>" +
+        (e.contoh ? '<span class="tag-contoh">CONTOH</span>' : "") +
+        (e.src !== "cloud" && cloudMode() ? '<span class="tag-local">PERANGKAT INI</span>' : "") +
+        (e.pending ? '<span class="tag-pending">BELUM TERKIRIM</span>' : "") +
+        '<button class="card-menu-btn" type="button" data-act="menu" aria-label="Menu kartu" aria-haspopup="true">⋯</button>' +
+      "</div>" +
+      "<h3>" + esc(e.materi) + "</h3>" +
+      (e.guru ? '<div class="guru-line">' + esc(e.guru) + "</div>" : "") +
+      (e.mapel ? '<span class="mapel-badge ' + (MAPEL_CLASS[e.mapel] || "m-mtk") + '">' + esc(e.mapel) + "</span>" : "") +
+      '<div class="kelas-line">Kelas ' + esc(e.kelas) + (e.jam ? " · " + esc(fmtJam(e.jam)) : "") + "</div>" +
+      (e.tp ? '<p class="tp"><strong>TP:</strong> ' + esc(e.tp) + "</p>" : "") +
+      (chips ? '<div class="chips">' + chips + "</div>" : "") +
+      (att ? '<div class="card-meta"><span class="att-badge ' + att.cls + '">' + esc(att.text) + "</span></div>" : "") +
+      snippet +
+      (e.pending ? '<button class="resend-btn" type="button" data-act="resend">Kirim Ulang ke Cloud</button>' : "") +
+      '<div class="card-menu" role="menu">' +
+        '<button type="button" data-act="open">Buka detail</button>' +
+        '<button type="button" data-act="edit">Ubah jurnal</button>' +
+        '<div class="menu-sep"></div><div class="menu-label">PINDAHKAN KE KOLOM</div>' +
+        moveBtns +
+        '<div class="menu-sep"></div>' +
+        '<button type="button" class="danger" data-act="delete">Hapus jurnal</button>' +
+      "</div>" +
+    "</article>";
+  }
+
+  function render() {
+    var f = currentFilter();
+    var visibleTotal = 0;
+    board.innerHTML = COLUMNS.map(function (col) {
+      var list = entries.filter(function (e) { return e.status === col.id; })
+        .sort(function (a, b) {
+          if (cloudMode()) {
+            var d = String(b.tanggal).localeCompare(String(a.tanggal));
+            if (d) return d;
+            return String(b.waktu || "").localeCompare(String(a.waktu || ""));
+          }
+          return String(a.tanggal).localeCompare(String(b.tanggal));
+        });
+      var shown = list.filter(function (e) { return matches(e, f); });
+      visibleTotal += shown.length;
+      var cards = shown.length
+        ? shown.map(cardHTML).join("")
+        : '<div class="col-empty">' + (list.length ? "Tidak ada kartu yang cocok dengan filter di kolom ini." : esc(col.empty)) + "</div>";
+      return '' +
+      '<section class="column ' + col.cls + '" data-col="' + col.id + '" aria-label="' + esc(col.title) + '">' +
+        '<div class="col-head"><span class="col-dot"></span><h2>' + esc(col.title) + '</h2><span class="col-count">' + list.length + "</span></div>" +
+        cards +
+        '<button class="col-add" type="button" data-add="' + col.id + '">+ Jurnal di kolom ini</button>' +
+      "</section>";
+    }).join("");
+    document.getElementById("no-result").classList.toggle("show", visibleTotal === 0);
+    refreshGuruFilter();
+    renderStats();
+  }
+
+  function refreshGuruFilter() {
+    var sel = document.getElementById("filter-guru");
+    var current = sel.value;
+    var names = [];
+    entries.forEach(function (e) {
+      if (e.guru && names.indexOf(e.guru) === -1) names.push(e.guru);
+    });
+    names.sort();
+    sel.innerHTML = '<option value="">Semua guru</option>' + names.map(function (n) {
+      return "<option" + (n === current ? " selected" : "") + ">" + esc(n) + "</option>";
+    }).join("");
+    sel.value = names.indexOf(current) !== -1 ? current : "";
+  }
+
+  function renderStats() {
+    document.getElementById("stat-total").textContent = entries.length;
+    document.getElementById("stat-done").textContent = entries.filter(function (e) { return e.status === "selesai"; }).length;
+    var guruSet = {};
+    entries.forEach(function (e) { if (e.guru) guruSet[e.guru] = true; });
+    document.getElementById("stat-guru").textContent = Object.keys(guruSet).length;
+    var withAtt = entries.filter(function (e) { var a = attInfo(e); return a; });
+    var el = document.getElementById("stat-att");
+    if (!withAtt.length) { el.textContent = "—"; return; }
+    var sum = withAtt.reduce(function (s, e) { return s + attInfo(e).pct; }, 0);
+    el.textContent = Math.round(sum / withAtt.length) + "%";
+  }
+
+  /* ---------- Toast ---------- */
+  var toastTimer = null;
+  function toast(msg) {
+    var t = document.getElementById("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove("show"); }, 2600);
+  }
+
+  /* ---------- Modal ---------- */
+  function openOverlay(id) { document.getElementById(id).classList.add("open"); }
+  function closeOverlay(el) { el.classList.remove("open"); }
+  document.querySelectorAll(".overlay").forEach(function (ov) {
+    ov.addEventListener("click", function (ev) { if (ev.target === ov) closeOverlay(ov); });
+    ov.querySelectorAll("[data-close]").forEach(function (b) {
+      b.addEventListener("click", function () { closeOverlay(ov); });
+    });
+  });
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key === "Escape") document.querySelectorAll(".overlay.open").forEach(closeOverlay);
+  });
+
+  function askConfirm(title, text, action) {
+    document.getElementById("confirm-title").textContent = title;
+    document.getElementById("confirm-text").textContent = text;
+    confirmAction = action;
+    openOverlay("overlay-confirm");
+  }
+  document.getElementById("confirm-yes").addEventListener("click", function () {
+    closeOverlay(document.getElementById("overlay-confirm"));
+    if (confirmAction) { var a = confirmAction; confirmAction = null; a(); }
+  });
+
+  /* ---------- Detail ---------- */
+  function detailRow(k, v) {
+    return '<div class="detail-item"><div class="k">' + esc(k) + '</div><div class="v">' + esc(v || "") + "</div></div>";
+  }
+  function openDetail(id) {
+    var e = entries.find(function (x) { return x.id === id; });
+    if (!e) return;
+    detailId = id;
+    var col = COLUMNS.find(function (c) { return c.id === e.status; });
+    var att = attInfo(e);
+    document.getElementById("detail-title").textContent = e.materi + (e.contoh ? " (Contoh)" : "");
+    document.getElementById("detail-body").innerHTML =
+      '<div class="detail-grid">' +
+      detailRow("Tanggal", fmtDate(e.tanggal)) +
+      detailRow("Nama guru", e.guru || "—") +
+      detailRow("Mata pelajaran", e.mapel || "—") +
+      detailRow("Kelas", "Kelas " + e.kelas) +
+      detailRow("Status", col ? col.title : e.status) +
+      detailRow("Platform daring", (e.platform || []).join(", ") || "—") +
+      detailRow("Jam pelajaran", e.jam ? fmtJam(e.jam) : "—") +
+      detailRow("Kehadiran", att ? att.text.replace("Hadir ", "") + " murid hadir" : "Belum dicatat") +
+      detailRow("Tujuan Pembelajaran (TP)", e.tp) +
+      detailRow("Kegiatan inti", e.kegiatan) +
+      detailRow("Kendala", e.kendala) +
+      detailRow("Refleksi", e.refleksi) +
+      detailRow("Tindak lanjut", e.tindak) +
+      (e.src !== "cloud" && cloudMode() ? detailRow("Tersimpan di", e.pending ? "Perangkat ini — belum terkirim ke papan bersama" : "Perangkat ini") : "") +
+      "</div>";
+    openOverlay("overlay-detail");
+  }
+  document.getElementById("detail-edit").addEventListener("click", function () {
+    closeOverlay(document.getElementById("overlay-detail"));
+    openForm(detailId);
+  });
+  document.getElementById("detail-delete").addEventListener("click", function () {
+    var e = entries.find(function (x) { return x.id === detailId; });
+    if (!e) return;
+    closeOverlay(document.getElementById("overlay-detail"));
+    requestDelete(e);
+  });
+
+  /* ---------- Formulir ---------- */
+  var form = document.getElementById("journal-form");
+  function loadProfile() {
+    try { return JSON.parse(localStorage.getItem(PROFILE_KEY) || "{}") || {}; }
+    catch (e) { return {}; }
+  }
+  function saveProfile(guru, mapel) {
+    try { localStorage.setItem(PROFILE_KEY, JSON.stringify({ guru: guru, mapel: mapel })); } catch (e) {}
+  }
+  function toggleLainnyaField() {
+    var cb = document.querySelector('#f-platforms input[value="Lainnya"]');
+    var wrap = document.getElementById("f-platform-lainnya-wrap");
+    if (wrap) wrap.style.display = cb && cb.checked ? "block" : "none";
+  }
+  function setPlatformChecks(list) {
+    list = list || [];
+    var customs = list.filter(function (p) { return KNOWN_PLATFORMS.indexOf(p) === -1; });
+    document.querySelectorAll("#f-platforms input").forEach(function (cb) {
+      if (cb.value === "Lainnya") cb.checked = customs.length > 0;
+      else cb.checked = list.indexOf(cb.value) !== -1;
+    });
+    document.getElementById("f-platform-lainnya").value = customs.join(", ");
+    toggleLainnyaField();
+  }
+  document.getElementById("f-platforms").addEventListener("change", toggleLainnyaField);
+  function openForm(id, presetStatus) {
+    editingId = id || null;
+    var err = document.getElementById("form-error");
+    err.classList.remove("show"); err.textContent = "";
+    if (id) {
+      var e = entries.find(function (x) { return x.id === id; });
+      if (!e) return;
+      document.getElementById("form-title").textContent = "Ubah Jurnal";
+      document.getElementById("form-submit").textContent = "Simpan Perubahan";
+      document.getElementById("f-guru").value = e.guru || "";
+      document.getElementById("f-mapel").value = e.mapel || "";
+      document.getElementById("f-tanggal").value = e.tanggal || "";
+      document.getElementById("f-kelas").value = e.kelas || "";
+      document.getElementById("f-materi").value = e.materi || "";
+      document.getElementById("f-tp").value = e.tp || "";
+      setPlatformChecks(e.platform);
+      document.getElementById("f-jam").value = e.jam ? fmtJam(e.jam) : "";
+      document.getElementById("f-status").value = e.status;
+      document.getElementById("f-hadir").value = e.hadir == null ? "" : e.hadir;
+      document.getElementById("f-total").value = e.total == null ? "" : e.total;
+      document.getElementById("f-kegiatan").value = e.kegiatan || "";
+      document.getElementById("f-kendala").value = e.kendala || "";
+      document.getElementById("f-refleksi").value = e.refleksi || "";
+      document.getElementById("f-tindak").value = e.tindak || "";
+    } else {
+      document.getElementById("form-title").textContent = "Tulis Jurnal Baru";
+      document.getElementById("form-submit").textContent = "Simpan Jurnal";
+      form.reset();
+      toggleLainnyaField();
+      var prof = loadProfile();
+      if (prof.guru) document.getElementById("f-guru").value = prof.guru;
+      if (prof.mapel) document.getElementById("f-mapel").value = prof.mapel;
+      document.getElementById("f-tanggal").value = new Date().toISOString().slice(0, 10);
+      if (presetStatus) document.getElementById("f-status").value = presetStatus;
+    }
+    var editEntry = id ? entries.find(function (x) { return x.id === id; }) : null;
+    var cloudEdit = !!(editEntry && editEntry.src === "cloud");
+    document.getElementById("f-code").value = "";
+    document.getElementById("f-newcode").value = "";
+    document.getElementById("f-token").value = "";
+    document.getElementById("f-newcode-wrap").style.display = cloudEdit ? "" : "none";
+    document.getElementById("f-token-wrap").style.display = cloudEdit ? "" : "none";
+    document.querySelector('label[for="f-code"]').innerHTML = cloudEdit
+      ? 'Kode Edit jurnal ini <span class="req">*</span>'
+      : (id ? 'Kode Edit (isi hanya bila ingin mengganti)' : 'Kode Edit (4 digit) <span class="req">*</span>');
+    openOverlay("overlay-form");
+  }
+
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var guru = document.getElementById("f-guru").value.trim();
+    var mapel = document.getElementById("f-mapel").value;
+    var tanggal = document.getElementById("f-tanggal").value;
+    var kelas = document.getElementById("f-kelas").value;
+    var materi = document.getElementById("f-materi").value.trim();
+    var err = document.getElementById("form-error");
+    if (!guru || !mapel || !tanggal || !kelas || !materi) {
+      err.textContent = "Nama guru, mata pelajaran, tanggal, kelas, dan materi wajib diisi sebelum jurnal disimpan.";
+      err.classList.add("show");
+      return;
+    }
+    var hadirRaw = document.getElementById("f-hadir").value;
+    var totalRaw = document.getElementById("f-total").value;
+    var hadir = hadirRaw === "" ? null : Math.max(0, parseInt(hadirRaw, 10) || 0);
+    var total = totalRaw === "" ? null : Math.max(0, parseInt(totalRaw, 10) || 0);
+    if (hadir != null && total != null && hadir > total) {
+      err.textContent = "Jumlah murid hadir tidak boleh lebih besar dari jumlah murid.";
+      err.classList.add("show");
+      return;
+    }
+    var codeVal = document.getElementById("f-code").value.trim();
+    var editingEntry = editingId ? entries.find(function (x) { return x.id === editingId; }) : null;
+    var isCloudEdit = !!(editingEntry && editingEntry.src === "cloud");
+    var tokenVal = isCloudEdit ? document.getElementById("f-token").value.trim() : "";
+    var newCodeVal = isCloudEdit ? document.getElementById("f-newcode").value.trim() : "";
+    if (!editingId && !/^\d{4}$/.test(codeVal)) {
+      err.textContent = "Kode Edit wajib diisi tepat 4 angka — kode ini dipakai untuk mengubah atau menghapus jurnal Bapak/Ibu nanti.";
+      err.classList.add("show");
+      document.getElementById("f-code").focus();
+      return;
+    }
+    if (isCloudEdit && !codeVal && !tokenVal) {
+      err.textContent = "Jurnal ini ada di papan bersama — isi Kode Edit jurnal ini, atau Token admin bila Anda admin.";
+      err.classList.add("show");
+      document.getElementById("f-code").focus();
+      return;
+    }
+    if ((codeVal && !/^\d{4}$/.test(codeVal)) || (newCodeVal && !/^\d{4}$/.test(newCodeVal))) {
+      err.textContent = "Kode Edit harus tepat 4 angka.";
+      err.classList.add("show");
+      return;
+    }
+    var platforms = [];
+    document.querySelectorAll("#f-platforms input:checked").forEach(function (cb) {
+      if (cb.value !== "Lainnya") platforms.push(cb.value);
+    });
+    var lainnyaCb = document.querySelector('#f-platforms input[value="Lainnya"]');
+    if (lainnyaCb && lainnyaCb.checked) {
+      var customPlat = document.getElementById("f-platform-lainnya").value.trim();
+      if (!customPlat) {
+        err.textContent = "Platform “Lainnya” dipilih — sebutkan nama platformnya pada kolom “Sebutkan platformnya”.";
+        err.classList.add("show");
+        document.getElementById("f-platform-lainnya").focus();
+        return;
+      }
+      platforms.push(customPlat);
+    }
+    var data = {
+      guru: guru, mapel: mapel,
+      tanggal: tanggal, kelas: kelas, materi: materi,
+      tp: document.getElementById("f-tp").value.trim(),
+      platform: platforms,
+      jam: normalizeJam(document.getElementById("f-jam").value.trim()),
+      status: document.getElementById("f-status").value,
+      hadir: hadir, total: total,
+      kegiatan: document.getElementById("f-kegiatan").value.trim(),
+      kendala: document.getElementById("f-kendala").value.trim(),
+      refleksi: document.getElementById("f-refleksi").value.trim(),
+      tindak: document.getElementById("f-tindak").value.trim()
+    };
+    var submitBtn = document.getElementById("form-submit");
+    function tutupForm() { closeOverlay(document.getElementById("overlay-form")); }
+
+    if (editingId && isCloudEdit) {
+      var editPayload = toCloudPayload(data);
+      editPayload.action = "edit";
+      editPayload.id = editingId;
+      if (codeVal) editPayload.code = codeVal;
+      if (tokenVal) editPayload.token = tokenVal;
+      if (newCodeVal) editPayload.newCode = newCodeVal;
+      submitBtn.disabled = true;
+      apiPost(editPayload).then(function (res) {
+        submitBtn.disabled = false;
+        if (res && res.ok) {
+          saveProfile(guru, mapel);
+          tutupForm();
+          toast("Jurnal diperbarui di papan bersama.");
+          loadCloud();
+        } else {
+          err.textContent = (res && res.error) || "Server menolak perubahan ini.";
+          err.classList.add("show");
+        }
+      }).catch(function () {
+        submitBtn.disabled = false;
+        err.textContent = "Cloud tidak dapat dijangkau — perubahan belum terkirim. Periksa koneksi lalu coba lagi.";
+        err.classList.add("show");
+      });
+      return;
+    }
+
+    if (editingId) {
+      var le = entries.find(function (x) { return x.id === editingId; });
+      if (le) {
+        Object.keys(data).forEach(function (k) { le[k] = data[k]; });
+        if (codeVal) le.code = codeVal;
+      }
+      saveProfile(guru, mapel);
+      save(); rebuild(); render();
+      tutupForm();
+      toast("Jurnal diperbarui dan tersimpan di perangkat ini.");
+      if (le && le.pending && cloudUrl()) resendEntry(le.id);
+      return;
+    }
+
+    data.id = "j" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+    data.contoh = false;
+    data.code = codeVal;
+    if (cloudUrl()) {
+      var addPayload = toCloudPayload(data);
+      addPayload.action = "add";
+      addPayload.code = codeVal;
+      submitBtn.disabled = true;
+      apiPost(addPayload).then(function (res) {
+        submitBtn.disabled = false;
+        if (res && res.ok) {
+          saveProfile(guru, mapel);
+          tutupForm();
+          toast("Jurnal terkirim ke papan bersama.");
+          loadCloud();
+        } else {
+          data.pending = true;
+          localEntries.push(data);
+          saveProfile(guru, mapel);
+          save(); rebuild(); render();
+          tutupForm();
+          toast("Server menolak jurnal — disimpan di perangkat ini sebagai Belum terkirim.");
+        }
+      }).catch(function () {
+        submitBtn.disabled = false;
+        data.pending = true;
+        localEntries.push(data);
+        saveProfile(guru, mapel);
+        save(); rebuild(); render();
+        tutupForm();
+        toast("Cloud tidak terjangkau — jurnal disimpan di perangkat ini sebagai Belum terkirim.");
+      });
+      return;
+    }
+    localEntries.push(data);
+    saveProfile(guru, mapel);
+    save(); rebuild(); render();
+    tutupForm();
+    toast("Jurnal baru ditambahkan ke papan.");
+  });
+
+  /* ---------- Interaksi papan (delegasi) ---------- */
+  function closeAllMenus(except) {
+    board.querySelectorAll(".card-menu.open").forEach(function (m) { if (m !== except) m.classList.remove("open"); });
+  }
+  document.addEventListener("click", function (ev) {
+    if (!ev.target.closest(".card")) closeAllMenus(null);
+  });
+
+  board.addEventListener("click", function (ev) {
+    var addBtn = ev.target.closest("[data-add]");
+    if (addBtn) { openForm(null, addBtn.getAttribute("data-add")); return; }
+
+    var card = ev.target.closest(".card");
+    if (!card) return;
+    var id = card.getAttribute("data-id");
+    var actBtn = ev.target.closest("[data-act]");
+    if (actBtn) {
+      ev.stopPropagation();
+      var act = actBtn.getAttribute("data-act");
+      var menu = card.querySelector(".card-menu");
+      if (act === "menu") {
+        var willOpen = !menu.classList.contains("open");
+        closeAllMenus(null);
+        if (willOpen) menu.classList.add("open");
+        return;
+      }
+      menu.classList.remove("open");
+      if (act === "resend") resendEntry(id);
+      else if (act === "open") openDetail(id);
+      else if (act === "edit") openForm(id);
+      else if (act === "move") moveCard(id, actBtn.getAttribute("data-to"));
+      else if (act === "delete") {
+        requestDelete(entries.find(function (x) { return x.id === id; }));
+      }
+      return;
+    }
+    openDetail(id);
+  });
+
+  board.addEventListener("keydown", function (ev) {
+    if (ev.key !== "Enter" && ev.key !== " ") return;
+    var card = ev.target.closest(".card");
+    if (card && ev.target === card) { ev.preventDefault(); openDetail(card.getAttribute("data-id")); }
+  });
+
+  function moveCard(id, to) {
+    var e = entries.find(function (x) { return x.id === id; });
+    if (!e || e.status === to) return;
+    var col = COLUMNS.find(function (c) { return c.id === to; });
+    var colName = col ? col.title : to;
+    if (e.src === "cloud") {
+      apiGet({ action: "move", id: id, status: to }).then(function (res) {
+        if (res && res.ok) { toast("Kartu dipindah ke kolom " + colName + "."); loadCloud(); }
+        else toast("Gagal memindah kartu di papan bersama: " + ((res && res.error) || "server menolak."));
+      }).catch(function () {
+        toast("Cloud tidak dapat dijangkau — kartu belum dipindah.");
+      });
+      return;
+    }
+    e.status = to;
+    save(); rebuild(); render();
+    toast("Kartu dipindah ke kolom " + colName + ".");
+  }
+
+  /* ---------- Seret & letakkan ---------- */
+  board.addEventListener("dragstart", function (ev) {
+    var card = ev.target.closest(".card");
+    if (!card) return;
+    dragId = card.getAttribute("data-id");
+    card.classList.add("dragging");
+    try { ev.dataTransfer.setData("text/plain", dragId); ev.dataTransfer.effectAllowed = "move"; } catch (e) {}
+  });
+  board.addEventListener("dragend", function (ev) {
+    var card = ev.target.closest(".card");
+    if (card) card.classList.remove("dragging");
+    board.querySelectorAll(".column").forEach(function (c) { c.classList.remove("drop-target"); });
+    dragId = null;
+  });
+  board.addEventListener("dragover", function (ev) {
+    var col = ev.target.closest(".column");
+    if (!col || !dragId) return;
+    ev.preventDefault();
+    try { ev.dataTransfer.dropEffect = "move"; } catch (e) {}
+    board.querySelectorAll(".column").forEach(function (c) { c.classList.toggle("drop-target", c === col); });
+  });
+  board.addEventListener("dragleave", function (ev) {
+    var col = ev.target.closest(".column");
+    if (col && !col.contains(ev.relatedTarget)) col.classList.remove("drop-target");
+  });
+  board.addEventListener("drop", function (ev) {
+    var col = ev.target.closest(".column");
+    if (!col) return;
+    ev.preventDefault();
+    var id = dragId;
+    try { id = ev.dataTransfer.getData("text/plain") || id; } catch (e) {}
+    if (id) moveCard(id, col.getAttribute("data-col"));
+    board.querySelectorAll(".column").forEach(function (c) { c.classList.remove("drop-target"); });
+  });
+
+  /* ---------- Bilah alat ---------- */
+  document.getElementById("btn-add").addEventListener("click", function () { openForm(null); });
+  ["search", "filter-mapel", "filter-guru", "filter-kelas", "filter-platform"].forEach(function (id) {
+    document.getElementById(id).addEventListener("input", render);
+    document.getElementById(id).addEventListener("change", render);
+  });
+
+  document.getElementById("btn-reset").addEventListener("click", function () {
+    askConfirm("Muat ulang contoh?", "Enam kartu contoh awal akan dimuat ulang. Jurnal yang tersimpan di perangkat ini akan terhapus; jurnal di papan bersama (cloud) tidak ikut terhapus.", function () {
+      localEntries = seedCopy();
+      save(); rebuild(); render(); toast("Papan dikembalikan ke 6 kartu contoh.");
+    });
+  });
+
+  document.getElementById("btn-export").addEventListener("click", function () {
+    var payload = {
+      judul: "Jurnal Mengajar Daring",
+      cakupan: "Semua Guru Mapel",
+      sekolah: "SMP Negeri 1 Terusan Nunyai",
+      diekspor: new Date().toISOString(),
+      jurnal: entries.map(function (e) {
+        return {
+          id: e.id, guru: e.guru, mapel: e.mapel, kelas: e.kelas, tanggal: e.tanggal,
+          materi: e.materi, tp: e.tp, platform: e.platform, jam: fmtJam(e.jam),
+          hadir: e.hadir, total: e.total, kegiatan: e.kegiatan, kendala: e.kendala,
+          refleksi: e.refleksi, tindak: e.tindak, status: e.status,
+          contoh: !!e.contoh,
+          sumber: e.src === "cloud" ? "Papan bersama (cloud)" : "Perangkat ini"
+        };
+      })
+    };
+    var blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "jurnal-mengajar-daring.json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
+    toast("Berkas JSON diunduh.");
+  });
+
+  var printSheetHTML = "";
+  function buildPrintSheet() {
+    var rows = entries.slice().sort(function (a, b) {
+      return String(a.tanggal).localeCompare(String(b.tanggal));
+    }).map(function (e) {
+      var col = COLUMNS.find(function (c) { return c.id === e.status; });
+      var att = attInfo(e);
+      return "<tr>" +
+        "<td>" + esc(fmtDate(e.tanggal)) + "</td>" +
+        "<td>" + esc(e.guru || "—") + "</td>" +
+        "<td>" + esc(e.mapel || "—") + "</td>" +
+        "<td>" + esc(e.kelas) + "</td>" +
+        "<td><strong>" + esc(e.materi) + "</strong><br />" + esc(e.tp || "") + "</td>" +
+        "<td>" + esc((e.platform || []).join(", ")) + "</td>" +
+        "<td>" + esc(e.jam ? fmtJam(e.jam) : "—") + "</td>" +
+        "<td>" + esc(att ? att.text.replace("Hadir ", "") : "—") + "</td>" +
+        "<td>" + esc(col ? col.title : "") + "</td>" +
+        "<td>" + esc(e.kegiatan || "") + "</td>" +
+        "<td>" + esc(e.kendala || "") + "</td>" +
+        "<td>" + esc(e.refleksi || "") + "</td>" +
+        "<td>" + esc(e.tindak || "") + "</td>" +
+      "</tr>";
+    }).join("");
+    return '<p class="p-title">Jurnal Mengajar Daring</p>' +
+      '<div class="p-sub">Semua Guru Mapel · SMP Negeri 1 Terusan Nunyai</div>' +
+      "<table><thead><tr><th>Tanggal</th><th>Guru</th><th>Mapel</th><th>Kelas</th><th>Materi &amp; TP</th><th>Platform</th><th>Jam</th><th>Hadir</th><th>Status</th><th>Kegiatan Inti</th><th>Kendala</th><th>Refleksi</th><th>Tindak Lanjut</th></tr></thead><tbody>" +
+      rows + "</tbody></table>";
+  }
+
+  document.getElementById("btn-print").addEventListener("click", function () {
+    printSheetHTML = buildPrintSheet();
+    document.getElementById("print-preview").innerHTML = printSheetHTML;
+    openOverlay("overlay-print");
+  });
+
+  document.getElementById("print-download").addEventListener("click", function () {
+    if (!printSheetHTML) printSheetHTML = buildPrintSheet();
+    var doc = "<!doctype html><html lang=\"id\"><head><meta charset=\"utf-8\" />" +
+      "<title>Jurnal Mengajar Daring — Lembar Cetak</title>" +
+      "<style>body{font-family:Arial,Helvetica,sans-serif;color:#111;margin:24px}" +
+      "table{width:100%;border-collapse:collapse;font-size:10pt}" +
+      "th,td{border:1px solid #999;padding:5px 7px;text-align:left;vertical-align:top}" +
+      "th{background:#e8eef5}.p-title{font-family:Georgia,serif;font-size:20pt;margin:0 0 4px}" +
+      ".p-sub{font-size:10.5pt;color:#333;margin-bottom:14px}</style></head><body>" +
+      printSheetHTML + "</body></html>";
+    var blob = new Blob([doc], { type: "text/html" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "jurnal-mengajar-daring-cetak.html";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
+    toast("Lembar cetak diunduh — buka berkasnya lalu cetak dari peramban.");
+  });
+
+  /* ---------- Papan bersama (cloud — Google Sheets + Apps Script) ---------- */
+  function cloudUrl() {
+    try {
+      var override = (localStorage.getItem(CLOUD_URL_KEY) || "").trim();
+      if (override) return override;
+    } catch (e) {}
+    return CLOUD_URL_BUILTIN || "";
+  }
+  function cloudMode() { return !!cloudUrl(); }
+  function apiGet(params) {
+    var base = cloudUrl();
+    var qs = Object.keys(params).map(function (k) {
+      return encodeURIComponent(k) + "=" + encodeURIComponent(params[k]);
+    }).join("&");
+    return fetch(base + (base.indexOf("?") === -1 ? "?" : "&") + qs).then(function (r) { return r.json(); });
+  }
+  function apiPost(obj) {
+    return fetch(cloudUrl(), {
+      method: "POST",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify(obj)
+    }).then(function (r) { return r.json(); });
+  }
+  function toCloudPayload(e) {
+    return {
+      guru: e.guru, mapel: e.mapel, kelas: e.kelas, tanggal: e.tanggal, materi: e.materi,
+      tp: e.tp || "", platform: (e.platform || []).join(", "), jam: e.jam || "",
+      hadir: e.hadir == null ? "" : e.hadir, jumlah: e.total == null ? "" : e.total,
+      kegiatan: e.kegiatan || "", kendala: e.kendala || "", refleksi: e.refleksi || "",
+      tindakLanjut: e.tindak || "", status: e.status
+    };
+  }
+  function numOrNull(v) {
+    if (v === "" || v == null) return null;
+    var n = Number(v);
+    return isNaN(n) ? null : n;
+  }
+  function normalizeCloud(c) {
+    var plats = [];
+    if (Array.isArray(c.platform)) plats = c.platform.slice();
+    else if (c.platform) plats = String(c.platform).split(",").map(function (s) { return s.trim(); }).filter(function (s) { return !!s; });
+    var tgl = c.tanggal ? String(c.tanggal) : "";
+    if (tgl.indexOf("T") !== -1) tgl = tgl.slice(0, 10);
+    return {
+      id: String(c.id), src: "cloud", contoh: false, waktu: c.waktu || "",
+      guru: c.guru || "", mapel: c.mapel || "", kelas: c.kelas || "", tanggal: tgl,
+      materi: c.materi || "", tp: c.tp || "", platform: plats, jam: c.jam || "",
+      hadir: numOrNull(c.hadir), total: numOrNull(c.jumlah),
+      kegiatan: c.kegiatan || "", kendala: c.kendala || "", refleksi: c.refleksi || "",
+      tindak: c.tindakLanjut || "", status: c.status || "rencana"
+    };
+  }
+  function loadCloudCache() {
+    try {
+      var raw = localStorage.getItem(CLOUD_CACHE_KEY);
+      if (!raw) return [];
+      var data = JSON.parse(raw);
+      return Array.isArray(data) ? data : [];
+    } catch (e) { return []; }
+  }
+  function pad2(n) { return (n < 10 ? "0" : "") + n; }
+  function updateCloudStatus() {
+    var el = document.getElementById("cloud-status");
+    var btn = document.getElementById("btn-cloud-refresh");
+    var url = cloudUrl();
+    if (btn) btn.disabled = !url;
+    if (!url) {
+      el.textContent = "○ Mode perangkat — papan bersama belum terhubung (jurnal hanya tersimpan di perangkat ini)";
+      el.className = "cloud-status off";
+      return;
+    }
+    if (cloudState === "error") {
+      el.textContent = "⚠ Cloud tidak dapat dijangkau — menampilkan salinan perangkat. Periksa koneksi lalu tekan Muat Ulang dari Cloud.";
+      el.className = "cloud-status err";
+      return;
+    }
+    if (cloudState === "ok") {
+      var jam = lastSync ? pad2(lastSync.getHours()) + ":" + pad2(lastSync.getMinutes()) : "—";
+      el.textContent = "● Papan bersama aktif — " + cloudEntries.length + " jurnal dari cloud (terakhir dimuat " + jam + ")";
+      el.className = "cloud-status ok";
+      return;
+    }
+    el.textContent = "● Menghubungi papan bersama…";
+    el.className = "cloud-status ok";
+  }
+  function loadCloud() {
+    if (!cloudUrl()) {
+      cloudEntries = [];
+      cloudState = "off";
+      rebuild(); updateCloudStatus(); render();
+      return Promise.resolve();
+    }
+    cloudState = "loading";
+    updateCloudStatus();
+    return apiGet({ action: "list" }).then(function (res) {
+      if (res && res.ok && Array.isArray(res.entries)) {
+        cloudEntries = res.entries.map(normalizeCloud);
+        cloudState = "ok";
+        lastSync = new Date();
+        try { localStorage.setItem(CLOUD_CACHE_KEY, JSON.stringify(cloudEntries)); } catch (e) {}
+      } else {
+        cloudState = "error";
+        cloudEntries = loadCloudCache();
+      }
+    }).catch(function () {
+      cloudState = "error";
+      cloudEntries = loadCloudCache();
+    }).then(function () {
+      rebuild(); updateCloudStatus(); render();
+    });
+  }
+  function resendEntry(id) {
+    var e = localEntries.find(function (x) { return x.id === id; });
+    if (!e) return;
+    if (!cloudUrl()) {
+      toast("Papan bersama belum terhubung — isi alamat Web App di Pengaturan papan bersama.");
+      return;
+    }
+    var payload = toCloudPayload(e);
+    payload.action = "add";
+    payload.code = e.code || "";
+    toast("Mengirim jurnal ke papan bersama…");
+    apiPost(payload).then(function (res) {
+      if (res && res.ok) {
+        localEntries = localEntries.filter(function (x) { return x.id !== id; });
+        save(); rebuild(); render();
+        toast("Jurnal terkirim ke papan bersama.");
+        loadCloud();
+      } else {
+        toast("Belum terkirim: " + ((res && res.error) || "server menolak."));
+      }
+    }).catch(function () {
+      toast("Cloud tidak dapat dijangkau — jurnal masih Belum terkirim.");
+    });
+  }
+  function requestDelete(e) {
+    if (!e) return;
+    if (e.src === "cloud") { askDeleteCode(e); return; }
+    askConfirm("Hapus jurnal?", "Jurnal “" + e.materi + "” (" + e.kelas + ") akan dihapus dari papan. Tindakan ini tidak bisa dibatalkan.", function () {
+      localEntries = localEntries.filter(function (x) { return x.id !== e.id; });
+      save(); rebuild(); render(); toast("Jurnal dihapus.");
+    });
+  }
+  var codeTarget = null;
+  function askDeleteCode(e) {
+    codeTarget = e;
+    document.getElementById("code-text").textContent = "Jurnal “" + e.materi + "” (" + e.kelas + ") ada di papan bersama. Masukkan Kode Edit jurnal ini untuk menghapusnya — jurnal hanya terhapus bila server menyetujui.";
+    document.getElementById("code-input").value = "";
+    document.getElementById("code-token").value = "";
+    var err = document.getElementById("code-error");
+    err.classList.remove("show"); err.textContent = "";
+    openOverlay("overlay-code");
+  }
+  document.getElementById("code-yes").addEventListener("click", function () {
+    if (!codeTarget) return;
+    var code = document.getElementById("code-input").value.trim();
+    var token = document.getElementById("code-token").value.trim();
+    var err = document.getElementById("code-error");
+    if (!code && !token) {
+      err.textContent = "Isi Kode Edit jurnal ini — atau Token admin bila Anda admin.";
+      err.classList.add("show");
+      return;
+    }
+    var btn = this;
+    btn.disabled = true;
+    var payload = { action: "delete", id: codeTarget.id };
+    if (code) payload.code = code;
+    if (token) payload.token = token;
+    apiPost(payload).then(function (res) {
+      btn.disabled = false;
+      if (res && res.ok) {
+        closeOverlay(document.getElementById("overlay-code"));
+        codeTarget = null;
+        toast("Jurnal dihapus dari papan bersama.");
+        loadCloud();
+      } else {
+        err.textContent = (res && res.error) || "Server menolak penghapusan.";
+        err.classList.add("show");
+      }
+    }).catch(function () {
+      btn.disabled = false;
+      err.textContent = "Cloud tidak dapat dijangkau — jurnal belum terhapus. Periksa koneksi lalu coba lagi.";
+      err.classList.add("show");
+    });
+  });
+
+  /* ---------- Pengaturan & muat ulang papan bersama ---------- */
+  document.getElementById("btn-cloud-settings").addEventListener("click", function () {
+    var panel = document.getElementById("cloud-panel");
+    panel.hidden = !panel.hidden;
+    if (!panel.hidden) {
+      var input = document.getElementById("cloud-url-input");
+      input.value = cloudUrl();
+      input.disabled = !!CLOUD_URL_BUILTIN;
+      document.getElementById("cloud-save").disabled = !!CLOUD_URL_BUILTIN;
+      if (CLOUD_URL_BUILTIN) {
+        document.getElementById("cloud-test-result").textContent = "Alamat papan bersama sudah tertanam di halaman ini.";
+      }
+    }
+  });
+  document.getElementById("cloud-save").addEventListener("click", function () {
+    var v = document.getElementById("cloud-url-input").value.trim();
+    try {
+      if (v) localStorage.setItem(CLOUD_URL_KEY, v);
+      else localStorage.removeItem(CLOUD_URL_KEY);
+    } catch (e) {}
+    document.getElementById("cloud-test-result").textContent = "";
+    toast(v ? "Alamat papan bersama disimpan — memuat jurnal dari cloud…" : "Alamat papan bersama dikosongkan — kembali ke mode perangkat.");
+    loadCloud();
+  });
+  document.getElementById("cloud-test").addEventListener("click", function () {
+    var v = document.getElementById("cloud-url-input").value.trim() || cloudUrl();
+    var out = document.getElementById("cloud-test-result");
+    if (!v) { out.textContent = "Isi dulu alamat Web App-nya pada kolom di atas."; return; }
+    out.textContent = "Menguji koneksi…";
+    fetch(v + (v.indexOf("?") === -1 ? "?" : "&") + "action=ping").then(function (r) { return r.json(); }).then(function (res) {
+      out.textContent = res && res.ok
+        ? "✓ Terhubung — " + (res.service || "layanan papan bersama aktif")
+        : "✗ Server menjawab: " + ((res && res.error) || "jawaban tidak dikenal");
+    }).catch(function () {
+      out.textContent = "✗ Tidak terjangkau — periksa alamat /exec dan koneksi internet.";
+    });
+  });
+  document.getElementById("btn-cloud-refresh").addEventListener("click", function () {
+    if (!cloudUrl()) return;
+    toast("Memuat ulang dari cloud…");
+    loadCloud().then(function () {
+      if (cloudState === "ok") toast("Papan bersama dimuat ulang.");
+      else if (cloudState === "error") toast("Cloud tidak dapat dijangkau — menampilkan salinan perangkat.");
+    });
+  });
+
+  rebuild();
+  updateCloudStatus();
+  render();
+  if (cloudUrl()) loadCloud();
+})();
+</script>
+  </body>
+</html>
